@@ -3,6 +3,7 @@
 import { z } from "zod";
 import nodemailer from "nodemailer";
 import { site } from "@/content/site";
+import { createDonation } from "@/lib/db";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -23,9 +24,10 @@ const donorSchema = z.object({
   name: z.string().min(2, "Name is required"),
   email: z.string().email("Please enter a valid email"),
   phone: z.string().optional(),
-  amount: z.string().min(1, "Please select or enter an amount"),
+  amount: z.coerce.number().positive("Please select or enter a valid amount"),
   frequency: z.enum(["one-time", "monthly"]),
   campaign: z.string().min(1, "Please select a campaign"),
+  transactionReference: z.string().optional(),
   message: z.string().optional(),
   website: z.string().optional(), // honeypot
 });
@@ -140,13 +142,36 @@ export async function submitDonor(
     };
   }
 
-  const body = formatBody(parsed.data);
-  const emailSent = await sendEmail("Donation intent", body);
+  try {
+    await createDonation({
+      name: parsed.data.name,
+      email: parsed.data.email,
+      phone: parsed.data.phone,
+      amount: parsed.data.amount,
+      frequency: parsed.data.frequency,
+      campaign: parsed.data.campaign,
+      transactionReference: parsed.data.transactionReference,
+      message: parsed.data.message,
+    });
 
-  return {
-    success: true,
-    message: emailSent
-      ? "Thank you. We have received your donation details and will follow up with payment instructions."
-      : `Thank you. Please use the payment instructions on this page or email ${site.contact.email}.`,
-  };
+    const body = formatBody(parsed.data);
+    await sendEmail("Donation intent received", body).catch(() => null);
+
+    return {
+      success: true,
+      message:
+        "Thank you. Your donation has been recorded as pending. A Vantage administrator will verify the transfer against our bank statement before marking it as successful.",
+    };
+  } catch {
+    // If the database is not configured, fall back to email only.
+    const body = formatBody(parsed.data);
+    const emailSent = await sendEmail("Donation intent", body);
+
+    return {
+      success: emailSent,
+      message: emailSent
+        ? "Thank you. We received your donation details and will follow up with payment instructions."
+        : "We could not save your donation details. Please use the payment instructions on this page or contact us directly.",
+    };
+  }
 }

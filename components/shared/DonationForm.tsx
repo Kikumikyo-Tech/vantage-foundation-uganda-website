@@ -130,6 +130,18 @@ export function DonationForm() {
       </div>
 
       <div>
+        <Label htmlFor="donor-transaction">
+          Transaction reference (optional)
+        </Label>
+        <Input
+          id="donor-transaction"
+          name="transactionReference"
+          placeholder="Bank or Mobile Money transfer reference"
+          className="mt-1.5"
+        />
+      </div>
+
+      <div>
         <Label htmlFor="donor-message">Message (optional)</Label>
         <Input id="donor-message" name="message" className="mt-1.5" />
       </div>

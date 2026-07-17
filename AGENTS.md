@@ -29,7 +29,18 @@ All non-code content lives in the `content/` folder as TypeScript modules. To up
 ## Environment variables
 Copy `.env.example` to `.env.local` and set:
 - `NEXT_PUBLIC_SITE_URL` — canonical site URL
+- `DATABASE_URL` — Neon PostgreSQL connection string (server-side only, never commit)
+- `ADMIN_SECRET` — password for the donation verification dashboard
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` — optional email server for form notifications
+
+## Database setup
+1. Create a Neon PostgreSQL database.
+2. Run `node scripts/setup-db.mjs` (or paste `lib/db/schema.sql` in the Neon SQL editor) to create the `donations` table.
+3. Never commit `.env.local` or any real credentials.
+
+## Admin dashboard
+- `/admin/login` — sign in with `ADMIN_SECRET`.
+- `/admin/donations` — view and verify/reject donor submissions. Donations are stored with status `pending` and are only marked `verified` after an administrator confirms the transfer against the official bank statement.
 
 ## Deployment
 This project is configured for Vercel. Set the framework preset to Next.js and, if needed, the root directory to `vantage-website`.

@@ -82,8 +82,13 @@ export default function DonatePage() {
             <Card className="p-6 md:p-8">
               <h2 className="text-2xl font-bold">Make a donation</h2>
               <p className="mt-2 text-sm text-muted-foreground">
-                Fill in your details and we will follow up with payment instructions.
+                Fill in your details, make the transfer, and include the transaction
+                reference if you have one.
               </p>
+              <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+                All donations are recorded as <strong>pending</strong> until a Vantage
+                administrator verifies the transfer against our official bank statement.
+              </div>
               <div className="mt-6">
                 <DonationForm />
               </div>

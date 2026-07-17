@@ -28,3 +28,10 @@ Content that still needs to be verified is marked with `[placeholder text]` or t
 ## Markdown
 
 Long-form body content for projects and stories supports Markdown. Keep formatting simple: paragraphs, headings, lists and links.
+
+## Donations and Neon PostgreSQL
+
+- Donor submissions are saved in a Neon PostgreSQL `donations` table defined in `lib/db/schema.sql`.
+- New donations are inserted with `status = 'pending'`.
+- A Vantage administrator reviews them at `/admin/donations` and marks them `verified` or `rejected` after comparing the transfer to the official bank statement.
+- The database connection string is stored only in the server-side `DATABASE_URL` environment variable.
