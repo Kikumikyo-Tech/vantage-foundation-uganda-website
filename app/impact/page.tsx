@@ -1,0 +1,168 @@
+import type { Metadata } from "next";
+import { impactStats, outputs, outcomes, longTermGoals, regions, sdgs } from "@/content/impact";
+import { projects } from "@/content/projects";
+import { Container } from "@/components/shared/Container";
+import { SectionHeader } from "@/components/shared/SectionHeader";
+import { StatCard } from "@/components/shared/StatCard";
+import { ProjectCard } from "@/components/shared/ProjectCard";
+import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+
+export const metadata: Metadata = {
+  title: "Impact",
+  description:
+    "See how Vantage Foundation Uganda measures and reports its impact in health, education, humanitarian aid and WASH.",
+};
+
+export default function ImpactPage() {
+  return (
+    <>
+      <section className="bg-primary py-16 text-white md:py-24">
+        <Container>
+          <SectionHeader
+            title="Impact"
+            description="Evidence of change, measured with honesty and hope."
+            light
+          />
+        </Container>
+      </section>
+
+      <section className="py-16 md:py-24">
+        <Container>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+            {impactStats.map((stat) => (
+              <StatCard
+                key={stat.label}
+                value={stat.value}
+                label={stat.label}
+                note={stat.note}
+              />
+            ))}
+          </div>
+
+          <div className="mt-16 grid gap-8 lg:grid-cols-3">
+            <Card className="p-6">
+              <h2 className="text-lg font-semibold text-primary">Outputs</h2>
+              <p className="mt-2 text-sm text-muted-foreground">What we have delivered.</p>
+              <ul className="mt-4 space-y-2 text-sm text-foreground">
+                {outputs.map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </Card>
+
+            <Card className="p-6">
+              <h2 className="text-lg font-semibold text-primary">Outcomes</h2>
+              <p className="mt-2 text-sm text-muted-foreground">The changes we see.</p>
+              <ul className="mt-4 space-y-2 text-sm text-foreground">
+                {outcomes.map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </Card>
+
+            <Card className="p-6">
+              <h2 className="text-lg font-semibold text-primary">Long-term goals</h2>
+              <p className="mt-2 text-sm text-muted-foreground">The future we are building.</p>
+              <ul className="mt-4 space-y-2 text-sm text-foreground">
+                {longTermGoals.map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          </div>
+        </Container>
+      </section>
+
+      <section className="bg-slate-50 py-16 md:py-24">
+        <Container>
+          <div className="grid gap-12 lg:grid-cols-2">
+            <div>
+              <h2 className="text-3xl font-bold">Geographic reach</h2>
+              <p className="mt-4 text-muted-foreground">
+                We identify districts and communities that are often overlooked by larger
+                international NGOs and magnify the reach of existing social safety nets.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-2">
+                {regions.map((region) => (
+                  <span
+                    key={region}
+                    className="rounded-full border border-border bg-white px-3 py-1 text-sm font-medium"
+                  >
+                    {region}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-3xl font-bold">Sustainable Development Goals</h2>
+              <p className="mt-4 text-muted-foreground">
+                Our programmes contribute to the following global goals.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                {sdgs.map((goal) => (
+                  <span
+                    key={goal}
+                    className="inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary text-lg font-bold text-white"
+                    title={`SDG ${goal}`}
+                  >
+                    {goal}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <section className="py-16 md:py-24">
+        <Container>
+          <SectionHeader
+            title="Monitoring and evaluation"
+            description="We use a dual-metric system to track progress and learn."
+          />
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <Card className="p-6">
+              <h3 className="text-lg font-semibold text-primary">Quantitative</h3>
+              <p className="mt-2 text-muted-foreground">
+                Number of patients treated, litres of clean water provided, workshop attendance,
+                and reach of mentorship campaigns.
+              </p>
+            </Card>
+            <Card className="p-6">
+              <h3 className="text-lg font-semibold text-primary">Qualitative</h3>
+              <p className="mt-2 text-muted-foreground">
+                Case studies on livelihood improvements, community feedback on health awareness,
+                and reflections from volunteers and beneficiaries.
+              </p>
+            </Card>
+          </div>
+        </Container>
+      </section>
+
+      <section className="bg-slate-50 py-16 md:py-24">
+        <Container>
+          <SectionHeader title="Projects behind the numbers" />
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {projects.slice(0, 3).map((project) => (
+              <ProjectCard key={project.slug} project={project} />
+            ))}
+          </div>
+          <div className="mt-12 text-center">
+            <Button href="/projects">View All Projects</Button>
+          </div>
+        </Container>
+      </section>
+    </>
+  );
+}
