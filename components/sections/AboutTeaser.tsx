@@ -9,7 +9,7 @@ export function AboutTeaser() {
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
             <ImageOrPlaceholder
-              src="/images/about.jpg"
+              src="/images/placeholder-about.jpg"
               alt="Vantage Foundation Uganda community work"
               fill
               containerClassName="h-full w-full"

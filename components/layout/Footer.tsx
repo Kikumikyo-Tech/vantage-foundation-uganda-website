@@ -102,13 +102,24 @@ export function Footer() {
             &copy; {new Date().getFullYear()} {site.legalName}. All rights
             reserved.
           </p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap gap-4 md:gap-6">
             <Link href="/reports-and-accountability" className="hover:text-primary">
               Reports & Accountability
             </Link>
             <Link href="/faq" className="hover:text-primary">
               FAQ
             </Link>
+            {/* Legal pages are planned but not yet published. See docs/implementation-plan.md Phase 4.
+                Wording requires Vantage Foundation management approval (audit §4.7). */}
+            <span className="text-muted-foreground/70" title="Coming soon — pending management approval">
+              Privacy
+            </span>
+            <span className="text-muted-foreground/70" title="Coming soon — pending management approval">
+              Safeguarding
+            </span>
+            <span className="text-muted-foreground/70" title="Coming soon — pending management approval">
+              Accessibility
+            </span>
           </div>
         </div>
       </Container>

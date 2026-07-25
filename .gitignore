@@ -40,3 +40,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# logs
+*.log
+
+# Raw programme photos awaiting curation (see docs/media-guidelines.md Phase 6).
+# Do not commit 40 MB of UUID-named originals; curated images go in public/images/.
+vantage photos/
+vantage images/
+
+# Local install artifacts (Windows space-in-path workaround)
+npm-install*.log

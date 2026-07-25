@@ -23,6 +23,10 @@ export function ImageOrPlaceholder({
   containerClassName,
   priority,
 }: ImageOrPlaceholderProps) {
+  // Placeholder convention: any src whose filename contains "placeholder"
+  // renders the "Image coming soon" fallback instead of a real <Image>.
+  // This avoids HTTP 400s from next/image when a file does not exist yet.
+  // Real images must use filenames that do NOT contain "placeholder".
   const isPlaceholder = !src || src.includes("placeholder");
 
   if (isPlaceholder) {
