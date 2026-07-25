@@ -1,4 +1,4 @@
-import { HeartPulse, GraduationCap, HandHeart, Droplets } from "lucide-react";
+import { HeartPulse, GraduationCap, HandHeart, Droplets, Lightbulb } from "lucide-react";
 
 interface AreaIconProps {
   id: string;
@@ -15,6 +15,8 @@ export function AreaIcon({ id, className }: AreaIconProps) {
       return <HandHeart className={className} aria-hidden="true" />;
     case "water":
       return <Droplets className={className} aria-hidden="true" />;
+    case "youth-leadership":
+      return <Lightbulb className={className} aria-hidden="true" />;
     default:
       return null;
   }

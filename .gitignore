@@ -49,5 +49,10 @@ next-env.d.ts
 vantage photos/
 vantage images/
 
+# Intermediate image processing reports (not needed in repo)
+scripts/exif-report.json
+scripts/exif-detailed.json
+scripts/image-manifest-template.json
+
 # Local install artifacts (Windows space-in-path workaround)
 npm-install*.log

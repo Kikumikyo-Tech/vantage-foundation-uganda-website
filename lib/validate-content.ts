@@ -122,7 +122,7 @@ const projectSchema = z.object({
   id: nonEmpty,
   slug,
   title: nonEmpty,
-  category: z.enum(["Health", "Education", "Humanitarian Aid", "Water & Sanitation"]),
+  category: z.enum(["Health", "Education", "Humanitarian Aid", "Water & Sanitation", "Youth Leadership"]),
   status: z.enum(["Active", "Completed", "Planned"]),
   location: nonEmpty,
   date: dateish,

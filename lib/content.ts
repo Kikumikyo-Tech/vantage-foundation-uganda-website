@@ -10,17 +10,17 @@ import {
   getStorySlugs,
 } from "@/content/stories";
 import { areasOfWork } from "@/content/areas";
-import { team } from "@/content/team";
-import { partners } from "@/content/partners";
+import { getPublishedTeam } from "@/content/team";
+import { getPublishedPartners } from "@/content/partners";
 import {
-  impactStats,
+  getPublishedImpactStats,
   outputs,
   outcomes,
   longTermGoals,
   regions,
   sdgs,
 } from "@/content/impact";
-import { reports } from "@/content/reports";
+import { getPublishedReports } from "@/content/reports";
 import { faq } from "@/content/faq";
 
 export const content = {
@@ -32,9 +32,16 @@ export const content = {
   stories: getPublishedStories(),
   getStoryBySlug,
   getStorySlugs,
-  team,
-  partners,
-  impact: { stats: impactStats, outputs, outcomes, longTermGoals, regions, sdgs },
-  reports,
+  team: getPublishedTeam(),
+  partners: getPublishedPartners(),
+  impact: {
+    stats: getPublishedImpactStats(),
+    outputs,
+    outcomes,
+    longTermGoals,
+    regions,
+    sdgs,
+  },
+  reports: getPublishedReports(),
   faq,
 };

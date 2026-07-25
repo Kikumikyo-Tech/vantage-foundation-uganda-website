@@ -1,5 +1,5 @@
 import { site } from "@/content/site";
-import { impactStats } from "@/content/impact";
+import { getPublishedImpactStats } from "@/content/impact";
 import { Container } from "@/components/shared/Container";
 import { StatCard } from "@/components/shared/StatCard";
 
@@ -25,7 +25,7 @@ export function TrustStrip() {
         </div>
 
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-          {impactStats.map((stat) => (
+          {getPublishedImpactStats().map((stat) => (
             <StatCard
               key={stat.label}
               value={stat.value}

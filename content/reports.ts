@@ -37,3 +37,13 @@ export const reports: Report[] = [
     placeholder: true,
   },
 ];
+
+/**
+ * Returns reports that are not placeholders. In development, all
+ * reports are returned (including placeholders for previewing). In
+ * production, placeholder reports are filtered out.
+ */
+export function getPublishedReports(): Report[] {
+  const isDev = process.env.NODE_ENV === "development";
+  return reports.filter((r) => isDev || !r.placeholder);
+}

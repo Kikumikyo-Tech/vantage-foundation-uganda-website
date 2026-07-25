@@ -48,7 +48,8 @@ export type ProjectCategory =
   | "Health"
   | "Education"
   | "Humanitarian Aid"
-  | "Water & Sanitation";
+  | "Water & Sanitation"
+  | "Youth Leadership";
 
 export type ProjectStatus = "Active" | "Completed" | "Planned";
 

@@ -1,7 +1,7 @@
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { StatCard } from "@/components/shared/StatCard";
-import { impactStats, outputs, outcomes, longTermGoals, regions, sdgs } from "@/content/impact";
+import { getPublishedImpactStats, outputs, outcomes, longTermGoals, regions, sdgs } from "@/content/impact";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 
@@ -16,7 +16,7 @@ export function ImpactSection() {
         />
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-          {impactStats.map((stat) => (
+          {getPublishedImpactStats().map((stat) => (
             <StatCard key={stat.label} value={stat.value} label={stat.label} note={stat.note} />
           ))}
         </div>

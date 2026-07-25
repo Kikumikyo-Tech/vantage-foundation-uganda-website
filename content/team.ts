@@ -34,3 +34,13 @@ export const team: TeamMember[] = [
     placeholder: true,
   },
 ];
+
+/**
+ * Returns team members that are not placeholders. In development, all
+ * members are returned (including placeholders for previewing). In
+ * production, placeholder members are filtered out.
+ */
+export function getPublishedTeam(): TeamMember[] {
+  const isDev = process.env.NODE_ENV === "development";
+  return team.filter((m) => isDev || !m.placeholder);
+}

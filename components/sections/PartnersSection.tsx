@@ -1,4 +1,4 @@
-import { partners } from "@/content/partners";
+import { getPublishedPartners } from "@/content/partners";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Card } from "@/components/ui/Card";
@@ -15,7 +15,7 @@ export function PartnersSection() {
         />
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {partners.map((partner) => (
+          {getPublishedPartners().map((partner) => (
             <Card key={partner.name} className="flex flex-col items-center p-6 text-center">
               <div className="relative h-16 w-32">
                 <ImageOrPlaceholder
