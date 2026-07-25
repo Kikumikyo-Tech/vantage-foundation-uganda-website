@@ -13,6 +13,9 @@ export const site: SiteConfig = {
   contact: {
     email: "foundationvantage@gmail.com",
     phone: "+256 786 585 216",
+    // TODO: needs management info — address says Ishaka/Bushenyi but city says Jinja.
+    // These are different regions of Uganda. Confirm the correct office location
+    // before public launch. See docs/technical-audit.md §4.5 and §4.7.
     address: "Ishaka, Bushenyi, Uganda",
     city: "Jinja",
     country: "Uganda",

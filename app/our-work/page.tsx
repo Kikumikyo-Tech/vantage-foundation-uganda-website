@@ -30,10 +30,8 @@ export default function OurWorkPage() {
         <Container>
           <div className="grid gap-12">
             {areasOfWork.map((area) => {
-              const relatedProjects = projects.filter(
-                (p) =>
-                  p.category.toLowerCase() === area.title.toLowerCase() ||
-                  (area.title === "Water & Sanitation" && p.category === "Water & Sanitation")
+              const relatedProjects = projects.filter((p) =>
+                p.category.toLowerCase() === area.title.toLowerCase()
               );
 
               return (
