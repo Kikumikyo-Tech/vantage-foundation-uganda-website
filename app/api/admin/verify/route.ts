@@ -4,6 +4,7 @@ import { z } from "zod";
 import { updateDonationStatus } from "@/lib/db";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
 import { validateCsrf } from "@/lib/csrf";
+import { logInfo, logWarn, logError } from "@/lib/logger";
 
 const validStatuses = ["pending", "verified", "rejected"] as const;
 
@@ -25,6 +26,7 @@ export async function POST(request: Request) {
   // Rate limit status changes: 20 per minute per admin IP.
   const ip = getClientIp(request.headers);
   if (!rateLimit({ key: `admin-verify:${ip}`, limit: 20, windowMs: 60_000 })) {
+    logWarn("verify_rate_limited", { ip });
     return NextResponse.redirect(
       new URL("/admin/donations?error=rate-limited", request.url),
       303
@@ -35,6 +37,7 @@ export async function POST(request: Request) {
 
   // CSRF validation (double-submit cookie).
   if (!validateCsrf(cookieStore, formData)) {
+    logWarn("verify_csrf_failed", {});
     return NextResponse.redirect(
       new URL("/admin/donations?error=csrf", request.url),
       303
@@ -48,6 +51,9 @@ export async function POST(request: Request) {
   });
 
   if (!parsed.success) {
+    logWarn("verify_validation_failed", {
+      issues: parsed.error.issues.length,
+    });
     return NextResponse.redirect(
       new URL("/admin/donations?error=invalid", request.url),
       303
@@ -58,11 +64,17 @@ export async function POST(request: Request) {
 
   try {
     await updateDonationStatus(id, status, adminNotes);
+    logInfo("donation_status_updated", { id, status });
     return NextResponse.redirect(
       new URL("/admin/donations?updated=1", request.url),
       303
     );
-  } catch {
+  } catch (err) {
+    logError("donation_update_failed", {
+      id,
+      status,
+      error: (err instanceof Error ? err.message : String(err)).substring(0, 200),
+    });
     return NextResponse.redirect(
       new URL("/admin/donations?error=db", request.url),
       303
