@@ -1,13 +1,16 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { z } from "zod";
 import { updateDonationStatus } from "@/lib/db";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 const validStatuses = ["pending", "verified", "rejected"] as const;
-type ValidStatus = (typeof validStatuses)[number];
 
-function isValidStatus(value: string): value is ValidStatus {
-  return (validStatuses as readonly string[]).includes(value);
-}
+const verifySchema = z.object({
+  id: z.coerce.number().int().positive(),
+  status: z.enum(validStatuses),
+  adminNotes: z.string().optional().default(""),
+});
 
 export async function POST(request: Request) {
   const cookieStore = await cookies();
@@ -17,17 +20,30 @@ export async function POST(request: Request) {
     return NextResponse.redirect(new URL("/admin/login", request.url), 302);
   }
 
-  const formData = await request.formData();
-  const id = Number(formData.get("id"));
-  const status = formData.get("status") as string;
-  const adminNotes = (formData.get("adminNotes") as string) || "";
+  // Rate limit status changes: 20 per minute per admin IP.
+  const ip = getClientIp(request.headers);
+  if (!rateLimit({ key: `admin-verify:${ip}`, limit: 20, windowMs: 60_000 })) {
+    return NextResponse.redirect(
+      new URL("/admin/donations?error=rate-limited", request.url),
+      303
+    );
+  }
 
-  if (!Number.isFinite(id) || !isValidStatus(status)) {
+  const formData = await request.formData();
+  const parsed = verifySchema.safeParse({
+    id: formData.get("id"),
+    status: formData.get("status"),
+    adminNotes: (formData.get("adminNotes") as string) || "",
+  });
+
+  if (!parsed.success) {
     return NextResponse.redirect(
       new URL("/admin/donations?error=invalid", request.url),
       303
     );
   }
+
+  const { id, status, adminNotes } = parsed.data;
 
   try {
     await updateDonationStatus(id, status, adminNotes);

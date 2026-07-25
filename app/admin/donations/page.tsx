@@ -69,7 +69,8 @@ export default async function AdminDonationsPage({
         {error && (
           <div className="mt-4 rounded-lg bg-red-50 p-4 text-sm text-red-800">
             Could not update donation status. {error === "invalid" && "Invalid input."}{" "}
-            {error === "db" && "Database error."}
+            {error === "db" && "Database error."}{" "}
+            {error === "rate-limited" && "Too many requests. Please wait a minute."}
           </div>
         )}
         {dbError && (

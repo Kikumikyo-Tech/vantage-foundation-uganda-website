@@ -2,8 +2,10 @@
 
 import { z } from "zod";
 import nodemailer from "nodemailer";
+import { headers } from "next/headers";
 import { site } from "@/content/site";
 import { createDonation } from "@/lib/db";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -36,6 +38,23 @@ export type FormState = {
   success: boolean;
   message: string;
 };
+
+// Rate limit for public form submissions: 3 per minute per IP.
+const FORM_RATE_LIMIT = 3;
+const FORM_RATE_WINDOW_MS = 60_000;
+
+async function checkFormRateLimit(action: string): Promise<boolean> {
+  const h = await headers();
+  const ip = getClientIp(h);
+  return rateLimit({
+    key: `form:${action}:${ip}`,
+    limit: FORM_RATE_LIMIT,
+    windowMs: FORM_RATE_WINDOW_MS,
+  });
+}
+
+const RATE_LIMITED_MESSAGE =
+  "Too many submissions from your location. Please wait a minute and try again.";
 
 async function sendEmail(subject: string, body: string) {
   const smtpHost = process.env.SMTP_HOST;
@@ -70,6 +89,11 @@ export async function submitContact(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
+  const allowed = await checkFormRateLimit("contact");
+  if (!allowed) {
+    return { success: false, message: RATE_LIMITED_MESSAGE };
+  }
+
   const raw = Object.fromEntries(formData);
 
   if (raw.website) {
@@ -99,6 +123,11 @@ export async function submitNewsletter(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
+  const allowed = await checkFormRateLimit("newsletter");
+  if (!allowed) {
+    return { success: false, message: RATE_LIMITED_MESSAGE };
+  }
+
   const raw = Object.fromEntries(formData);
 
   if (raw.website) {
@@ -128,6 +157,11 @@ export async function submitDonor(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
+  const allowed = await checkFormRateLimit("donor");
+  if (!allowed) {
+    return { success: false, message: RATE_LIMITED_MESSAGE };
+  }
+
   const raw = Object.fromEntries(formData);
 
   if (raw.website) {

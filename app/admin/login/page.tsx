@@ -38,7 +38,12 @@ export default async function AdminLoginPage({
           >
             Sign in
           </button>
-          {error && (
+          {error === "rate-limited" && (
+            <p className="text-sm text-red-600">
+              Too many login attempts. Please wait a minute and try again.
+            </p>
+          )}
+          {error && error !== "rate-limited" && (
             <p className="text-sm text-red-600">Incorrect password. Please try again.</p>
           )}
         </form>

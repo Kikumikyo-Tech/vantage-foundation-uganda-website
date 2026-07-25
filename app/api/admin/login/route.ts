@@ -1,6 +1,15 @@
 import { NextResponse } from "next/server";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
+  const ip = getClientIp(request.headers);
+  if (!rateLimit({ key: `admin-login:${ip}`, limit: 5, windowMs: 60_000 })) {
+    return NextResponse.redirect(
+      new URL("/admin/login?error=rate-limited", request.url),
+      302
+    );
+  }
+
   const formData = await request.formData();
   const password = (formData.get("password") as string) || "";
 
