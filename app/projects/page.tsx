@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { projects } from "@/content/projects";
+import { getPublishedProjects } from "@/content/projects";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { ProjectList } from "@/components/projects/ProjectList";
@@ -21,7 +21,7 @@ export default function ProjectsPage() {
 
       <section className="py-16 md:py-24">
         <Container>
-          <ProjectList projects={projects} />
+          <ProjectList projects={getPublishedProjects()} />
         </Container>
       </section>
     </>

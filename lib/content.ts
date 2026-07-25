@@ -1,6 +1,14 @@
 import { site } from "@/content/site";
-import { projects, getProjectBySlug, getProjectSlugs } from "@/content/projects";
-import { stories, getStoryBySlug, getStorySlugs } from "@/content/stories";
+import {
+  getPublishedProjects,
+  getProjectBySlug,
+  getProjectSlugs,
+} from "@/content/projects";
+import {
+  getPublishedStories,
+  getStoryBySlug,
+  getStorySlugs,
+} from "@/content/stories";
 import { areasOfWork } from "@/content/areas";
 import { team } from "@/content/team";
 import { partners } from "@/content/partners";
@@ -18,10 +26,10 @@ import { faq } from "@/content/faq";
 export const content = {
   site,
   areasOfWork,
-  projects,
+  projects: getPublishedProjects(),
   getProjectBySlug,
   getProjectSlugs,
-  stories,
+  stories: getPublishedStories(),
   getStoryBySlug,
   getStorySlugs,
   team,
