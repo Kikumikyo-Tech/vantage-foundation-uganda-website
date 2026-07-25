@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
+import { validateCsrf } from "@/lib/csrf";
 
 export async function POST(request: Request) {
   const ip = getClientIp(request.headers);
@@ -11,6 +13,14 @@ export async function POST(request: Request) {
   }
 
   const formData = await request.formData();
+  const cookieStore = await cookies();
+  if (!validateCsrf(cookieStore, formData)) {
+    return NextResponse.redirect(
+      new URL("/admin/login?error=csrf", request.url),
+      302
+    );
+  }
+
   const password = (formData.get("password") as string) || "";
 
   if (password !== process.env.ADMIN_SECRET) {

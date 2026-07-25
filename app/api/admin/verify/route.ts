@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { z } from "zod";
 import { updateDonationStatus } from "@/lib/db";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
+import { validateCsrf } from "@/lib/csrf";
 
 const validStatuses = ["pending", "verified", "rejected"] as const;
 
@@ -10,6 +11,7 @@ const verifySchema = z.object({
   id: z.coerce.number().int().positive(),
   status: z.enum(validStatuses),
   adminNotes: z.string().optional().default(""),
+  csrf_token: z.string().optional(),
 });
 
 export async function POST(request: Request) {
@@ -30,6 +32,15 @@ export async function POST(request: Request) {
   }
 
   const formData = await request.formData();
+
+  // CSRF validation (double-submit cookie).
+  if (!validateCsrf(cookieStore, formData)) {
+    return NextResponse.redirect(
+      new URL("/admin/donations?error=csrf", request.url),
+      303
+    );
+  }
+
   const parsed = verifySchema.safeParse({
     id: formData.get("id"),
     status: formData.get("status"),

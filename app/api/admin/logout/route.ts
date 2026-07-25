@@ -1,6 +1,15 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { validateCsrf, clearCsrfCookie } from "@/lib/csrf";
 
 export async function POST(request: Request) {
+  const cookieStore = await cookies();
+  const formData = await request.formData();
+
+  if (!validateCsrf(cookieStore, formData)) {
+    return NextResponse.redirect(new URL("/admin/login?error=csrf", request.url), 302);
+  }
+
   const response = NextResponse.redirect(new URL("/admin/login", request.url), 302);
   response.cookies.set("vantage_admin", "", {
     httpOnly: true,
@@ -9,5 +18,6 @@ export async function POST(request: Request) {
     path: "/admin",
     maxAge: 0,
   });
+  clearCsrfCookie(response);
   return response;
 }
