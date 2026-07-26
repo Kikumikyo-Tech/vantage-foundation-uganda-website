@@ -22,6 +22,7 @@ export function PartnersSection() {
                   src={partner.logo}
                   alt={partner.name}
                   fill
+                  preset="card"
                   containerClassName="h-full w-full"
                 />
               </div>

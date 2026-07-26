@@ -104,6 +104,7 @@ export default async function ProjectPage({
               alt={project.title}
               fill
               priority
+              preset="detailHero"
               containerClassName="h-full w-full"
             />
           </div>

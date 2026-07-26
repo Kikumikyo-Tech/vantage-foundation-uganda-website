@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom/vitest";
 import { afterEach, vi } from "vitest";
 import { cleanup } from "@testing-library/react";
+import { createElement } from "react";
 
 // Clean up DOM after each test.
 afterEach(() => {
@@ -28,10 +29,10 @@ vi.mock("next/image", () => ({
     const rest = { ...props };
     delete rest.fill;
     delete rest.priority;
-    return {
-      __html: `<img ${Object.entries(rest)
-        .map(([k, v]) => `${k}="${v}"`)
-        .join(" ")} />`,
-    };
+    delete rest.placeholder;
+    delete rest.blurDataURL;
+    delete rest.onLoadingComplete;
+    delete rest.loader;
+    return createElement("img", rest);
   },
 }));
