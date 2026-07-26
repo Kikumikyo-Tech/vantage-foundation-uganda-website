@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
     "How Vantage Foundation Uganda collects, uses, and protects personal data of donors, volunteers, and website visitors.",
+  alternates: { canonical: "/privacy" },
 };
 
 export default function PrivacyPage() {

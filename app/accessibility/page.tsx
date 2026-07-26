@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Accessibility Statement",
   description:
     "Vantage Foundation Uganda's commitment to making our website accessible to everyone, including people with disabilities.",
+  alternates: { canonical: "/accessibility" },
 };
 
 export default function AccessibilityPage() {

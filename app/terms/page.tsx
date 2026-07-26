@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Terms of Use",
   description:
     "Terms and conditions for using the Vantage Foundation Uganda website and making donations.",
+  alternates: { canonical: "/terms" },
 };
 
 export default function TermsPage() {

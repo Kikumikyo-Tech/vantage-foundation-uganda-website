@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SkipToContent } from "@/components/shared/SkipToContent";
+import { JsonLd, buildNgoJsonLd, buildWebSiteJsonLd } from "@/components/shared/JsonLd";
 import { site } from "@/content/site";
 
 const inter = Inter({
@@ -24,30 +25,31 @@ export const metadata: Metadata = {
     description: site.description,
     type: "website",
     locale: "en_UG",
+    siteName: site.name,
   },
   twitter: {
     card: "summary_large_image",
     title: site.name,
     description: site.description,
   },
+  alternates: {
+    canonical: "/",
+  },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
+const ngoJsonLd = buildNgoJsonLd({
   name: site.name,
-  alternateName: site.legalName,
+  legalName: site.legalName,
   url: site.url,
-  logo: `${site.url}/logo.png`,
   email: site.contact.email,
   telephone: site.contact.phone,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: site.contact.city,
-    addressCountry: site.contact.country,
-  },
+  address: site.contact.address,
+  city: site.contact.city,
+  country: site.contact.country,
   description: site.description,
-};
+});
+
+const websiteJsonLd = buildWebSiteJsonLd(site.url, site.name);
 
 export default function RootLayout({
   children,
@@ -57,12 +59,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
-          }}
-        />
+        <JsonLd data={ngoJsonLd} />
+        <JsonLd data={websiteJsonLd} />
         <SkipToContent />
         <Header />
         <main id="main" className="flex-1">

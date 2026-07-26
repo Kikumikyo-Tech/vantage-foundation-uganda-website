@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Safeguarding Policy",
   description:
     "Vantage Foundation Uganda's safeguarding policy for protecting children, young people, and vulnerable adults.",
+  alternates: { canonical: "/safeguarding" },
 };
 
 export default function SafeguardingPage() {

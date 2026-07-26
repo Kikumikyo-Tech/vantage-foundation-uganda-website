@@ -9,10 +9,12 @@ import { Container } from "@/components/shared/Container";
 import { Badge } from "@/components/ui/Badge";
 import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
+import { JsonLd, buildBreadcrumbJsonLd } from "@/components/shared/JsonLd";
 import { Button } from "@/components/ui/Button";
 import { ProjectCard } from "@/components/shared/ProjectCard";
 import { MapPin, Calendar, Users } from "lucide-react";
 import { Markdown } from "@/components/shared/Markdown";
+import { site } from "@/content/site";
 
 export async function generateStaticParams() {
   return getProjectSlugs().map((slug) => ({ slug }));
@@ -59,6 +61,16 @@ export default async function ProjectPage({
 
   return (
     <>
+      <JsonLd
+        data={buildBreadcrumbJsonLd(
+          [
+            { label: "Home", url: "/" },
+            { label: "Projects", url: "/projects" },
+            { label: project.title, url: `/projects/${slug}` },
+          ],
+          site.url
+        )}
+      />
       <section className="bg-primary py-16 text-white md:py-24">
         <Container>
           <div className="max-w-3xl">

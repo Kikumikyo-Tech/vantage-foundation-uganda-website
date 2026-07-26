@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/Card";
 export const metadata: Metadata = {
   title: "About Us",
   description: `Learn about ${site.name}'s mission, vision, values and youth-led approach to community development in Uganda.`,
+  alternates: { canonical: "/about-us" },
 };
 
 export default function AboutPage() {

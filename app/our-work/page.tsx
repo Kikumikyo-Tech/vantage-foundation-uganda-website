@@ -12,6 +12,7 @@ import { Card } from "@/components/ui/Card";
 export const metadata: Metadata = {
   title: "Our Work",
   description: `Explore the five pillars of ${site.name}: health, education, humanitarian aid, water & sanitation, and youth leadership.`,
+  alternates: { canonical: "/our-work" },
 };
 
 export default function OurWorkPage() {

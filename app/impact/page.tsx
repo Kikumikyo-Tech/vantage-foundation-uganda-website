@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: "Impact",
   description:
     "See how Vantage Foundation Uganda measures and reports its impact in health, education, humanitarian aid and WASH.",
+  alternates: { canonical: "/impact" },
 };
 
 export default function ImpactPage() {

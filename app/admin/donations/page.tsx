@@ -1,9 +1,15 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { getDonations, DonationRow } from "@/lib/db";
 import { getCsrfTokenFromRequest, CSRF_FIELD_NAME } from "@/lib/csrf";
 import { Container } from "@/components/shared/Container";
 import { Badge } from "@/components/ui/Badge";
+
+export const metadata: Metadata = {
+  title: "Donation Verifications",
+  robots: { index: false, follow: false },
+};
 
 export default async function AdminDonationsPage({
   searchParams,

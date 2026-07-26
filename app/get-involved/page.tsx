@@ -16,6 +16,7 @@ import {
 export const metadata: Metadata = {
   title: "Get Involved",
   description: "Donate, volunteer, partner, sponsor or collaborate with Vantage Foundation Uganda.",
+  alternates: { canonical: "/get-involved" },
 };
 
 const pathways = [

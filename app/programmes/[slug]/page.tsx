@@ -23,6 +23,12 @@ export function generateMetadata({ params }: { params: Promise<{ slug: string }>
     return {
       title: area.title,
       description: area.summary,
+      alternates: { canonical: `/programmes/${slug}` },
+      openGraph: {
+        title: area.title,
+        description: area.summary,
+        type: "website",
+      },
     };
   });
 }

@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import { getCsrfTokenFromRequest, CSRF_FIELD_NAME } from "@/lib/csrf";
 import { Container } from "@/components/shared/Container";
+
+export const metadata: Metadata = {
+  title: "Admin Login",
+  robots: { index: false, follow: false },
+};
 
 export default async function AdminLoginPage({
   searchParams,

@@ -11,6 +11,7 @@ import { CopyBankDetails } from "@/components/shared/CopyBankDetails";
 export const metadata: Metadata = {
   title: "Donate",
   description: "Support Vantage Foundation Uganda through a secure one-time or monthly donation.",
+  alternates: { canonical: "/donate" },
 };
 
 export default function DonatePage() {
