@@ -3,6 +3,9 @@
 import { useActionState } from "react";
 import { submitNewsletter, FormState } from "@/app/actions";
 import { Button } from "@/components/ui/Button";
+import { HoneypotFields } from "@/components/shared/HoneypotFields";
+import { FieldError } from "@/components/shared/FieldError";
+import { FormPrivacyNotice } from "@/components/shared/FormPrivacyNotice";
 
 const initialState: FormState = {
   success: false,
@@ -13,8 +16,8 @@ export function NewsletterForm() {
   const [state, formAction, pending] = useActionState(submitNewsletter, initialState);
 
   return (
-    <form action={formAction} className="space-y-3">
-      <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" />
+    <form action={formAction} className="space-y-3" noValidate>
+      <HoneypotFields />
       <label htmlFor="newsletter-email" className="sr-only">
         Email address
       </label>
@@ -25,7 +28,10 @@ export function NewsletterForm() {
         required
         placeholder="Enter your email"
         className="w-full rounded-lg border border-border bg-white px-3 py-2 text-sm text-foreground placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary"
+        aria-invalid={state.fieldErrors?.email ? true : undefined}
+        aria-describedby={state.fieldErrors?.email ? "newsletter-email-error" : undefined}
       />
+      <FieldError id="newsletter-email-error" message={state.fieldErrors?.email} />
       <div className="flex items-start gap-2">
         <input
           id="newsletter-consent"
@@ -33,14 +39,18 @@ export function NewsletterForm() {
           name="consent"
           required
           className="mt-0.5 h-4 w-4 rounded border-border text-primary focus:ring-primary"
+          aria-invalid={state.fieldErrors?.consent ? true : undefined}
+          aria-describedby={state.fieldErrors?.consent ? "newsletter-consent-error" : undefined}
         />
         <label htmlFor="newsletter-consent" className="text-xs text-muted-foreground">
           I agree to receive updates from Vantage Foundation Uganda.
         </label>
       </div>
+      <FieldError id="newsletter-consent-error" message={state.fieldErrors?.consent} />
       <Button type="submit" disabled={pending} size="sm" className="w-full">
         {pending ? "Subscribing..." : "Subscribe"}
       </Button>
+      <FormPrivacyNotice text="You can unsubscribe at any time. See our" />
       {state.message && (
         <p
           role="status"
