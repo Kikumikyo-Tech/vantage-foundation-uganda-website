@@ -45,7 +45,7 @@ export default function AboutPage() {
             </div>
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
               <ImageOrPlaceholder
-                src="/images/placeholder-about.jpg"
+                src="/images/photos/photo-066.webp"
                 alt="Vantage Foundation Uganda community work"
                 fill
                 preset="half"

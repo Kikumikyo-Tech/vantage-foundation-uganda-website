@@ -26,8 +26,8 @@ export const projects: Project[] = [
     ],
     beneficiaries: "Over 10,000 community members",
     partners: ["Local community leaders", "WASH technical team"],
-    heroImage: "/images/placeholder-wash.jpg",
-    gallery: ["/images/placeholder-wash.jpg"],
+    heroImage: "/images/photos/photo-048.webp",
+    gallery: ["/images/photos/photo-013.webp"],
     body: `The Kasaale Deep Borehole Project is one of our flagship Water, Sanitation and Hygiene (WASH) interventions. Constructed in partnership with the local community, the deep borehole now provides a reliable source of clean water to over 10,000 people.
 
 Access to clean water means children spend more time in school, families save time and money, and the burden of waterborne disease is reduced. The community has been supported with hygiene education and a water-user committee to keep the borehole functional for years to come.`,
@@ -57,8 +57,8 @@ Access to clean water means children spend more time in school, families save ti
     ],
     beneficiaries: "About 500 young women and men",
     partners: ["Volunteer mentors", "Community organisations"],
-    heroImage: "/images/placeholder-education.jpg",
-    gallery: ["/images/placeholder-education.jpg"],
+    heroImage: "/images/photos/photo-076.webp",
+    gallery: ["/images/photos/photo-022.webp"],
     body: `SaveGirl Uganda is Vantage Foundation's very first project. Founded in 2021, it began as an online crowdfunding campaign to buy and distribute sanitary pads to young women in rural areas. Over time, we restructured the initiative into a mentorship and skills programme that addresses the root causes of period poverty.
 
 Through SaveGirl, young women and men gain life skills, financial literacy and the confidence to pursue their goals. We maintain follow-up contact with the young people we reach, and the feedback has been truly heart warming and uplifting.`,
@@ -88,8 +88,8 @@ Through SaveGirl, young women and men gain life skills, financial literacy and t
     ],
     beneficiaries: "Women and girls reached through SaveGirl Uganda",
     partners: ["The Cup Foundation", "Lunette"],
-    heroImage: "/images/placeholder-health.jpg",
-    gallery: ["/images/placeholder-health.jpg"],
+    heroImage: "/images/photos/photo-055.webp",
+    gallery: ["/images/photos/photo-035.webp"],
     body: `In 2023, we launched the menstrual cups project under SaveGirl Uganda. We received UN-recommended Lunette menstrual cups as a donation from our partners, The Cup Foundation.
 
 The menstrual cup is a relatively uncommon product despite its profound benefits, including eco-friendliness, flexibility and comfort. Because proper training is essential, our team leads hands-on sessions on use and care. The cups can be used for 5–10 years, and user acceptability has been over 80%.`,
@@ -119,8 +119,8 @@ The menstrual cup is a relatively uncommon product despite its profound benefits
     ],
     beneficiaries: "Youth participants across Uganda",
     partners: ["Volunteer facilitators", "Book donors"],
-    heroImage: "/images/placeholder-education.jpg",
-    gallery: ["/images/placeholder-education.jpg"],
+    heroImage: "/images/photos/photo-071.webp",
+    gallery: ["/images/photos/photo-066.webp"],
     body: `Launched in August 2022, the Advantage Book Club (ABC) was created for young people who want to seek relevant knowledge to harness their full potential. In a system whose capacity to provide the necessary education for accelerated development is limited, ABC gives participants access to proven and influential self-development books.
 
 This opens doors for young people who would otherwise not have access to this genre. Through reading, discussion and reflection, members build habits of lifelong learning.`,
@@ -150,8 +150,8 @@ This opens doors for young people who would otherwise not have access to this ge
     ],
     beneficiaries: "Rural communities with limited health access",
     partners: ["Local health workers", "Volunteer clinicians"],
-    heroImage: "/images/placeholder-health.jpg",
-    gallery: ["/images/placeholder-health.jpg"],
+    heroImage: "/images/photos/photo-001.webp",
+    gallery: ["/images/photos/photo-021.webp"],
     body: `Our rural medical camps bring basic healthcare to communities that are often overlooked by larger health systems. We conduct consultations, screenings, health education and referrals, with a focus on dignity and accessibility.
 
 The camps are run with volunteer clinicians and local health workers, ensuring that services are culturally appropriate and connected to existing health facilities.`,
@@ -181,8 +181,8 @@ The camps are run with volunteer clinicians and local health workers, ensuring t
     ],
     beneficiaries: "Students and youth in schools and communities",
     partners: ["Schools", "Volunteer facilitators"],
-    heroImage: "/images/placeholder-health.jpg",
-    gallery: ["/images/placeholder-health.jpg"],
+    heroImage: "/images/photos/photo-059.webp",
+    gallery: ["/images/photos/photo-046.webp"],
     body: `Since 2021, we have hosted semi-annual workshops on mental health, sexual and reproductive health, and financial literacy. These sessions are designed for young people in schools and communities who often lack access to accurate, stigma-free information.
 
 By combining mental wellness, financial skills and reproductive health, we help participants build a stable foundation for adulthood.`,
@@ -212,8 +212,8 @@ By combining mental wellness, financial skills and reproductive health, we help 
     ],
     beneficiaries: "Children in orphanages and young women on Kalangala Island",
     partners: ["Local orphanages", "Community volunteers"],
-    heroImage: "/images/placeholder-humanitarian.jpg",
-    gallery: ["/images/placeholder-humanitarian.jpg"],
+    heroImage: "/images/photos/photo-075.webp",
+    gallery: ["/images/photos/photo-043.webp"],
     body: `Our relief work focuses on vulnerable children and isolated communities. We have donated food and clothing to four orphanages and provided support to young women on Kalangala Island.
 
 This work is led by volunteers and shaped by the actual needs expressed by the communities we serve.`,

@@ -35,7 +35,7 @@ export function Hero() {
           <div className="relative">
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-xl">
               <ImageOrPlaceholder
-                src="/images/placeholder-hero.jpg"
+                src="/images/photos/photo-006.webp"
                 alt="Young people and community members in Uganda"
                 fill
                 priority
