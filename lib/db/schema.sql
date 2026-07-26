@@ -1,18 +1,6 @@
 -- Run this SQL against your Neon database once to create the donations table.
 -- Do not store payment credentials (PINs, OTPs, card numbers, etc.) here or anywhere.
 
--- Migration: add deleted_at column to existing tables (safe to re-run).
--- Run this BEFORE the CREATE INDEX for deleted_at.
-DO $$
-BEGIN
-  IF NOT EXISTS (
-    SELECT 1 FROM information_schema.columns
-    WHERE table_name = 'donations' AND column_name = 'deleted_at'
-  ) THEN
-    ALTER TABLE donations ADD COLUMN deleted_at TIMESTAMP WITH TIME ZONE;
-  END IF;
-END $$;
-
 CREATE TABLE IF NOT EXISTS donations (
   id SERIAL PRIMARY KEY,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -31,6 +19,19 @@ CREATE TABLE IF NOT EXISTS donations (
   deleted_at TIMESTAMP WITH TIME ZONE,
   CONSTRAINT status_values CHECK (status IN ('pending', 'verified', 'rejected'))
 );
+
+-- Migration: add deleted_at column to pre-existing tables (safe to re-run).
+-- Runs AFTER CREATE TABLE so fresh installs already have the column,
+-- and BEFORE the CREATE INDEX for deleted_at so the index can reference it.
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'donations' AND column_name = 'deleted_at'
+  ) THEN
+    ALTER TABLE donations ADD COLUMN deleted_at TIMESTAMP WITH TIME ZONE;
+  END IF;
+END $$;
 
 CREATE INDEX IF NOT EXISTS idx_donations_status ON donations(status);
 CREATE INDEX IF NOT EXISTS idx_donations_email ON donations(email);

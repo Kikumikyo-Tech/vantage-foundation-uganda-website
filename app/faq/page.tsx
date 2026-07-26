@@ -28,20 +28,33 @@ export default function FaqPage() {
       <section className="py-16 md:py-24">
         <Container className="max-w-3xl">
           <div className="space-y-4">
-            {faq.map((item, index) => (
-              <details
-                key={index}
-                className="group rounded-xl border border-border bg-white p-6 open:shadow-sm"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between text-lg font-semibold">
-                  {item.question}
-                  <span className="ml-4 text-primary transition-transform group-open:rotate-180">
-                    &#x25BC;
-                  </span>
-                </summary>
-                <p className="mt-4 leading-relaxed text-muted-foreground">{item.answer}</p>
-              </details>
-            ))}
+            {faq.map((item, index) => {
+              const summaryId = `faq-summary-${index}`;
+              const contentId = `faq-content-${index}`;
+              return (
+                <details
+                  key={index}
+                  className="group rounded-xl border border-border bg-white p-6 open:shadow-sm"
+                >
+                  <summary
+                    id={summaryId}
+                    className="flex cursor-pointer list-none items-center justify-between text-lg font-semibold"
+                  >
+                    {item.question}
+                    <span className="ml-4 text-primary transition-transform group-open:rotate-180" aria-hidden="true">
+                      &#x25BC;
+                    </span>
+                  </summary>
+                  <p
+                    id={contentId}
+                    aria-labelledby={summaryId}
+                    className="mt-4 leading-relaxed text-muted-foreground"
+                  >
+                    {item.answer}
+                  </p>
+                </details>
+              );
+            })}
           </div>
         </Container>
       </section>
