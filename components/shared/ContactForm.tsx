@@ -7,6 +7,9 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Select } from "@/components/ui/Select";
 import { Label } from "@/components/ui/Label";
 import { Button } from "@/components/ui/Button";
+import { HoneypotFields } from "@/components/shared/HoneypotFields";
+import { FieldError } from "@/components/shared/FieldError";
+import { FormPrivacyNotice } from "@/components/shared/FormPrivacyNotice";
 
 const subjects = [
   { value: "", label: "Select a subject" },
@@ -27,17 +30,34 @@ export function ContactForm({ defaultSubject = "" }: { defaultSubject?: string }
   const [state, formAction, pending] = useActionState(submitContact, initialState);
 
   return (
-    <form action={formAction} className="space-y-5">
-      <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" />
+    <form action={formAction} className="space-y-5" noValidate>
+      <HoneypotFields />
 
       <div>
         <Label htmlFor="name">Name</Label>
-        <Input id="name" name="name" required className="mt-1.5" />
+        <Input
+          id="name"
+          name="name"
+          required
+          className="mt-1.5"
+          aria-invalid={state.fieldErrors?.name ? true : undefined}
+          aria-describedby={state.fieldErrors?.name ? "name-error" : undefined}
+        />
+        <FieldError id="name-error" message={state.fieldErrors?.name} />
       </div>
 
       <div>
         <Label htmlFor="email">Email</Label>
-        <Input id="email" name="email" type="email" required className="mt-1.5" />
+        <Input
+          id="email"
+          name="email"
+          type="email"
+          required
+          className="mt-1.5"
+          aria-invalid={state.fieldErrors?.email ? true : undefined}
+          aria-describedby={state.fieldErrors?.email ? "email-error" : undefined}
+        />
+        <FieldError id="email-error" message={state.fieldErrors?.email} />
       </div>
 
       <div>
@@ -53,6 +73,8 @@ export function ContactForm({ defaultSubject = "" }: { defaultSubject?: string }
           required
           defaultValue={defaultSubject}
           className="mt-1.5"
+          aria-invalid={state.fieldErrors?.subject ? true : undefined}
+          aria-describedby={state.fieldErrors?.subject ? "subject-error" : undefined}
         >
           {subjects.map((s) => (
             <option key={s.value} value={s.value}>
@@ -60,16 +82,28 @@ export function ContactForm({ defaultSubject = "" }: { defaultSubject?: string }
             </option>
           ))}
         </Select>
+        <FieldError id="subject-error" message={state.fieldErrors?.subject} />
       </div>
 
       <div>
         <Label htmlFor="message">Message</Label>
-        <Textarea id="message" name="message" required rows={5} className="mt-1.5" />
+        <Textarea
+          id="message"
+          name="message"
+          required
+          rows={5}
+          className="mt-1.5"
+          aria-invalid={state.fieldErrors?.message ? true : undefined}
+          aria-describedby={state.fieldErrors?.message ? "message-error" : undefined}
+        />
+        <FieldError id="message-error" message={state.fieldErrors?.message} />
       </div>
 
       <Button type="submit" disabled={pending} className="w-full">
         {pending ? "Sending..." : "Send message"}
       </Button>
+
+      <FormPrivacyNotice text="We will only use your details to respond to your enquiry. See our" />
 
       {state.message && (
         <p

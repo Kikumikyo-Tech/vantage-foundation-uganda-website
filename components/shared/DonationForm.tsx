@@ -7,6 +7,9 @@ import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Label } from "@/components/ui/Label";
 import { Button } from "@/components/ui/Button";
+import { HoneypotFields } from "@/components/shared/HoneypotFields";
+import { FieldError } from "@/components/shared/FieldError";
+import { FormPrivacyNotice } from "@/components/shared/FormPrivacyNotice";
 import { suggestedAmounts, donationCampaigns } from "@/content/donate";
 
 const initialState: FormState = {
@@ -23,8 +26,8 @@ export function DonationForm() {
   const displayAmount = custom || amount || "";
 
   return (
-    <form action={formAction} className="space-y-5">
-      <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" />
+    <form action={formAction} className="space-y-5" noValidate>
+      <HoneypotFields withIdempotency />
 
       <fieldset>
         <legend>
@@ -66,6 +69,7 @@ export function DonationForm() {
           }}
           className="mt-1.5"
         />
+        <FieldError id="amount-error" message={state.fieldErrors?.amount} />
       </div>
 
       <input type="hidden" name="amount" value={displayAmount} />
@@ -106,18 +110,34 @@ export function DonationForm() {
 
       <div>
         <Label htmlFor="campaign">Support a specific project</Label>
-        <Select id="campaign" name="campaign" required className="mt-1.5">
+        <Select
+          id="campaign"
+          name="campaign"
+          required
+          className="mt-1.5"
+          aria-invalid={state.fieldErrors?.campaign ? true : undefined}
+          aria-describedby={state.fieldErrors?.campaign ? "campaign-error" : undefined}
+        >
           {donationCampaigns.map((campaign) => (
             <option key={campaign.id} value={campaign.id}>
               {campaign.label}
             </option>
           ))}
         </Select>
+        <FieldError id="campaign-error" message={state.fieldErrors?.campaign} />
       </div>
 
       <div>
         <Label htmlFor="donor-name">Name</Label>
-        <Input id="donor-name" name="name" required className="mt-1.5" />
+        <Input
+          id="donor-name"
+          name="name"
+          required
+          className="mt-1.5"
+          aria-invalid={state.fieldErrors?.name ? true : undefined}
+          aria-describedby={state.fieldErrors?.name ? "donor-name-error" : undefined}
+        />
+        <FieldError id="donor-name-error" message={state.fieldErrors?.name} />
       </div>
 
       <div>
@@ -128,7 +148,10 @@ export function DonationForm() {
           type="email"
           required
           className="mt-1.5"
+          aria-invalid={state.fieldErrors?.email ? true : undefined}
+          aria-describedby={state.fieldErrors?.email ? "donor-email-error" : undefined}
         />
+        <FieldError id="donor-email-error" message={state.fieldErrors?.email} />
       </div>
 
       <div>
@@ -156,6 +179,8 @@ export function DonationForm() {
       <Button type="submit" disabled={pending || !displayAmount} className="w-full">
         {pending ? "Submitting..." : "Confirm donation intent"}
       </Button>
+
+      <FormPrivacyNotice text="We will only use your details to process your donation and send a receipt. See our" />
 
       {state.message && (
         <p
