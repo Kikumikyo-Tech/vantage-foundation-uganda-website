@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { site } from "@/content/site";
-import { team } from "@/content/team";
+import { getPublishedTeam } from "@/content/team";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
@@ -17,6 +17,7 @@ export default function AboutPage() {
       <section className="bg-primary py-16 text-white md:py-24">
         <Container>
           <SectionHeader
+            level="h1"
             title="About Vantage Foundation Uganda"
             description="Youth-led, community-centred and committed to one more advantage at a time."
             light
@@ -108,7 +109,7 @@ export default function AboutPage() {
         <Container>
           <SectionHeader title="Meet the team" description="Youth-led and volunteer-driven." />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {team.map((member) => (
+            {getPublishedTeam().map((member) => (
               <Card key={member.role} className="overflow-hidden p-6 text-center">
                 <div className="relative mx-auto h-24 w-24 overflow-hidden rounded-full">
                   <ImageOrPlaceholder

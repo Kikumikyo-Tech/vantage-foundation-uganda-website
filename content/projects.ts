@@ -225,9 +225,19 @@ export function getProjectBySlug(slug: string): Project | undefined {
 }
 
 export function getProjectSlugs(): string[] {
-  return projects.map((p) => p.slug);
+  return getPublishedProjects().map((p) => p.slug);
 }
 
 export function getProjectsByCategory(category: string): Project[] {
-  return projects.filter((p) => p.category === category);
+  return getPublishedProjects().filter((p) => p.category === category);
+}
+
+/**
+ * Returns projects that are published. In development, all projects are
+ * returned (including unpublished ones for previewing). In production,
+ * only projects with `published !== false` are returned.
+ */
+export function getPublishedProjects(): Project[] {
+  const isDev = process.env.NODE_ENV === "development";
+  return projects.filter((p) => isDev || p.published !== false);
 }

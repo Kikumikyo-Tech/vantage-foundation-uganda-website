@@ -14,6 +14,16 @@ All editable website content lives in this `content/` folder as TypeScript modul
 - `reports.ts` — downloadable reports and documents (set `url` when available).
 - `faq.ts` — frequently asked questions.
 - `donate.ts` — suggested donation amounts and campaign options.
+- `media.ts` — media manifest: every published image with alt text, consent status, credit, and contextual metadata.
+
+## Validation
+
+All content modules are validated against Zod schemas at build time. Run
+`npm run validate-content` to check for errors manually, or just run
+`npm run build` — the `prebuild` script runs validation automatically.
+
+See [`docs/editorial-guidelines.md`](../docs/editorial-guidelines.md) for the
+full editorial workflow, content model, and safeguarding/consent guidance.
 
 ## Placeholders
 

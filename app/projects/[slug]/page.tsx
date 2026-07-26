@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProjectBySlug, getProjectSlugs, projects } from "@/content/projects";
+import {
+  getProjectBySlug,
+  getProjectSlugs,
+  getPublishedProjects,
+} from "@/content/projects";
 import { Container } from "@/components/shared/Container";
 import { Badge } from "@/components/ui/Badge";
 import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
@@ -22,11 +26,12 @@ export async function generateMetadata({
   const project = getProjectBySlug(slug);
   if (!project) return {};
   return {
-    title: project.title,
-    description: project.summary,
+    title: project.seo?.title || project.title,
+    description: project.seo?.description || project.summary,
     openGraph: {
-      title: project.title,
-      description: project.summary,
+      title: project.seo?.title || project.title,
+      description: project.seo?.description || project.summary,
+      images: project.seo?.ogImage ? [{ url: project.seo.ogImage }] : undefined,
     },
     alternates: {
       canonical: `/projects/${slug}`,
@@ -42,11 +47,12 @@ export default async function ProjectPage({
   const { slug } = await params;
   const project = getProjectBySlug(slug);
 
-  if (!project) {
+  // In production, unpublished projects should 404.
+  if (!project || (process.env.NODE_ENV === "production" && project.published === false)) {
     notFound();
   }
 
-  const relatedProjects = projects
+  const relatedProjects = getPublishedProjects()
     .filter((p) => p.category === project.category && p.slug !== project.slug)
     .slice(0, 3);
 

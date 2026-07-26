@@ -14,6 +14,7 @@ export default function FaqPage() {
       <section className="bg-primary py-16 text-white md:py-24">
         <Container>
           <SectionHeader
+            level="h1"
             title="Frequently Asked Questions"
             description="Answers to common questions about our work and how to get involved."
             light

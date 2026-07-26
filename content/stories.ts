@@ -110,5 +110,15 @@ export function getStoryBySlug(slug: string): Story | undefined {
 }
 
 export function getStorySlugs(): string[] {
-  return stories.map((s) => s.slug);
+  return getPublishedStories().map((s) => s.slug);
+}
+
+/**
+ * Returns stories that are published. In development, all stories are
+ * returned (including unpublished ones for previewing). In production,
+ * only stories with `published !== false` are returned.
+ */
+export function getPublishedStories(): Story[] {
+  const isDev = process.env.NODE_ENV === "development";
+  return stories.filter((s) => isDev || s.published !== false);
 }

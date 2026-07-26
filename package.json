@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "validate-content": "tsx lib/validate-content.ts",
+    "prebuild": "npm run validate-content"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
@@ -32,7 +34,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
+    "exifreader": "4.41.3",
     "tailwindcss": "^4",
+    "tsx": "4.23.1",
     "typescript": "^5"
   },
   "overrides": {

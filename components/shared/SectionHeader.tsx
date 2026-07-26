@@ -8,6 +8,11 @@ interface SectionHeaderProps {
   align?: "left" | "center";
   className?: string;
   light?: boolean;
+  /**
+   * Heading level. Use "h1" when this is the page's main heading (one per
+   * page). Defaults to "h2" for section headings.
+   */
+  level?: "h1" | "h2";
 }
 
 export function SectionHeader({
@@ -17,7 +22,9 @@ export function SectionHeader({
   align = "center",
   className = "",
   light = false,
+  level = "h2",
 }: SectionHeaderProps) {
+  const Heading = level;
   return (
     <Container className={className}>
       <div
@@ -33,14 +40,14 @@ export function SectionHeader({
             {eyebrow}
           </p>
         )}
-        <h2
+        <Heading
           className={cn(
             "text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl",
             light ? "text-white" : "text-foreground"
           )}
         >
           {title}
-        </h2>
+        </Heading>
         {description && (
           <p
             className={cn(

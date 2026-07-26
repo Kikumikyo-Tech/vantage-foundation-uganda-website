@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import { site } from "@/content/site";
 import { Button } from "@/components/ui/Button";
@@ -12,6 +12,66 @@ import { cn } from "@/lib/utils";
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Focus management: trap focus in menu, restore on close, handle Escape.
+  useEffect(() => {
+    if (!open) return;
+
+    const menu = menuRef.current;
+    if (!menu) return;
+
+    // Capture the trigger ref for cleanup (ref may change before cleanup runs).
+    const trigger = triggerRef.current;
+
+    // Move focus to the close button when menu opens.
+    const closeBtn = menu.querySelector<HTMLButtonElement>("[aria-label='Close menu']");
+    closeBtn?.focus();
+
+    // Lock body scroll while menu is open.
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+
+      // Focus trap: keep Tab within the menu.
+      if (e.key === "Tab") {
+        const focusable = menu.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = originalOverflow;
+      // Restore focus to the trigger button when menu closes.
+      trigger?.focus();
+    };
+  }, [open]);
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-white/95 backdrop-blur">
@@ -48,6 +108,7 @@ export function Header() {
           </nav>
 
           <button
+            ref={triggerRef}
             className="md:hidden"
             onClick={() => setOpen(true)}
             aria-label="Open menu"
@@ -61,6 +122,7 @@ export function Header() {
 
       {open && (
         <div
+          ref={menuRef}
           id="mobile-menu"
           className="fixed inset-0 z-50 bg-white md:hidden"
           role="dialog"

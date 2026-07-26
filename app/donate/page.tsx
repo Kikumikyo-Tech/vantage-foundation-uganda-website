@@ -19,6 +19,7 @@ export default function DonatePage() {
       <section className="bg-primary py-16 text-white md:py-24">
         <Container>
           <SectionHeader
+            level="h1"
             title="Support our work"
             description="Your donation becomes one more advantage for a young person, family or community."
             light

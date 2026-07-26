@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { impactStats, outputs, outcomes, longTermGoals, regions, sdgs } from "@/content/impact";
+import { getPublishedImpactStats, outputs, outcomes, longTermGoals, regions, sdgs } from "@/content/impact";
 import { projects } from "@/content/projects";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
@@ -20,6 +20,7 @@ export default function ImpactPage() {
       <section className="bg-primary py-16 text-white md:py-24">
         <Container>
           <SectionHeader
+            level="h1"
             title="Impact"
             description="Evidence of change, measured with honesty and hope."
             light
@@ -30,7 +31,7 @@ export default function ImpactPage() {
       <section className="py-16 md:py-24">
         <Container>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-            {impactStats.map((stat) => (
+            {getPublishedImpactStats().map((stat) => (
               <StatCard
                 key={stat.label}
                 value={stat.value}

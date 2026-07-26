@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getStoryBySlug, getStorySlugs, stories } from "@/content/stories";
+import {
+  getStoryBySlug,
+  getStorySlugs,
+  getPublishedStories,
+} from "@/content/stories";
 import { Container } from "@/components/shared/Container";
 import { Badge } from "@/components/ui/Badge";
 import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
@@ -20,14 +24,15 @@ export async function generateMetadata({
   const story = getStoryBySlug(slug);
   if (!story) return {};
   return {
-    title: story.title,
-    description: story.excerpt,
+    title: story.seo?.title || story.title,
+    description: story.seo?.description || story.excerpt,
     openGraph: {
-      title: story.title,
-      description: story.excerpt,
+      title: story.seo?.title || story.title,
+      description: story.seo?.description || story.excerpt,
       type: "article",
       publishedTime: story.date,
       authors: story.author ? [story.author] : undefined,
+      images: story.seo?.ogImage ? [{ url: story.seo.ogImage }] : undefined,
     },
     alternates: {
       canonical: `/stories/${slug}`,
@@ -43,11 +48,12 @@ export default async function StoryPage({
   const { slug } = await params;
   const story = getStoryBySlug(slug);
 
-  if (!story) {
+  // In production, unpublished stories should 404.
+  if (!story || (process.env.NODE_ENV === "production" && story.published === false)) {
     notFound();
   }
 
-  const relatedStories = stories
+  const relatedStories = getPublishedStories()
     .filter((s) => s.slug !== story.slug && s.category === story.category)
     .slice(0, 3);
 

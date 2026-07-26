@@ -48,9 +48,51 @@ export type ProjectCategory =
   | "Health"
   | "Education"
   | "Humanitarian Aid"
-  | "Water & Sanitation";
+  | "Water & Sanitation"
+  | "Youth Leadership";
 
 export type ProjectStatus = "Active" | "Completed" | "Planned";
+
+/**
+ * SEO metadata for a content item. When omitted, the item's title and
+ * summary/excerpt are used as fallbacks.
+ */
+export interface SeoMeta {
+  title?: string;
+  description?: string;
+  /** Path to a custom OG image (e.g. /images/og/project-slug.png). */
+  ogImage?: string;
+}
+
+/**
+ * Consent classification for media featuring people, especially children
+ * and vulnerable adults.
+ *
+ * - `none`: No people featured (landscape, object, text).
+ * - `verified`: Written consent on file for all identifiable individuals.
+ * - `pending`: Consent being sought; do NOT publish until verified.
+ * - `group-consent`: Community/group leader consent obtained (e.g. for
+ *   crowds or wide shots where individual consent is impractical).
+ *   Use sparingly and only where individuals are not identifiable.
+ */
+export type ConsentClassification =
+  | "none"
+  | "verified"
+  | "pending"
+  | "group-consent";
+
+/**
+ * A document attached to a project (e.g. project report, budget, MoU).
+ */
+export interface ProjectDocument {
+  title: string;
+  /** Path to the file in public/ or an external URL. */
+  url: string;
+  /** Document type for grouping/filtering. */
+  type?: "report" | "budget" | "agreement" | "other";
+  date?: string;
+  description?: string;
+}
 
 export interface Project {
   id: string;
@@ -74,6 +116,31 @@ export interface Project {
     label: string;
     href: string;
   };
+  // --- Phase 4 extensions (all optional for backward compatibility) ---
+  /** ISO date string (YYYY-MM-DD) for the formal reporting period start. */
+  reportingPeriod?: { start?: string; end?: string };
+  /** Funding progress, e.g. "UGX 12,000,000 of UGX 20,000,000 raised". */
+  fundingStatus?: string;
+  /** ISO date string (YYYY-MM-DD) for project start. */
+  startDate?: string;
+  /** ISO date string (YYYY-MM-DD) for project end (omit if ongoing). */
+  endDate?: string;
+  /** Attached documents (reports, budgets, agreements). */
+  documents?: ProjectDocument[];
+  /** Per-item SEO overrides. */
+  seo?: SeoMeta;
+  /**
+   * Whether the project is published. Defaults to true when omitted.
+   * Unpublished projects are filtered out of production routes but
+   * remain visible in development for previewing.
+   */
+  published?: boolean;
+  /**
+   * Consent classification for the hero image and gallery. Defaults to
+   * "none" when omitted. Set to "pending" to block publishing of media
+   * featuring identifiable people until consent is verified.
+   */
+  consentClassification?: ConsentClassification;
 }
 
 export interface Story {
@@ -89,6 +156,22 @@ export interface Story {
   heroImage?: string;
   relatedProjectSlugs?: string[];
   body: string;
+  // --- Phase 4 extensions (all optional for backward compatibility) ---
+  /** Free-form tags for filtering and related-story matching. */
+  tags?: string[];
+  /**
+   * Consent classification for the hero image and any embedded media.
+   * Defaults to "none" when omitted.
+   */
+  consentClassification?: ConsentClassification;
+  /** Per-item SEO overrides. */
+  seo?: SeoMeta;
+  /**
+   * Whether the story is published. Defaults to true when omitted.
+   * Unpublished stories are filtered out of production routes but
+   * remain visible in development for previewing.
+   */
+  published?: boolean;
 }
 
 export interface TeamMember {
@@ -135,4 +218,39 @@ export interface AreaOfWork {
   items: string[];
   icon: string;
   image?: string;
+}
+
+/**
+ * A media asset (photo, video, illustration) in the site's media library.
+ *
+ * The media manifest (`content/media.ts`) is the single source of truth for
+ * all published images. Each entry records consent status, credit, and
+ * contextual metadata so editors can verify safeguarding compliance before
+ * publishing.
+ */
+export interface MediaAsset {
+  /** Unique id, e.g. "kasaale-borehole-opening-2022". */
+  id: string;
+  /** Path in public/ or an absolute URL. */
+  src: string;
+  /** Descriptive alt text based on visible content (no invented names). */
+  alt: string;
+  /** Optional caption shown below the image. */
+  caption?: string;
+  /** Photographer or source credit. */
+  credit?: string;
+  /** ISO date string (YYYY-MM-DD) when the photo was taken. */
+  date?: string;
+  /** Location where the photo was taken (general, not GPS-specific). */
+  location?: string;
+  /** Programme area id this image relates to (health, education, etc.). */
+  programme?: string;
+  /** Project slug this image relates to, if any. */
+  projectSlug?: string;
+  /** Consent classification for people featured in the image. */
+  consent: ConsentClassification;
+  /** Notes about consent (e.g. "Verbal consent from headteacher"). */
+  consentNotes?: string;
+  /** Whether this asset is published. Defaults to true when omitted. */
+  published?: boolean;
 }

@@ -8,6 +8,16 @@ export const impactStats: ImpactStat[] = [
   { value: "[Number]", label: "Workshops hosted since 2021", note: "Mental health, SRH and financial literacy" },
 ];
 
+/**
+ * Returns impact stats that are not placeholders. In development, all
+ * stats are returned. In production, stats with "[Number]" values are
+ * filtered out.
+ */
+export function getPublishedImpactStats(): ImpactStat[] {
+  const isDev = process.env.NODE_ENV === "development";
+  return impactStats.filter((s) => isDev || !s.value.includes("["));
+}
+
 export const outputs = [
   "Deep water well constructed and serving over 10,000 people.",
   "Multiple medical camps conducted in rural Uganda.",

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { site } from "@/content/site";
 import { areasOfWork, projectCategoriesByAreaId } from "@/content/areas";
-import { projects } from "@/content/projects";
+import { getPublishedProjects } from "@/content/projects";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { AreaIcon } from "@/components/shared/AreaIcon";
@@ -19,6 +19,7 @@ export default function OurWorkPage() {
       <section className="bg-primary py-16 text-white md:py-24">
         <Container>
           <SectionHeader
+            level="h1"
             title="Our Work"
             description="Health, education, humanitarian aid and water, sanitation & hygiene — working together for sustainable livelihoods."
             light
@@ -31,7 +32,7 @@ export default function OurWorkPage() {
           <div className="grid gap-12">
             {areasOfWork.map((area) => {
               const categories = projectCategoriesByAreaId[area.id] ?? [];
-              const relatedProjects = projects.filter((p) =>
+              const relatedProjects = getPublishedProjects().filter((p) =>
                 categories.includes(p.category)
               );
 

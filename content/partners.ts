@@ -22,3 +22,13 @@ export const partners: Partner[] = [
     placeholder: true,
   },
 ];
+
+/**
+ * Returns partners that are not placeholders. In development, all
+ * partners are returned (including placeholders for previewing). In
+ * production, placeholder partners are filtered out.
+ */
+export function getPublishedPartners(): Partner[] {
+  const isDev = process.env.NODE_ENV === "development";
+  return partners.filter((p) => isDev || !p.placeholder);
+}
