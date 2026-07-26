@@ -7,40 +7,44 @@
    ========================================================================== */
 
 :root {
-  /* ---- Primary brand palette ---- */
-  --deep-teal: #007d8a;
-  --bright-aqua: #1cc7d6;
-  --ocean-blue: #005b7a;
-  --dark-navy: #08233a;
+  /* ---- Primary brand palette ----
+     Exactly three dominant colours across the site, roughly a third each:
+     teal, white, and black/dark charcoal. See docs/brand/colour-system.md. */
+  --deep-teal: #008f95; /* teal primary */
+  --bright-aqua: #ddf5f4; /* teal light — pale wash for tinted backgrounds/badges, never text */
+  --ocean-blue: #006b70; /* teal dark — hover/active */
+  --dark-navy: #050708; /* black — body text, deepest dark sections */
   --white: #ffffff;
-  --charcoal: #232323;
+  --charcoal: #0b1b22; /* dark charcoal — secondary dark sections/cards on black */
 
   /* ---- Semantic surface tokens ---- */
   --background: #ffffff;
-  --foreground: #08233a; /* dark navy for body text */
-  --primary: #007d8a; /* deep teal — buttons, links, brand */
-  --primary-dark: #005b7a; /* ocean blue — hover/active */
-  --primary-light: #1cc7d6; /* bright aqua — accents only, never body text */
-  --accent: #f59e0b; /* amber — retained for warm highlights */
-  --muted: #f4f7f9; /* subtle teal-tinted neutral surface */
-  --muted-foreground: #4a6072; /* secondary text on white — AA 7:1 */
-  --border: #dce5ea; /* cool neutral border */
-  --surface: #f4f7f9; /* section backgrounds */
-  --surface-strong: #e8eef2; /* cards on muted backgrounds */
-  --navy: #08233a;
-  --charcoal: #232323;
+  --foreground: #050708; /* black for body text */
+  --primary: #008f95; /* teal primary — buttons, links, brand */
+  --primary-dark: #006b70; /* teal dark — hover/active */
+  --primary-light: #ddf5f4; /* teal light — accents only, never body text */
+  --accent: #006b70; /* aliased to teal dark — no orange/yellow accents per brand system */
+  --muted: #f7fafa; /* soft white */
+  --muted-foreground: #475569; /* secondary text on white — AA 7:1+ */
+  --border: #dce5e5; /* neutral border */
+  --surface: #f7fafa; /* section backgrounds (soft white) */
+  --surface-strong: #eef4f4; /* cards on muted backgrounds */
+  --navy: #050708;
+  --charcoal: #0b1b22;
 
   /* ---- Programme accent colours ----
-     Used for categorisation, never as body text on white.
-     Always paired with an icon or text label (WCAG 1.4.1). */
-  --programme-health: #0f9d58; /* emerald */
-  --programme-education: #2563eb; /* royal blue */
-  --programme-water: #38bdf8; /* sky blue */
-  --programme-humanitarian: #f97316; /* warm orange */
-  --programme-research: #7c3aed; /* purple */
-  --programme-environment: #15803d; /* forest green */
-  --programme-youth: #06b6d4; /* vibrant cyan */
-  --programme-alert: #dc2626; /* emergency red */
+     Categorisation only, always paired with an icon or text label (WCAG
+     1.4.1). Kept within the teal/black brand system — no unrelated hues
+     (orange, purple, sky blue, cyan). --programme-alert stays red: it is a
+     functional safety/status colour, not a decorative brand accent. */
+  --programme-health: #008f95; /* teal primary */
+  --programme-education: #006b70; /* teal dark */
+  --programme-water: #0b1b22; /* dark charcoal */
+  --programme-humanitarian: #050708; /* black */
+  --programme-research: #008f95; /* teal primary */
+  --programme-environment: #006b70; /* teal dark */
+  --programme-youth: #0b1b22; /* dark charcoal */
+  --programme-alert: #dc2626; /* emergency red — functional, not decorative */
 
   /* ---- Semantic status colours ---- */
   --success: #15803d;
@@ -52,7 +56,7 @@
   --destructive: #b91c1c;
   --destructive-bg: #fee2e2;
   --destructive-fg: #7f1d1d;
-  --info: #005b7a;
+  --info: #006b70;
   --info-bg: #e0f2fe;
   --info-fg: #0c4a6e;
 
@@ -123,10 +127,10 @@
   --radius-full: 9999px;
 
   /* ---- Shadows ---- */
-  --shadow-sm: 0 1px 2px 0 rgb(8 35 58 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(8 35 58 / 0.08), 0 2px 4px -2px rgb(8 35 58 / 0.06);
-  --shadow-lg: 0 10px 15px -3px rgb(8 35 58 / 0.1), 0 4px 6px -4px rgb(8 35 58 / 0.05);
-  --shadow-xl: 0 20px 25px -5px rgb(8 35 58 / 0.12), 0 8px 10px -6px rgb(8 35 58 / 0.05);
+  --shadow-sm: 0 1px 2px 0 rgb(5 7 8 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(5 7 8 / 0.08), 0 2px 4px -2px rgb(5 7 8 / 0.06);
+  --shadow-lg: 0 10px 15px -3px rgb(5 7 8 / 0.1), 0 4px 6px -4px rgb(5 7 8 / 0.05);
+  --shadow-xl: 0 20px 25px -5px rgb(5 7 8 / 0.12), 0 8px 10px -6px rgb(5 7 8 / 0.05);
 
   /* ---- Breakpoints (informational; Tailwind v4 uses its own scale) ---- */
   --bp-sm: 640px;

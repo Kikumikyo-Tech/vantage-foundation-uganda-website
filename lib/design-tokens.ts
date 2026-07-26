@@ -8,34 +8,36 @@
  * When updating the palette, update BOTH this file and app/globals.css.
  */
 
+// Exactly three dominant colours across the site, roughly a third each:
+// teal, white, and black/dark charcoal. See docs/brand/colour-system.md.
 export const brandColors = {
-  deepTeal: "#007d8a",
-  brightAqua: "#1cc7d6",
-  oceanBlue: "#005b7a",
-  darkNavy: "#08233a",
+  deepTeal: "#008f95",
+  brightAqua: "#ddf5f4", // teal light — pale wash, never text
+  oceanBlue: "#006b70", // teal dark
+  darkNavy: "#050708", // black
   white: "#ffffff",
-  charcoal: "#232323",
+  charcoal: "#0b1b22", // dark charcoal
 } as const;
 
 export const semanticColors = {
   background: "#ffffff",
-  foreground: "#08233a",
-  primary: "#007d8a",
-  primaryDark: "#005b7a",
-  primaryLight: "#1cc7d6",
-  accent: "#f59e0b",
-  muted: "#f4f7f9",
-  mutedForeground: "#4a6072",
-  border: "#dce5ea",
-  surface: "#f4f7f9",
-  surfaceStrong: "#e8eef2",
+  foreground: "#050708",
+  primary: "#008f95",
+  primaryDark: "#006b70",
+  primaryLight: "#ddf5f4",
+  accent: "#006b70", // aliased to teal dark — no orange/yellow accents
+  muted: "#f7fafa",
+  mutedForeground: "#475569",
+  border: "#dce5e5",
+  surface: "#f7fafa",
+  surfaceStrong: "#eef4f4",
 } as const;
 
 export const statusColors = {
   success: { fg: "#15803d", bg: "#dcfce7", text: "#166534" },
   warning: { fg: "#b45309", bg: "#fef3c7", text: "#78350f" },
   destructive: { fg: "#b91c1c", bg: "#fee2e2", text: "#7f1d1d" },
-  info: { fg: "#005b7a", bg: "#e0f2fe", text: "#0c4a6e" },
+  info: { fg: "#006b70", bg: "#e0f2fe", text: "#0c4a6e" },
 } as const;
 
 export type ProgrammeId =
@@ -58,14 +60,17 @@ export interface ProgrammeToken {
   onColor: string;
 }
 
+// Kept within the teal/black brand system — no unrelated hues (orange,
+// purple, sky blue, cyan). "alert" stays red: a functional safety/status
+// colour, not a decorative brand accent.
 export const programmeColours: Record<ProgrammeId, ProgrammeToken> = {
-  health: { id: "health", label: "Health", hex: "#0f9d58", token: "programme-health", onColor: "#ffffff" },
-  education: { id: "education", label: "Education", hex: "#2563eb", token: "programme-education", onColor: "#ffffff" },
-  water: { id: "water", label: "Water & WASH", hex: "#38bdf8", token: "programme-water", onColor: "#08233a" },
-  humanitarian: { id: "humanitarian", label: "Humanitarian Assistance", hex: "#f97316", token: "programme-humanitarian", onColor: "#ffffff" },
-  research: { id: "research", label: "Research", hex: "#7c3aed", token: "programme-research", onColor: "#ffffff" },
-  environment: { id: "environment", label: "Environment & Agriculture", hex: "#15803d", token: "programme-environment", onColor: "#ffffff" },
-  youth: { id: "youth", label: "Youth Empowerment", hex: "#06b6d4", token: "programme-youth", onColor: "#08233a" },
+  health: { id: "health", label: "Health", hex: "#008f95", token: "programme-health", onColor: "#ffffff" },
+  education: { id: "education", label: "Education", hex: "#006b70", token: "programme-education", onColor: "#ffffff" },
+  water: { id: "water", label: "Water & WASH", hex: "#0b1b22", token: "programme-water", onColor: "#ffffff" },
+  humanitarian: { id: "humanitarian", label: "Humanitarian Assistance", hex: "#050708", token: "programme-humanitarian", onColor: "#ffffff" },
+  research: { id: "research", label: "Research", hex: "#008f95", token: "programme-research", onColor: "#ffffff" },
+  environment: { id: "environment", label: "Environment & Agriculture", hex: "#006b70", token: "programme-environment", onColor: "#ffffff" },
+  youth: { id: "youth", label: "Youth Empowerment", hex: "#0b1b22", token: "programme-youth", onColor: "#ffffff" },
   alert: { id: "alert", label: "Emergency Alert", hex: "#dc2626", token: "programme-alert", onColor: "#ffffff" },
 };
 

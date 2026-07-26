@@ -330,19 +330,19 @@ export default function BrandGuidePage() {
           <p className={subLabel}>03 — Colour</p>
           <h2 className={`mt-2 ${subsectionTitle}`}>Colour system</h2>
           <p className="mt-3 max-w-2xl text-muted-foreground">
-            A restrained palette anchored by Deep Teal, with navy for text and
-            programme accents for categorisation. Target ratio: 60% white/neutral,
-            25% teal, 10% navy/charcoal, 5% programme accents.
+            Exactly three dominant colours, roughly a third each: teal, white,
+            and black/dark charcoal for text and dark sections. Target ratio:
+            ~33% white/neutral, ~33% teal, ~33% black/charcoal.
           </p>
 
           <h3 className="mt-10 text-lg font-semibold">Primary palette</h3>
           <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <Swatch name="Deep Teal" hex={brandColors.deepTeal} token="--primary" on="#ffffff" ratio={tealOnWhite} />
-            <Swatch name="Ocean Blue" hex={brandColors.oceanBlue} token="--primary-dark" on="#ffffff" />
-            <Swatch name="Bright Aqua" hex={brandColors.brightAqua} token="--primary-light" on="#08233a" ratio={aquaOnWhite} />
-            <Swatch name="Dark Navy" hex={brandColors.darkNavy} token="--foreground / --navy" on="#ffffff" ratio={navyOnWhite} />
-            <Swatch name="Charcoal" hex={brandColors.charcoal} token="--charcoal" on="#ffffff" />
-            <Swatch name="White" hex={brandColors.white} token="--background" on="#08233a" />
+            <Swatch name="Teal Primary" hex={brandColors.deepTeal} token="--primary" on="#ffffff" ratio={tealOnWhite} />
+            <Swatch name="Teal Dark" hex={brandColors.oceanBlue} token="--primary-dark" on="#ffffff" />
+            <Swatch name="Teal Light" hex={brandColors.brightAqua} token="--primary-light" on="#050708" ratio={aquaOnWhite} />
+            <Swatch name="Black" hex={brandColors.darkNavy} token="--foreground / --navy" on="#ffffff" ratio={navyOnWhite} />
+            <Swatch name="Dark Charcoal" hex={brandColors.charcoal} token="--charcoal" on="#ffffff" />
+            <Swatch name="White" hex={brandColors.white} token="--background" on="#050708" />
           </div>
 
           <h3 className="mt-10 text-lg font-semibold">Accessible pairings</h3>
