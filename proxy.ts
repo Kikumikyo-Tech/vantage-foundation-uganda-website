@@ -43,7 +43,7 @@ export function proxy(request: NextRequest) {
   // Path is "/" so the cookie is sent to both /admin/* pages and /api/admin/* routes.
   if (!existingCookie || existingCookie !== token) {
     response.cookies.set(CSRF_COOKIE_NAME, token, {
-      httpOnly: false,
+      httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       path: "/",

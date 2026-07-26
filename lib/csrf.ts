@@ -95,7 +95,7 @@ function timingSafeEqual(a: string, b: string): boolean {
  */
 export function clearCsrfCookie(response: NextResponse): void {
   response.cookies.set(COOKIE_NAME, "", {
-    httpOnly: false,
+    httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     path: "/",

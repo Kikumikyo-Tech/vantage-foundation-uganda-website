@@ -35,7 +35,7 @@ const lines = [
 for (const entry of manifest) {
   if (entry.error) {
     lines.push(`  // ERROR: ${entry.originalFile}: ${entry.error}`);
-    return;
+    continue;
   }
   lines.push("  {");
   lines.push(`    id: "${entry.id}",`);
