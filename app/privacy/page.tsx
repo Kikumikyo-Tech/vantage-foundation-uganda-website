@@ -148,9 +148,12 @@ export default function PrivacyPage() {
               </h2>
               <p>
                 We retain donor records for as long as required for financial
-                accountability and audit purposes. Contact form submissions
-                are retained for up to 12 months after resolution. Newsletter
-                subscriptions are retained until you unsubscribe.
+                accountability and audit purposes. When you request deletion,
+                your records are soft-deleted (marked as deleted and hidden
+                from our dashboard) and permanently purged after 12 months.
+                Contact form submissions are retained for up to 12 months
+                after resolution. Newsletter subscriptions are retained
+                until you unsubscribe.
               </p>
             </div>
 

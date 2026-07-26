@@ -12,6 +12,4 @@
  */
 export const BLUR_DATA_URL =
   "data:image/svg+xml;base64," +
-  Buffer.from(
-    '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"><rect width="1" height="1" fill="#e2e8f0"/></svg>'
-  ).toString("base64");
+  "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxIiBoZWlnaHQ9IjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNlMmU4ZjAiLz48L3N2Zz4=";

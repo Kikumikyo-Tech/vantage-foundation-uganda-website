@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { updateDonationStatus } from "@/lib/db";
+import {
+  updateDonationStatus,
+  getDonationById,
+} from "@/lib/db";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
 import { validateCsrf } from "@/lib/csrf";
+import { verifySessionToken, sessionCookieName } from "@/lib/session";
 import { logInfo, logWarn, logError } from "@/lib/logger";
 
 const validStatuses = ["pending", "verified", "rejected"] as const;
@@ -17,9 +21,11 @@ const verifySchema = z.object({
 
 export async function POST(request: Request) {
   const cookieStore = await cookies();
-  const adminCookie = cookieStore.get("vantage_admin")?.value;
+  const adminCookie = cookieStore.get(sessionCookieName)?.value;
 
-  if (adminCookie !== process.env.ADMIN_SECRET || !process.env.ADMIN_SECRET) {
+  // Verify the signed session token (HMAC-based, not the raw secret).
+  if (!verifySessionToken(adminCookie)) {
+    logWarn("verify_unauthorized", {});
     return NextResponse.redirect(new URL("/admin/login", request.url), 302);
   }
 
@@ -63,8 +69,41 @@ export async function POST(request: Request) {
   const { id, status, adminNotes } = parsed.data;
 
   try {
+    // Fetch the current donation to capture the before-state for audit logging.
+    const before = await getDonationById(id);
+    if (!before) {
+      logWarn("verify_donation_not_found", { id });
+      return NextResponse.redirect(
+        new URL("/admin/donations?error=notfound", request.url),
+        303
+      );
+    }
+
+    // Only log and update if the status is actually changing.
+    const statusChanged = before.status !== status;
+    const notesChanged = (before.adminNotes || "") !== (adminNotes || "");
+
+    if (!statusChanged && !notesChanged) {
+      // No change — skip the update and redirect.
+      return NextResponse.redirect(
+        new URL("/admin/donations?noop=1", request.url),
+        303
+      );
+    }
+
     await updateDonationStatus(id, status, adminNotes);
-    logInfo("donation_status_updated", { id, status });
+
+    // Audit log: who (IP), when (timestamp via logger), before, after.
+    logInfo("donation_status_updated", {
+      id,
+      before_status: before.status,
+      after_status: status,
+      before_notes: before.adminNotes ? "(set)" : "(empty)",
+      after_notes: adminNotes ? "(set)" : "(empty)",
+      status_changed: statusChanged,
+      admin_ip: ip,
+    });
+
     return NextResponse.redirect(
       new URL("/admin/donations?updated=1", request.url),
       303

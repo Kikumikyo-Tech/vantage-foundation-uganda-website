@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { getDonations, DonationRow } from "@/lib/db";
 import { getCsrfTokenFromRequest, CSRF_FIELD_NAME } from "@/lib/csrf";
+import { verifySessionToken, sessionCookieName } from "@/lib/session";
 import { Container } from "@/components/shared/Container";
 import { Badge } from "@/components/ui/Badge";
 
@@ -14,15 +15,13 @@ export const metadata: Metadata = {
 export default async function AdminDonationsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ updated?: string; error?: string }>;
+  searchParams: Promise<{ updated?: string; error?: string; noop?: string }>;
 }) {
-  const { updated, error } = await searchParams;
+  const { updated, error, noop } = await searchParams;
   const cookieStore = await cookies();
 
-  if (
-    !process.env.ADMIN_SECRET ||
-    cookieStore.get("vantage_admin")?.value !== process.env.ADMIN_SECRET
-  ) {
+  // Verify the signed session token (HMAC-based, not the raw secret).
+  if (!verifySessionToken(cookieStore.get(sessionCookieName)?.value)) {
     redirect("/admin/login");
   }
 
@@ -79,6 +78,14 @@ export default async function AdminDonationsPage({
             Donation status updated successfully.
           </div>
         )}
+        {noop && (
+          <div
+            role="status"
+            className="mt-4 rounded-lg bg-slate-50 p-4 text-sm text-slate-700"
+          >
+            No changes were needed — the status was already set.
+          </div>
+        )}
         {error && (
           <div
             role="alert"
@@ -86,6 +93,7 @@ export default async function AdminDonationsPage({
           >
             Could not update donation status. {error === "invalid" && "Invalid input."}{" "}
             {error === "db" && "Database error."}{" "}
+            {error === "notfound" && "Donation not found."}{" "}
             {error === "rate-limited" && "Too many requests. Please wait a minute."}{" "}
             {error === "csrf" && "Security check failed. Please reload the page."}
           </div>
