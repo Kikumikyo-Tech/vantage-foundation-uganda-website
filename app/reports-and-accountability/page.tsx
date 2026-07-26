@@ -17,6 +17,7 @@ export default function ReportsPage() {
       <section className="bg-primary py-16 text-white md:py-24">
         <Container>
           <SectionHeader
+            level="h1"
             title="Reports & Accountability"
             description="Transparency is how we build trust with communities, donors and partners."
             light

@@ -26,8 +26,10 @@ export function DonationForm() {
     <form action={formAction} className="space-y-5">
       <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" />
 
-      <div>
-        <Label>Choose an amount (UGX)</Label>
+      <fieldset>
+        <legend>
+          <Label>Choose an amount (UGX)</Label>
+        </legend>
         <div className="mt-2 grid grid-cols-3 gap-2 sm:grid-cols-5">
           {suggestedAmounts.map((item) => (
             <button
@@ -37,7 +39,8 @@ export function DonationForm() {
                 setAmount(item.value.toString());
                 setCustom("");
               }}
-              className={`rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
+              aria-pressed={amount === item.value.toString()}
+              className={`rounded-lg border px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                 amount === item.value.toString()
                   ? "border-primary bg-primary text-white"
                   : "border-border bg-white hover:bg-slate-50"
@@ -47,7 +50,7 @@ export function DonationForm() {
             </button>
           ))}
         </div>
-      </div>
+      </fieldset>
 
       <div>
         <Label htmlFor="custom-amount">Or enter a custom amount</Label>
@@ -67,13 +70,16 @@ export function DonationForm() {
 
       <input type="hidden" name="amount" value={displayAmount} />
 
-      <div>
-        <Label>Frequency</Label>
+      <fieldset>
+        <legend>
+          <Label>Frequency</Label>
+        </legend>
         <div className="mt-2 flex gap-2">
           <button
             type="button"
             onClick={() => setFrequency("one-time")}
-            className={`rounded-lg border px-4 py-2 text-sm font-medium ${
+            aria-pressed={frequency === "one-time"}
+            className={`rounded-lg border px-4 py-2 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
               frequency === "one-time"
                 ? "border-primary bg-primary text-white"
                 : "border-border bg-white hover:bg-slate-50"
@@ -84,7 +90,8 @@ export function DonationForm() {
           <button
             type="button"
             onClick={() => setFrequency("monthly")}
-            className={`rounded-lg border px-4 py-2 text-sm font-medium ${
+            aria-pressed={frequency === "monthly"}
+            className={`rounded-lg border px-4 py-2 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
               frequency === "monthly"
                 ? "border-primary bg-primary text-white"
                 : "border-border bg-white hover:bg-slate-50"
@@ -93,7 +100,7 @@ export function DonationForm() {
             Monthly
           </button>
         </div>
-      </div>
+      </fieldset>
 
       <input type="hidden" name="frequency" value={frequency} />
 

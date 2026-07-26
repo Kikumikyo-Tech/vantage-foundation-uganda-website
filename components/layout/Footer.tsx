@@ -20,9 +20,9 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider">
+            <h2 className="text-sm font-semibold uppercase tracking-wider">
               Explore
-            </h3>
+            </h2>
             <ul className="mt-4 space-y-2">
               {footerNav.map((item) => (
                 <li key={item.href}>
@@ -38,9 +38,9 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider">
+            <h2 className="text-sm font-semibold uppercase tracking-wider">
               Contact
-            </h3>
+            </h2>
             <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
               <li>
                 <a
@@ -85,9 +85,9 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider">
+            <h2 className="text-sm font-semibold uppercase tracking-wider">
               Newsletter
-            </h3>
+            </h2>
             <p className="mt-4 text-sm text-muted-foreground">
               Get updates on our work, stories and ways to support.
             </p>

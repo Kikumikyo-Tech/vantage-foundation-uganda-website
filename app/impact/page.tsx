@@ -20,6 +20,7 @@ export default function ImpactPage() {
       <section className="bg-primary py-16 text-white md:py-24">
         <Container>
           <SectionHeader
+            level="h1"
             title="Impact"
             description="Evidence of change, measured with honesty and hope."
             light

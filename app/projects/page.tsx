@@ -15,7 +15,7 @@ export default function ProjectsPage() {
     <>
       <section className="bg-primary py-16 text-white md:py-24">
         <Container>
-          <SectionHeader title="Projects" light />
+          <SectionHeader title="Projects" level="h1" light />
         </Container>
       </section>
 

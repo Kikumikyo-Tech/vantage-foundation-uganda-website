@@ -19,6 +19,7 @@ export default function OurWorkPage() {
       <section className="bg-primary py-16 text-white md:py-24">
         <Container>
           <SectionHeader
+            level="h1"
             title="Our Work"
             description="Health, education, humanitarian aid and water, sanitation & hygiene — working together for sustainable livelihoods."
             light

@@ -58,7 +58,7 @@ export default async function AdminDonationsPage({
             <input type="hidden" name={CSRF_FIELD_NAME} value={csrfToken} />
             <button
               type="submit"
-              className="rounded-lg border border-border bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50"
+              className="rounded-lg border border-border bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               Log out
             </button>
@@ -66,12 +66,18 @@ export default async function AdminDonationsPage({
         </div>
 
         {updated && (
-          <div className="mt-4 rounded-lg bg-green-50 p-4 text-sm text-green-800">
+          <div
+            role="status"
+            className="mt-4 rounded-lg bg-green-50 p-4 text-sm text-green-800"
+          >
             Donation status updated successfully.
           </div>
         )}
         {error && (
-          <div className="mt-4 rounded-lg bg-red-50 p-4 text-sm text-red-800">
+          <div
+            role="alert"
+            className="mt-4 rounded-lg bg-red-50 p-4 text-sm text-red-800"
+          >
             Could not update donation status. {error === "invalid" && "Invalid input."}{" "}
             {error === "db" && "Database error."}{" "}
             {error === "rate-limited" && "Too many requests. Please wait a minute."}{" "}
@@ -79,7 +85,10 @@ export default async function AdminDonationsPage({
           </div>
         )}
         {dbError && (
-          <div className="mt-4 rounded-lg bg-amber-50 p-4 text-sm text-amber-900">
+          <div
+            role="alert"
+            className="mt-4 rounded-lg bg-amber-50 p-4 text-sm text-amber-900"
+          >
             {dbError}
           </div>
         )}
@@ -143,7 +152,14 @@ export default async function AdminDonationsPage({
                     <form method="post" action="/api/admin/verify" className="space-y-2">
                       <input type="hidden" name={CSRF_FIELD_NAME} value={csrfToken} />
                       <input type="hidden" name="id" value={donation.id} />
+                      <label
+                        className="sr-only"
+                        htmlFor={`status-${donation.id}`}
+                      >
+                        Status for donation #{donation.id}
+                      </label>
                       <select
+                        id={`status-${donation.id}`}
                         name="status"
                         defaultValue={donation.status}
                         className="block w-full rounded-lg border border-border px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -152,7 +168,14 @@ export default async function AdminDonationsPage({
                         <option value="verified">Verified</option>
                         <option value="rejected">Rejected</option>
                       </select>
+                      <label
+                        className="sr-only"
+                        htmlFor={`notes-${donation.id}`}
+                      >
+                        Admin notes for donation #{donation.id}
+                      </label>
                       <input
+                        id={`notes-${donation.id}`}
                         name="adminNotes"
                         type="text"
                         placeholder="Admin notes"
@@ -161,7 +184,7 @@ export default async function AdminDonationsPage({
                       />
                       <button
                         type="submit"
-                        className="rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-white hover:bg-primary/90"
+                        className="rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-white hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                       >
                         Update
                       </button>

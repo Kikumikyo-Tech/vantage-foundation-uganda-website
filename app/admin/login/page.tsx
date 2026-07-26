@@ -32,27 +32,31 @@ export default async function AdminLoginPage({
               name="password"
               type="password"
               required
+              aria-invalid={error ? true : undefined}
+              aria-describedby={error ? "login-error" : undefined}
               className="mt-1.5 block w-full rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
           <button
             type="submit"
-            className="w-full rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary/90"
+            className="w-full rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
             Sign in
           </button>
-          {error === "rate-limited" && (
-            <p className="text-sm text-red-600">
-              Too many login attempts. Please wait a minute and try again.
+          {error && (
+            <p
+              id="login-error"
+              role="alert"
+              className="text-sm text-red-600"
+            >
+              {error === "rate-limited" &&
+                "Too many login attempts. Please wait a minute and try again."}
+              {error === "csrf" &&
+                "Security check failed. Please reload the page and try again."}
+              {error !== "rate-limited" &&
+                error !== "csrf" &&
+                "Incorrect password. Please try again."}
             </p>
-          )}
-          {error === "csrf" && (
-            <p className="text-sm text-red-600">
-              Security check failed. Please reload the page and try again.
-            </p>
-          )}
-          {error && error !== "rate-limited" && error !== "csrf" && (
-            <p className="text-sm text-red-600">Incorrect password. Please try again.</p>
           )}
         </form>
       </Container>

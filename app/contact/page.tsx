@@ -25,6 +25,7 @@ export default async function ContactPage({
       <section className="bg-primary py-16 text-white md:py-24">
         <Container>
           <SectionHeader
+            level="h1"
             title="Contact us"
             description="We would love to hear from you. Reach out for donations, volunteering, partnerships or general inquiries."
             light

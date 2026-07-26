@@ -17,6 +17,7 @@ export default function AboutPage() {
       <section className="bg-primary py-16 text-white md:py-24">
         <Container>
           <SectionHeader
+            level="h1"
             title="About Vantage Foundation Uganda"
             description="Youth-led, community-centred and committed to one more advantage at a time."
             light
