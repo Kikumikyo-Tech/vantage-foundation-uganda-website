@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/projects",
     "/impact",
     "/stories",
+    "/gallery",
     "/get-involved",
     "/donate",
     "/contact",
