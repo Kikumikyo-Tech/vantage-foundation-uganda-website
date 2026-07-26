@@ -182,7 +182,7 @@ export default function AccessibilityPage() {
                   Email:{" "}
                   <a
                     href={`mailto:${site.contact.email}`}
-                    className="text-primary hover:underline"
+                    className="text-primary underline"
                   >
                     {site.contact.email}
                   </a>
@@ -191,7 +191,7 @@ export default function AccessibilityPage() {
                   Phone/WhatsApp:{" "}
                   <a
                     href={`tel:${site.contact.phone.replace(/\s/g, "")}`}
-                    className="text-primary hover:underline"
+                    className="text-primary underline"
                   >
                     {site.contact.phone}
                   </a>
@@ -218,7 +218,7 @@ export default function AccessibilityPage() {
                 implementation, see our{" "}
                 <a
                   href="/reports-and-accountability"
-                  className="text-primary hover:underline"
+                  className="text-primary underline"
                 >
                   Reports &amp; Accountability
                 </a>{" "}

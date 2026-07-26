@@ -50,6 +50,7 @@ test.describe("Accessibility — heading order", () => {
 test.describe("Accessibility — keyboard navigation", () => {
   test("skip link becomes visible on focus", async ({ page }) => {
     await page.goto("/");
+    await page.waitForLoadState("networkidle");
     await page.keyboard.press("Tab");
     // The skip link should be the first focusable element.
     const focused = await page.evaluate(() => document.activeElement?.textContent);

@@ -16,7 +16,7 @@ export function FormPrivacyNotice({
   return (
     <p className={`text-xs text-muted-foreground ${className ?? ""}`}>
       {text}{" "}
-      <Link href="/privacy" className="text-primary hover:underline">
+      <Link href="/privacy" className="text-primary underline">
         Privacy Policy
       </Link>
       .
