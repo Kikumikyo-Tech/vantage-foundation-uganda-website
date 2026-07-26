@@ -1,3 +1,4 @@
+import { getCsrfTokenFromRequest, CSRF_FIELD_NAME } from "@/lib/csrf";
 import { Container } from "@/components/shared/Container";
 
 export default async function AdminLoginPage({
@@ -6,6 +7,7 @@ export default async function AdminLoginPage({
   searchParams: Promise<{ error?: string }>;
 }) {
   const { error } = await searchParams;
+  const csrfToken = await getCsrfTokenFromRequest();
 
   return (
     <section className="py-16 md:py-24">
@@ -20,6 +22,7 @@ export default async function AdminLoginPage({
           action="/api/admin/login"
           className="mt-6 space-y-4 rounded-xl border border-border bg-white p-6 shadow-sm"
         >
+          <input type="hidden" name={CSRF_FIELD_NAME} value={csrfToken} />
           <div>
             <label htmlFor="password" className="block text-sm font-medium">
               Password
@@ -38,7 +41,17 @@ export default async function AdminLoginPage({
           >
             Sign in
           </button>
-          {error && (
+          {error === "rate-limited" && (
+            <p className="text-sm text-red-600">
+              Too many login attempts. Please wait a minute and try again.
+            </p>
+          )}
+          {error === "csrf" && (
+            <p className="text-sm text-red-600">
+              Security check failed. Please reload the page and try again.
+            </p>
+          )}
+          {error && error !== "rate-limited" && error !== "csrf" && (
             <p className="text-sm text-red-600">Incorrect password. Please try again.</p>
           )}
         </form>

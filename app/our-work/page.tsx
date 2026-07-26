@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { site } from "@/content/site";
-import { areasOfWork } from "@/content/areas";
+import { areasOfWork, projectCategoriesByAreaId } from "@/content/areas";
 import { projects } from "@/content/projects";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
@@ -30,8 +30,9 @@ export default function OurWorkPage() {
         <Container>
           <div className="grid gap-12">
             {areasOfWork.map((area) => {
+              const categories = projectCategoriesByAreaId[area.id] ?? [];
               const relatedProjects = projects.filter((p) =>
-                p.category.toLowerCase() === area.title.toLowerCase()
+                categories.includes(p.category)
               );
 
               return (

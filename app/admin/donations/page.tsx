@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { getDonations, DonationRow } from "@/lib/db";
+import { getCsrfTokenFromRequest, CSRF_FIELD_NAME } from "@/lib/csrf";
 import { Container } from "@/components/shared/Container";
 import { Badge } from "@/components/ui/Badge";
 
@@ -18,6 +19,8 @@ export default async function AdminDonationsPage({
   ) {
     redirect("/admin/login");
   }
+
+  const csrfToken = await getCsrfTokenFromRequest();
 
   let donations: DonationRow[] = [];
   let dbError = "";
@@ -52,6 +55,7 @@ export default async function AdminDonationsPage({
             </p>
           </div>
           <form method="post" action="/api/admin/logout">
+            <input type="hidden" name={CSRF_FIELD_NAME} value={csrfToken} />
             <button
               type="submit"
               className="rounded-lg border border-border bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50"
@@ -69,7 +73,9 @@ export default async function AdminDonationsPage({
         {error && (
           <div className="mt-4 rounded-lg bg-red-50 p-4 text-sm text-red-800">
             Could not update donation status. {error === "invalid" && "Invalid input."}{" "}
-            {error === "db" && "Database error."}
+            {error === "db" && "Database error."}{" "}
+            {error === "rate-limited" && "Too many requests. Please wait a minute."}{" "}
+            {error === "csrf" && "Security check failed. Please reload the page."}
           </div>
         )}
         {dbError && (
@@ -135,6 +141,7 @@ export default async function AdminDonationsPage({
                   </td>
                   <td className="px-4 py-3 text-sm">
                     <form method="post" action="/api/admin/verify" className="space-y-2">
+                      <input type="hidden" name={CSRF_FIELD_NAME} value={csrfToken} />
                       <input type="hidden" name="id" value={donation.id} />
                       <select
                         name="status"

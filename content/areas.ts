@@ -1,4 +1,4 @@
-import { AreaOfWork } from "@/types";
+import { AreaOfWork, ProjectCategory } from "@/types";
 
 export const areasOfWork: AreaOfWork[] = [
   {
@@ -69,3 +69,16 @@ export const areasOfWork: AreaOfWork[] = [
     icon: "droplets",
   },
 ];
+
+// Maps an area id to the ProjectCategory label(s) used in content/projects.ts.
+// Area display titles (e.g. "Water, Sanitation & Hygiene") intentionally differ
+// from project category labels (e.g. "Water & Sanitation"), so matching by
+// title string equality would silently hide the flagship Kasaale borehole from
+// the WASH section. This explicit mapping keeps display wording and matching
+// logic decoupled.
+export const projectCategoriesByAreaId: Record<string, ProjectCategory[]> = {
+  health: ["Health"],
+  education: ["Education"],
+  humanitarian: ["Humanitarian Aid"],
+  water: ["Water & Sanitation"],
+};

@@ -2,8 +2,11 @@
 
 import { z } from "zod";
 import nodemailer from "nodemailer";
+import { headers } from "next/headers";
 import { site } from "@/content/site";
 import { createDonation } from "@/lib/db";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
+import { logInfo, logWarn, logError } from "@/lib/logger";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -37,27 +40,57 @@ export type FormState = {
   message: string;
 };
 
-async function sendEmail(subject: string, body: string) {
+// Rate limit for public form submissions: 3 per minute per IP.
+const FORM_RATE_LIMIT = 3;
+const FORM_RATE_WINDOW_MS = 60_000;
+
+async function checkFormRateLimit(action: string): Promise<boolean> {
+  const h = await headers();
+  const ip = getClientIp(h);
+  return rateLimit({
+    key: `form:${action}:${ip}`,
+    limit: FORM_RATE_LIMIT,
+    windowMs: FORM_RATE_WINDOW_MS,
+  });
+}
+
+const RATE_LIMITED_MESSAGE =
+  "Too many submissions from your location. Please wait a minute and try again.";
+
+async function sendEmail(subject: string, body: string): Promise<boolean> {
   const smtpHost = process.env.SMTP_HOST;
   if (!smtpHost) return false;
 
-  const transporter = nodemailer.createTransport({
-    host: smtpHost,
-    port: Number(process.env.SMTP_PORT) || 587,
-    secure: Number(process.env.SMTP_PORT) === 465,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
+  try {
+    const transporter = nodemailer.createTransport({
+      host: smtpHost,
+      port: Number(process.env.SMTP_PORT) || 587,
+      secure: Number(process.env.SMTP_PORT) === 465,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
 
-  await transporter.sendMail({
-    from: process.env.SMTP_FROM || site.contact.email,
-    to: site.contact.email,
-    subject,
-    text: body,
-  });
-  return true;
+    await transporter.sendMail({
+      from: process.env.SMTP_FROM || site.contact.email,
+      to: site.contact.email,
+      subject,
+      text: body,
+    });
+    return true;
+  } catch (err) {
+    // Log the SMTP failure for the operator without exposing PII.
+    // The error message from nodemailer may contain connection details but
+    // not email body content; we log the message for debugging.
+    const errMsg = err instanceof Error ? err.message : String(err);
+    logError("email_send_failed", {
+      smtp_host: smtpHost,
+      subject,
+      error: errMsg.substring(0, 200),
+    });
+    return false;
+  }
 }
 
 function formatBody(data: Record<string, unknown>) {
@@ -70,14 +103,25 @@ export async function submitContact(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
+  const allowed = await checkFormRateLimit("contact");
+  if (!allowed) {
+    logWarn("contact_rate_limited", {});
+    return { success: false, message: RATE_LIMITED_MESSAGE };
+  }
+
   const raw = Object.fromEntries(formData);
 
   if (raw.website) {
+    // Honeypot triggered — silently succeed without processing.
+    logWarn("contact_honeypot", {});
     return { success: true, message: "Thank you. We will be in touch soon." };
   }
 
   const parsed = contactSchema.safeParse(raw);
   if (!parsed.success) {
+    logWarn("contact_validation_failed", {
+      issues: parsed.error.issues.length,
+    });
     return {
       success: false,
       message: parsed.error.issues.map((i) => i.message).join(". "),
@@ -86,6 +130,11 @@ export async function submitContact(
 
   const body = formatBody(parsed.data);
   const emailSent = await sendEmail(`Contact form: ${parsed.data.subject}`, body);
+
+  logInfo("contact_submitted", {
+    email_sent: emailSent,
+    subject: parsed.data.subject,
+  });
 
   return {
     success: true,
@@ -99,14 +148,24 @@ export async function submitNewsletter(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
+  const allowed = await checkFormRateLimit("newsletter");
+  if (!allowed) {
+    logWarn("newsletter_rate_limited", {});
+    return { success: false, message: RATE_LIMITED_MESSAGE };
+  }
+
   const raw = Object.fromEntries(formData);
 
   if (raw.website) {
+    logWarn("newsletter_honeypot", {});
     return { success: true, message: "Thank you for subscribing." };
   }
 
   const parsed = newsletterSchema.safeParse(raw);
   if (!parsed.success) {
+    logWarn("newsletter_validation_failed", {
+      issues: parsed.error.issues.length,
+    });
     return {
       success: false,
       message: parsed.error.issues.map((i) => i.message).join(". "),
@@ -115,6 +174,8 @@ export async function submitNewsletter(
 
   const body = formatBody(parsed.data);
   const emailSent = await sendEmail("Newsletter signup", body);
+
+  logInfo("newsletter_submitted", { email_sent: emailSent });
 
   return {
     success: true,
@@ -128,14 +189,24 @@ export async function submitDonor(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
+  const allowed = await checkFormRateLimit("donor");
+  if (!allowed) {
+    logWarn("donor_rate_limited", {});
+    return { success: false, message: RATE_LIMITED_MESSAGE };
+  }
+
   const raw = Object.fromEntries(formData);
 
   if (raw.website) {
+    logWarn("donor_honeypot", {});
     return { success: true, message: "Thank you for your donation intent." };
   }
 
   const parsed = donorSchema.safeParse(raw);
   if (!parsed.success) {
+    logWarn("donor_validation_failed", {
+      issues: parsed.error.issues.length,
+    });
     return {
       success: false,
       message: parsed.error.issues.map((i) => i.message).join(". "),
@@ -143,7 +214,7 @@ export async function submitDonor(
   }
 
   try {
-    await createDonation({
+    const donation = await createDonation({
       name: parsed.data.name,
       email: parsed.data.email,
       phone: parsed.data.phone,
@@ -154,18 +225,32 @@ export async function submitDonor(
       message: parsed.data.message,
     });
 
+    logInfo("donation_created", {
+      id: donation.id,
+      campaign: parsed.data.campaign,
+      frequency: parsed.data.frequency,
+    });
+
     const body = formatBody(parsed.data);
-    await sendEmail("Donation intent received", body).catch(() => null);
+    await sendEmail("Donation intent received", body);
 
     return {
       success: true,
       message:
         "Thank you. Your donation has been recorded as pending. A Vantage administrator will verify the transfer against our bank statement before marking it as successful.",
     };
-  } catch {
+  } catch (err) {
     // If the database is not configured, fall back to email only.
+    logError("donation_db_failed", {
+      error: (err instanceof Error ? err.message : String(err)).substring(0, 200),
+      campaign: parsed.data.campaign,
+      frequency: parsed.data.frequency,
+    });
+
     const body = formatBody(parsed.data);
     const emailSent = await sendEmail("Donation intent", body);
+
+    logInfo("donation_fallback_email", { email_sent: emailSent });
 
     return {
       success: emailSent,
