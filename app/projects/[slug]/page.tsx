@@ -8,6 +8,7 @@ import {
 import { Container } from "@/components/shared/Container";
 import { Badge } from "@/components/ui/Badge";
 import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
+import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
 import { ProjectCard } from "@/components/shared/ProjectCard";
 import { MapPin, Calendar, Users } from "lucide-react";
@@ -77,6 +78,14 @@ export default async function ProjectPage({
 
       <section className="py-12 md:py-16">
         <Container>
+          <Breadcrumbs
+            className="mb-8"
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Projects", href: "/projects" },
+              { label: project.title },
+            ]}
+          />
           <div className="relative aspect-[16/9] overflow-hidden rounded-2xl">
             <ImageOrPlaceholder
               src={project.heroImage}
