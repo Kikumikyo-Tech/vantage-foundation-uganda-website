@@ -59,7 +59,8 @@ All color combinations meet WCAG AA (4.5:1 for normal text, 3:1 for large text):
 | #0f172a (foreground) | #ffffff (white) | 18.5:1 | AAA |
 | #475569 (muted-foreground) | #ffffff (white) | 7.2:1 | AAA |
 | #475569 (muted-foreground) | #f8fafc (slate-50) | 6.8:1 | AAA |
-| #ffffff (white) | #0d9488 (primary) | 4.5:1 | AA |
+| #ffffff (white) | #0f766e (primary) | 5.5:1 | AA |
+| #0f766e (primary) | #ffffff (white) | 5.5:1 | AA |
 | #78350f (amber-900) | #fffbeb (amber-50) | 7.2:1 | AAA |
 | #64748b (slate-500) | #f1f5f9 (slate-100) | 4.6:1 | AA |
 

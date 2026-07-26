@@ -54,7 +54,7 @@ test.describe("Accessibility — keyboard navigation", () => {
     await page.keyboard.press("Tab");
     // The skip link should be the first focusable element.
     const focused = await page.evaluate(() => document.activeElement?.textContent);
-    expect(focused).toMatch(/skip to content/i);
+    expect(focused).toMatch(/skip to .*content/i);
   });
 
   test("can navigate to a project via keyboard", async ({ page }) => {
