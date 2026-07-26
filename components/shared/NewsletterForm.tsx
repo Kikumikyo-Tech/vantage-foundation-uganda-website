@@ -12,7 +12,15 @@ const initialState: FormState = {
   message: "",
 };
 
-export function NewsletterForm() {
+interface NewsletterFormProps {
+  /**
+   * Use light text colors when rendered on a dark background (e.g.
+   * bg-primary). Defaults to false (dark text on light backgrounds).
+   */
+  light?: boolean;
+}
+
+export function NewsletterForm({ light = false }: NewsletterFormProps) {
   const [state, formAction, pending] = useActionState(submitNewsletter, initialState);
 
   return (
@@ -42,7 +50,10 @@ export function NewsletterForm() {
           aria-invalid={state.fieldErrors?.consent ? true : undefined}
           aria-describedby={state.fieldErrors?.consent ? "newsletter-consent-error" : undefined}
         />
-        <label htmlFor="newsletter-consent" className="text-xs text-muted-foreground">
+        <label
+          htmlFor="newsletter-consent"
+          className={`text-xs ${light ? "text-white/90" : "text-muted-foreground"}`}
+        >
           I agree to receive updates from Vantage Foundation Uganda.
         </label>
       </div>
@@ -50,12 +61,20 @@ export function NewsletterForm() {
       <Button type="submit" disabled={pending} size="sm" className="w-full">
         {pending ? "Subscribing..." : "Subscribe"}
       </Button>
-      <FormPrivacyNotice text="You can unsubscribe at any time. See our" />
+      <FormPrivacyNotice text="You can unsubscribe at any time. See our" light={light} />
       {state.message && (
         <p
           role="status"
           aria-live="polite"
-          className={`text-xs ${state.success ? "text-green-700" : "text-red-600"}`}
+          className={`text-xs ${
+            state.success
+              ? light
+                ? "text-green-200"
+                : "text-green-700"
+              : light
+                ? "text-red-200"
+                : "text-red-600"
+          }`}
         >
           {state.message}
         </p>

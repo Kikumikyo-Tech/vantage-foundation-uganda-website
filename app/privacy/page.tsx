@@ -189,7 +189,7 @@ export default function PrivacyPage() {
                 To exercise any of these rights, email us at{" "}
                 <a
                   href={`mailto:${site.contact.email}`}
-                  className="text-primary hover:underline"
+                  className="text-primary underline"
                 >
                   {site.contact.email}
                 </a>
@@ -222,7 +222,7 @@ export default function PrivacyPage() {
                 see our{" "}
                 <a
                   href="/safeguarding"
-                  className="text-primary hover:underline"
+                  className="text-primary underline"
                 >
                   Safeguarding Policy
                 </a>
@@ -255,7 +255,7 @@ export default function PrivacyPage() {
                   Email:{" "}
                   <a
                     href={`mailto:${site.contact.email}`}
-                    className="text-primary hover:underline"
+                    className="text-primary underline"
                   >
                     {site.contact.email}
                   </a>
@@ -264,7 +264,7 @@ export default function PrivacyPage() {
                   Phone/WhatsApp:{" "}
                   <a
                     href={`tel:${site.contact.phone.replace(/\s/g, "")}`}
-                    className="text-primary hover:underline"
+                    className="text-primary underline"
                   >
                     {site.contact.phone}
                   </a>

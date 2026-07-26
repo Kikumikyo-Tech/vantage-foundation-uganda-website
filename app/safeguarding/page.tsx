@@ -128,14 +128,14 @@ export default function SafeguardingPage() {
                   consent (see our{" "}
                   <a
                     href="/privacy"
-                    className="text-primary hover:underline"
+                    className="text-primary underline"
                   >
                     Privacy Policy
                   </a>{" "}
                   and{" "}
                   <a
                     href="/accessibility"
-                    className="text-primary hover:underline"
+                    className="text-primary underline"
                   >
                     Accessibility Statement
                   </a>
@@ -182,7 +182,7 @@ export default function SafeguardingPage() {
                 For the full technical and editorial details, see our{" "}
                 <a
                   href="/reports-and-accountability"
-                  className="text-primary hover:underline"
+                  className="text-primary underline"
                 >
                   Reports &amp; Accountability
                 </a>{" "}
@@ -205,7 +205,7 @@ export default function SafeguardingPage() {
                   Email:{" "}
                   <a
                     href={`mailto:${site.contact.email}`}
-                    className="text-primary hover:underline"
+                    className="text-primary underline"
                   >
                     {site.contact.email}
                   </a>
@@ -214,7 +214,7 @@ export default function SafeguardingPage() {
                   Phone/WhatsApp:{" "}
                   <a
                     href={`tel:${site.contact.phone.replace(/\s/g, "")}`}
-                    className="text-primary hover:underline"
+                    className="text-primary underline"
                   >
                     {site.contact.phone}
                   </a>

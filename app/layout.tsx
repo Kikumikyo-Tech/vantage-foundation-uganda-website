@@ -64,9 +64,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <SkipToContent />
         <JsonLd data={ngoJsonLd} />
         <JsonLd data={websiteJsonLd} />
-        <SkipToContent />
         <Header />
         <main id="main" className="flex-1">
           {children}

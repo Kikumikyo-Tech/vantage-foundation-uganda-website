@@ -37,7 +37,7 @@ export function Markdown({ children, className }: MarkdownProps) {
           },
           a({ href, children }) {
             return (
-              <a href={href} className="font-medium text-primary hover:underline">
+              <a href={href} className="font-medium text-primary underline">
                 {children}
               </a>
             );
