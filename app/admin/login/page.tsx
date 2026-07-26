@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 export default async function AdminLoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; seconds?: string }>;
 }) {
-  const { error } = await searchParams;
+  const { error, seconds } = await searchParams;
   const csrfToken = await getCsrfTokenFromRequest();
 
   return (
@@ -57,10 +57,13 @@ export default async function AdminLoginPage({
             >
               {error === "rate-limited" &&
                 "Too many login attempts. Please wait a minute and try again."}
+              {error === "locked" &&
+                `Too many failed attempts. Account locked for ${seconds || "900"} seconds.`}
               {error === "csrf" &&
                 "Security check failed. Please reload the page and try again."}
               {error !== "rate-limited" &&
                 error !== "csrf" &&
+                error !== "locked" &&
                 "Incorrect password. Please try again."}
             </p>
           )}

@@ -156,3 +156,63 @@ Features:
 - All forms are rate-limited (3 submissions per minute per IP)
 - Donation form has idempotency protection (prevents duplicate submissions from double-clicks)
 - All email content is sanitised to prevent header injection
+
+### Admin authentication
+
+- **Signed session tokens**: The admin cookie stores an HMAC-signed random session ID, not the raw `ADMIN_SECRET`. Even if the cookie is leaked, the secret cannot be extracted from it.
+- **Lockout policy**: After 5 failed login attempts within 15 minutes, the IP is locked out for 15 minutes. Successful login clears the failure history.
+- **Rate limiting**: 5 login attempts per minute per IP (in addition to lockout).
+- **CSRF protection**: All admin POST routes use the double-submit cookie pattern with timing-safe comparison.
+- **Cookie security**: httpOnly, secure (in production), sameSite=strict, path=/admin, maxAge=1 day.
+
+### Audit logging
+
+All donation status changes are logged with:
+- Donation ID
+- Before and after status
+- Whether notes changed
+- Admin IP address
+- Timestamp
+
+Logs do not contain PII (names, emails, phone numbers). Audit logs are written to the server log stream (visible in Vercel dashboard).
+
+### Data retention and deletion
+
+- Donations can be soft-deleted (sets `deleted_at` timestamp, hides from dashboard)
+- Soft-deleted records are permanently purged after 365 days via `purgeOldDeletedDonations()`
+- To run the purge manually: `node --env-file=.env.local -e "..."` (see `lib/db/index.ts`)
+- For automated cleanup, set up a Vercel Cron job that calls the purge function
+
+### Database migrations
+
+The `scripts/setup-db.mjs` script is idempotent and safe to re-run. It handles:
+- Creating the `donations` table if it doesn't exist
+- Adding the `deleted_at` column to existing tables (via `DO $$ ... END $$` block)
+- Creating all indexes
+
+To apply schema updates after pulling new code:
+```bash
+node --env-file=.env.local scripts/setup-db.mjs
+```
+
+### npm audit
+
+Run `npm audit` periodically to check for known vulnerabilities. If the npm registry returns a gzipped response that npm can't decode (a known npm bug behind some proxies), try:
+```bash
+npm audit --prefer-online
+# or
+npx better-npm-audit audit
+```
+
+### Removing large files from git history
+
+The `reference/` directory previously contained two large PDFs (~15 MB total). These have been removed from the working tree and gitignored, but they still exist in git history. To fully purge them, coordinate with all contributors and run:
+```bash
+# Install git-filter-repo (one-time)
+pip install git-filter-repo
+# Rewrite history to remove the PDFs
+git filter-repo --path "reference/Vantage Foundation.pdf" --path "reference/Vantage Foundation (U) Executive Summary.pdf" --invert-paths
+# Force-push (coordinate with all contributors first!)
+git push origin --force --all
+```
+This is a destructive operation that rewrites all commits. Ensure all contributors have pushed their work and no one has uncommitted changes before running.

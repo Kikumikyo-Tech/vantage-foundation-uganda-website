@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { validateCsrf, clearCsrfCookie } from "@/lib/csrf";
+import { sessionCookieName } from "@/lib/session";
 
 export async function POST(request: Request) {
   const cookieStore = await cookies();
@@ -11,7 +12,7 @@ export async function POST(request: Request) {
   }
 
   const response = NextResponse.redirect(new URL("/admin/login", request.url), 302);
-  response.cookies.set("vantage_admin", "", {
+  response.cookies.set(sessionCookieName, "", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",

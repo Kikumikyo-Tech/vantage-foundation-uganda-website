@@ -11,6 +11,10 @@
 
 const buckets = new Map<string, number[]>();
 
+// Lockout tracking: keys that are temporarily locked out.
+// Maps key -> unlock timestamp (ms since epoch).
+const lockouts = new Map<string, number>();
+
 // Prune expired buckets periodically to avoid unbounded memory growth.
 // Called opportunistically on every rateLimit() invocation.
 const PRUNE_INTERVAL_MS = 60_000;
@@ -27,6 +31,13 @@ function prune(now: number) {
       buckets.delete(key);
     } else if (recent.length !== timestamps.length) {
       buckets.set(key, recent);
+    }
+  }
+  // Prune expired lockouts.
+  for (const [key, unlockAt] of lockouts) {
+    if (unlockAt <= now) {
+      lockouts.delete(key);
+      buckets.delete(key); // Reset the bucket so they get a fresh start.
     }
   }
 }
@@ -48,6 +59,12 @@ export function rateLimit({ key, limit, windowMs }: RateLimitOptions): boolean {
   const now = Date.now();
   prune(now);
 
+  // Check if currently locked out.
+  const unlockAt = lockouts.get(key);
+  if (unlockAt && unlockAt > now) {
+    return false;
+  }
+
   const cutoff = now - windowMs;
   const timestamps = (buckets.get(key) ?? []).filter((t) => t > cutoff);
 
@@ -59,6 +76,58 @@ export function rateLimit({ key, limit, windowMs }: RateLimitOptions): boolean {
   timestamps.push(now);
   buckets.set(key, timestamps);
   return true;
+}
+
+interface LockoutOptions {
+  /** Unique key identifying the lockout bucket (e.g. `admin-login:${ip}`). */
+  key: string;
+  /** Maximum number of failures before lockout triggers. */
+  maxFailures: number;
+  /** How long to lock out after maxFailures is reached (milliseconds). */
+  lockoutMs: number;
+  /** Window for counting failures (milliseconds). */
+  windowMs: number;
+}
+
+/**
+ * Records a failed attempt and triggers a lockout if the threshold is reached.
+ * Use this for login attempts: call `recordFailure` on each failed login,
+ * and check `isLockedOut` before attempting authentication.
+ */
+export function recordFailure({ key, maxFailures, lockoutMs, windowMs }: LockoutOptions): void {
+  const now = Date.now();
+  prune(now);
+
+  const cutoff = now - windowMs;
+  const timestamps = (buckets.get(key) ?? []).filter((t) => t > cutoff);
+
+  timestamps.push(now);
+  buckets.set(key, timestamps);
+
+  if (timestamps.length >= maxFailures) {
+    lockouts.set(key, now + lockoutMs);
+  }
+}
+
+/**
+ * Returns `true` if the key is currently locked out, along with the
+ * remaining lockout duration in seconds.
+ */
+export function isLockedOut(key: string): { locked: boolean; remainingSeconds: number } {
+  const now = Date.now();
+  const unlockAt = lockouts.get(key);
+  if (unlockAt && unlockAt > now) {
+    return { locked: true, remainingSeconds: Math.ceil((unlockAt - now) / 1000) };
+  }
+  return { locked: false, remainingSeconds: 0 };
+}
+
+/**
+ * Clears the failure count and lockout for a key (e.g. on successful login).
+ */
+export function clearFailures(key: string): void {
+  buckets.delete(key);
+  lockouts.delete(key);
 }
 
 /**
