@@ -9,8 +9,14 @@ import { Container } from "@/components/shared/Container";
 import { Badge } from "@/components/ui/Badge";
 import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
+import {
+  JsonLd,
+  buildBreadcrumbJsonLd,
+  buildArticleJsonLd,
+} from "@/components/shared/JsonLd";
 import { StoryCard } from "@/components/shared/StoryCard";
 import { Markdown } from "@/components/shared/Markdown";
+import { site } from "@/content/site";
 
 export async function generateStaticParams() {
   return getStorySlugs().map((slug) => ({ slug }));
@@ -60,6 +66,27 @@ export default async function StoryPage({
 
   return (
     <>
+      <JsonLd
+        data={buildBreadcrumbJsonLd(
+          [
+            { label: "Home", url: "/" },
+            { label: "Stories", url: "/stories" },
+            { label: story.title, url: `/stories/${slug}` },
+          ],
+          site.url
+        )}
+      />
+      <JsonLd
+        data={buildArticleJsonLd({
+          title: story.title,
+          description: story.excerpt,
+          url: `/stories/${slug}`,
+          baseUrl: site.url,
+          datePublished: story.date,
+          author: story.author,
+          image: story.heroImage,
+        })}
+      />
       <section className="bg-primary py-16 text-white md:py-24">
         <Container>
           <div className="max-w-3xl">

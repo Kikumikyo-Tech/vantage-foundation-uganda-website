@@ -9,6 +9,7 @@ import { FileText } from "lucide-react";
 export const metadata: Metadata = {
   title: "Reports & Accountability",
   description: "Annual reports, financial statements, project reports and policies from Vantage Foundation Uganda.",
+  alternates: { canonical: "/reports-and-accountability" },
 };
 
 export default function ReportsPage() {

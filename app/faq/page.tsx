@@ -2,15 +2,18 @@ import type { Metadata } from "next";
 import { faq } from "@/content/faq";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
+import { JsonLd, buildFaqJsonLd } from "@/components/shared/JsonLd";
 
 export const metadata: Metadata = {
   title: "FAQ",
   description: "Frequently asked questions about Vantage Foundation Uganda, our work, donations and partnerships.",
+  alternates: { canonical: "/faq" },
 };
 
 export default function FaqPage() {
   return (
     <>
+      <JsonLd data={buildFaqJsonLd(faq)} />
       <section className="bg-primary py-16 text-white md:py-24">
         <Container>
           <SectionHeader

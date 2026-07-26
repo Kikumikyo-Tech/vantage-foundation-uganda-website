@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Projects",
   description:
     "Browse Vantage Foundation Uganda's projects in health, education, humanitarian aid and water & sanitation.",
+  alternates: { canonical: "/projects" },
 };
 
 export default function ProjectsPage() {

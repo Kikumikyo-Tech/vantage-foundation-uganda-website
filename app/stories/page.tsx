@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Stories",
   description:
     "Read community stories, project updates and reflections from Vantage Foundation Uganda.",
+  alternates: { canonical: "/stories" },
 };
 
 export default function StoriesPage() {

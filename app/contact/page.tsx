@@ -9,6 +9,7 @@ import { Mail, Phone, MapPin } from "lucide-react";
 export const metadata: Metadata = {
   title: "Contact",
   description: "Get in touch with Vantage Foundation Uganda for donations, volunteering, partnerships and media inquiries.",
+  alternates: { canonical: "/contact" },
 };
 
 export default async function ContactPage({
