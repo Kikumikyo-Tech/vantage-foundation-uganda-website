@@ -5,6 +5,8 @@ import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
 import { Card } from "@/components/ui/Card";
+import { TeamCard } from "@/components/shared/TeamCard";
+import { Button } from "@/components/ui/Button";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -111,22 +113,16 @@ export default function AboutPage() {
         <Container>
           <SectionHeader title="Meet the team" description="Youth-led and volunteer-driven." />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {getPublishedTeam().map((member) => (
-              <Card key={member.role} className="overflow-hidden p-6 text-center">
-                <div className="relative mx-auto h-24 w-24 overflow-hidden rounded-full">
-                  <ImageOrPlaceholder
-                    src={member.photo}
-                    alt={member.name}
-                    fill
-                    preset="team"
-                    containerClassName="h-full w-full"
-                  />
-                </div>
-                <h3 className="mt-4 text-lg font-semibold">{member.name}</h3>
-                <p className="text-sm text-primary">{member.role}</p>
-                <p className="mt-2 text-sm text-muted-foreground">{member.bio}</p>
-              </Card>
-            ))}
+            {getPublishedTeam()
+              .slice(0, 4)
+              .map((member) => (
+                <TeamCard key={member.slug} member={member} />
+              ))}
+          </div>
+          <div className="mt-10 text-center">
+            <Button href="/about-us/team" variant="outline">
+              Meet the full team
+            </Button>
           </div>
         </Container>
       </section>

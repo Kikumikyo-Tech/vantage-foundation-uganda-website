@@ -179,11 +179,20 @@ const storySchema = z.object({
 });
 
 const teamMemberSchema = z.object({
-  name: nonEmpty,
+  id: nonEmpty,
+  slug: nonEmpty,
+  fullName: nonEmpty,
+  displayName: nonEmpty,
   role: nonEmpty,
-  bio: nonEmpty,
-  photo: z.string().optional(),
-  placeholder: z.boolean().optional(),
+  category: z.enum(["leadership", "volunteer"]),
+  shortBio: nonEmpty,
+  fullBio: nonEmpty,
+  image: nonEmpty,
+  imageAlt: nonEmpty,
+  email: z.string().email().optional(),
+  linkedin: z.string().url().optional(),
+  displayOrder: z.number(),
+  published: z.boolean(),
 });
 
 const partnerSchema = z.object({

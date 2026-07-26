@@ -36,13 +36,24 @@ vantage-social-instagram-profile.png
 
 ## Current logo files
 
-| File | Format | Dimensions | Role |
-|------|--------|------------|------|
-| `logos/vantage-logo-primary.png` | PNG | 1448×1086 | Primary / stacked lockup (interim — SVG pending) |
-| `logos/vantage-logo-primary-alt.png` | PNG | 1448×1086 | Alternate primary (visually similar — confirm canonical with org) |
-| `logos/vantage-logo-horizontal.png` | PNG | 1721×914 | Horizontal lockup for headers, email signatures |
+Confirmed canonical by the org (2026-07-27) — matches the SVG set supplied in
+`vantage-foundation-uganda-svg-logos.zip`, verified byte-identical to what's
+already wired in below.
 
-> **SVG logos are the target format.** PNGs are wired in as an interim. When SVGs are supplied, replace the PNGs and update the `Logo` component's default `src` references. See `docs/brand/logo-guidelines.md`.
+| File | Role |
+|------|------|
+| `logos/vantage-logo-primary.svg` | Primary / stacked lockup, light backgrounds |
+| `logos/vantage-logo-primary-dark.svg` | Primary lockup, dark backgrounds |
+| `logos/vantage-logo-primary-grayscale.svg` | Grayscale variant |
+| `logos/vantage-logo-primary-monochrome-black.svg` | Monochrome black (e.g. print, watermarks) |
+| `logos/vantage-logo-primary-monochrome-white.svg` | Monochrome white (dark/photo backgrounds) |
+| `logos/vantage-logo-horizontal.svg` | Horizontal lockup, light backgrounds (headers, email) |
+| `logos/vantage-logo-horizontal-light.svg` | Horizontal lockup, dark backgrounds |
+| `logos/vantage-symbol.svg` | Symbol-only mark, theme-independent |
+
+Consumed via the `Logo` component (`components/shared/Logo.tsx`) — do not
+redraw, regenerate, reinterpret, or replace these files. See
+`docs/brand/logo-guidelines.md`.
 
 ## Asset governance
 

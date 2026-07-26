@@ -100,11 +100,30 @@ describe("getPublishedTeam", () => {
     expect(Array.isArray(team)).toBe(true);
   });
 
-  it("in production, filters out placeholder members", () => {
+  it("each member has id, slug, fullName, role, category, bios and image", () => {
+    for (const member of getPublishedTeam()) {
+      expect(member.id).toBeTruthy();
+      expect(member.slug).toBeTruthy();
+      expect(member.fullName).toBeTruthy();
+      expect(member.role).toBeTruthy();
+      expect(["leadership", "volunteer"]).toContain(member.category);
+      expect(member.shortBio).toBeTruthy();
+      expect(member.fullBio).toBeTruthy();
+      expect(member.image).toBeTruthy();
+    }
+  });
+
+  it("is sorted by displayOrder", () => {
+    const team = getPublishedTeam();
+    const orders = team.map((m) => m.displayOrder);
+    expect(orders).toEqual([...orders].sort((a, b) => a - b));
+  });
+
+  it("in production, filters out unpublished members", () => {
     vi.stubEnv("NODE_ENV", "production");
     const team = getPublishedTeam();
     for (const member of team) {
-      expect(member.placeholder).not.toBe(true);
+      expect(member.published).toBe(true);
     }
     vi.unstubAllEnvs();
   });

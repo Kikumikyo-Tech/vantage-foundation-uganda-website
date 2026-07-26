@@ -174,12 +174,24 @@ export interface Story {
   published?: boolean;
 }
 
+export type TeamCategory = "leadership" | "volunteer";
+
 export interface TeamMember {
-  name: string;
+  id: string;
+  slug: string;
+  fullName: string;
+  displayName: string;
   role: string;
-  bio: string;
-  photo?: string;
-  placeholder?: boolean;
+  category: TeamCategory;
+  shortBio: string;
+  fullBio: string;
+  /** Base path without extension/suffix, e.g. "/images/team/omara-godfrey" — square/portrait crops in webp+avif are derived from this. */
+  image: string;
+  imageAlt: string;
+  email?: string;
+  linkedin?: string;
+  displayOrder: number;
+  published: boolean;
 }
 
 export interface Partner {
