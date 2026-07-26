@@ -51,7 +51,7 @@ const pathways = [
 
 export function GetInvolvedSection() {
   return (
-    <section className="bg-slate-50 py-16 md:py-24 lg:py-32" id="get-involved">
+    <section className="bg-surface py-16 md:py-24 lg:py-32" id="get-involved">
       <Container>
         <SectionHeader
           eyebrow="Get Involved"

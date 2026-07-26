@@ -109,7 +109,7 @@ export function ContactForm({ defaultSubject = "" }: { defaultSubject?: string }
         <p
           role="status"
           aria-live="polite"
-          className={`text-sm ${state.success ? "text-green-700" : "text-red-600"}`}
+          className={`text-sm ${state.success ? "text-success" : "text-destructive"}`}
         >
           {state.message}
         </p>

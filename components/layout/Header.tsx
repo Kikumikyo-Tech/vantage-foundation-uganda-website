@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 import { site } from "@/content/site";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/shared/Container";
+import { Logo } from "@/components/shared/Logo";
 import { cn } from "@/lib/utils";
 
 export function Header() {
@@ -77,16 +78,12 @@ export function Header() {
     <header className="sticky top-0 z-40 w-full border-b border-border bg-white/95 backdrop-blur">
       <Container>
         <div className="flex h-16 items-center justify-between">
-          <Link
+          <Logo
             href="/"
-            className="flex items-center gap-2 text-xl font-bold tracking-tight text-foreground"
-            aria-label={site.name}
-          >
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-white">
-              V
-            </span>
-            <span className="hidden sm:inline">Vantage Foundation</span>
-          </Link>
+            variant="horizontal"
+            height={40}
+            alt={site.name}
+          />
 
           <nav className="hidden items-center gap-6 md:flex" aria-label="Main navigation">
             {site.nav.map((item) => (
@@ -131,12 +128,8 @@ export function Header() {
         >
           <Container>
             <div className="flex h-16 items-center justify-between">
-              <Link
-                href="/"
-                className="text-xl font-bold tracking-tight"
-                onClick={() => setOpen(false)}
-              >
-                Vantage Foundation
+              <Link href="/" onClick={() => setOpen(false)} aria-label={site.name}>
+                <Logo variant="horizontal" height={36} alt={site.name} />
               </Link>
               <button
                 onClick={() => setOpen(false)}

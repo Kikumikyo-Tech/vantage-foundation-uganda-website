@@ -5,10 +5,11 @@ import { SectionHeader } from "@/components/shared/SectionHeader";
 import { AreaIcon } from "@/components/shared/AreaIcon";
 import { Card } from "@/components/ui/Card";
 import { ArrowRight } from "lucide-react";
+import { programmeTokenForArea } from "@/lib/design-tokens";
 
 export function AreasOfWork() {
   return (
-    <section className="bg-slate-50 py-16 md:py-24 lg:py-32">
+    <section className="bg-surface py-16 md:py-24 lg:py-32">
       <Container>
         <SectionHeader
           eyebrow="Our Work"
@@ -17,9 +18,14 @@ export function AreasOfWork() {
         />
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {areasOfWork.map((area) => (
+          {areasOfWork.map((area) => {
+            const prog = programmeTokenForArea(area.id);
+            return (
             <Card key={area.id} className="flex flex-col p-6">
-              <div className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                className="inline-flex h-12 w-12 items-center justify-center rounded-lg"
+                style={{ backgroundColor: `${prog.hex}1a`, color: prog.hex }}
+              >
                 <AreaIcon id={area.id} className="h-6 w-6" />
               </div>
               <h3 className="mt-4 text-xl font-semibold">{area.title}</h3>
@@ -29,7 +35,11 @@ export function AreasOfWork() {
               <ul className="mt-4 space-y-1 text-sm text-muted-foreground">
                 {area.items.slice(0, 4).map((item) => (
                   <li key={item} className="flex items-start gap-2">
-                    <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary" />
+                    <span
+                      className="mt-1.5 h-1.5 w-1.5 rounded-full"
+                      style={{ backgroundColor: prog.hex }}
+                      aria-hidden="true"
+                    />
                     {item}
                   </li>
                 ))}
@@ -41,7 +51,8 @@ export function AreasOfWork() {
                 Learn more <ArrowRight className="h-4 w-4" />
               </Link>
             </Card>
-          ))}
+            );
+          })}
         </div>
       </Container>
     </section>

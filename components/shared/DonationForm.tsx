@@ -46,7 +46,7 @@ export function DonationForm() {
               className={`rounded-lg border px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                 amount === item.value.toString()
                   ? "border-primary bg-primary text-white"
-                  : "border-border bg-white hover:bg-slate-50"
+                  : "border-border bg-white hover:bg-surface"
               }`}
             >
               {item.label}
@@ -86,7 +86,7 @@ export function DonationForm() {
             className={`rounded-lg border px-4 py-2 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
               frequency === "one-time"
                 ? "border-primary bg-primary text-white"
-                : "border-border bg-white hover:bg-slate-50"
+                : "border-border bg-white hover:bg-surface"
             }`}
           >
             One-time
@@ -98,7 +98,7 @@ export function DonationForm() {
             className={`rounded-lg border px-4 py-2 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
               frequency === "monthly"
                 ? "border-primary bg-primary text-white"
-                : "border-border bg-white hover:bg-slate-50"
+                : "border-border bg-white hover:bg-surface"
             }`}
           >
             Monthly
@@ -186,7 +186,7 @@ export function DonationForm() {
         <p
           role="status"
           aria-live="polite"
-          className={`text-sm ${state.success ? "text-green-700" : "text-red-600"}`}
+          className={`text-sm ${state.success ? "text-success" : "text-destructive"}`}
         >
           {state.message}
         </p>

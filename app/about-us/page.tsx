@@ -78,7 +78,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section className="bg-slate-50 py-16 md:py-24">
+      <section className="bg-surface py-16 md:py-24">
         <Container>
           <SectionHeader
             title="Who we serve"
@@ -131,7 +131,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section className="bg-slate-50 py-16 md:py-24">
+      <section className="bg-surface py-16 md:py-24">
         <Container>
           <SectionHeader
             title="Governance and accountability"
