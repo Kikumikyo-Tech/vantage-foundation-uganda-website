@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 test.describe("Accessibility — heading order", () => {
   const pages = [
@@ -64,4 +65,34 @@ test.describe("Accessibility — keyboard navigation", () => {
     // Just verify the page didn't crash and is still accessible.
     await expect(page.locator("h1")).toBeVisible();
   });
+});
+
+test.describe("Accessibility — axe-core automated checks", () => {
+  const pages = [
+    "/",
+    "/about-us",
+    "/contact",
+    "/donate",
+    "/faq",
+    "/get-involved",
+    "/impact",
+    "/our-work",
+    "/projects",
+    "/reports-and-accountability",
+    "/stories",
+    "/privacy",
+    "/terms",
+    "/safeguarding",
+    "/accessibility",
+  ];
+
+  for (const path of pages) {
+    test(`${path} has no axe-core violations`, async ({ page }) => {
+      await page.goto(path);
+      const results = await new AxeBuilder({ page })
+        .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+        .analyze();
+      expect(results.violations).toEqual([]);
+    });
+  }
 });

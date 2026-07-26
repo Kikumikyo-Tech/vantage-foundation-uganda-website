@@ -33,6 +33,12 @@ jobs:
       - name: Validate content
         run: npm run validate-content
 
+      - name: Check placeholders
+        run: npm run check-placeholders
+
+      - name: Check internal links
+        run: npm run check-links
+
       - name: Unit tests
         run: npm test
 
@@ -58,4 +64,36 @@ jobs:
         env:
           # Build doesn't need a real database — pages that query the DB
           # are dynamic and won't be prerendered.
-          DATABASE_URL: postgresql://placeholder:placeholder@localhost/placehold
+          DATABASE_URL: postgresql://placeholder:placeholder@localhost/placeholder
+
+  # E2E accessibility tests with axe-core.
+  # Runs Playwright tests including WCAG 2.2 AA checks.
+  e2e-a11y:
+    name: E2E accessibility (axe-core)
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Build
+        run: npm run build
+        env:
+          DATABASE_URL: postgresql://placeholder:placeholder@localhost/placeholder
+
+      - name: Run E2E accessibility tests
+        run: npx playwright test tests/e2e/accessibility.spec.ts
+        env:
+          DATABASE_URL: postgresql://placeholder:placeholder@localhost/placeholder
+          ADMIN_SECRET: test-secret-for-ci

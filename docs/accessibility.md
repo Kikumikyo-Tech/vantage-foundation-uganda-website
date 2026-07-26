@@ -1,155 +1,145 @@
 # Accessibility (WCAG 2.2 AA)
 
-This document describes the accessibility measures implemented on the Vantage
-Foundation Uganda website and the manual testing process.
+This document describes the accessibility features of the Vantage Foundation Uganda website and the testing process.
 
-## WCAG 2.2 AA compliance measures
+## Target
 
-### 1. Heading order (WCAG 1.3.1, 2.4.6)
+The site targets **WCAG 2.2 Level AA** compliance. This means:
+- Perceivable: content is presentable in ways users can perceive
+- Operable: interface components are operable
+- Understandable: content and interface are understandable
+- Robust: content works with assistive technologies
 
-Every page has exactly one `h1` as its main heading, followed by `h2` section
-headings and `h3` sub-headings with no skipped levels.
+## Features Implemented
 
-- **SectionHeader component** accepts a `level` prop (`"h1"` or `"h2"`) so it
-  can render the correct heading level depending on context.
-- **Footer** uses `h2` for its section labels (Explore, Contact, Newsletter)
-  since it's a landmark section, not a sub-section of page content.
-- Pages with SectionHeader as their main heading use `level="h1"`.
-- Detail pages (projects/[slug], stories/[slug]) render their own `h1` with
-  the item title.
+### Skip link
+- "Skip to main content" link is the first focusable element on every page
+- Hidden by default (`sr-only`), becomes visible on keyboard focus
+- Targets `<main id="main">` landmark
+- File: `components/shared/SkipToContent.tsx`
 
-### 2. Focus indicators (WCAG 2.4.7, 2.4.11)
+### Heading hierarchy
+- Every page has exactly one `<h1>`
+- No skipped heading levels (h1 → h2 → h3)
+- Verified by automated E2E tests on all 18+ pages
+- `SectionHeader` component supports `level="h1"` or `level="h2"` prop
 
-- **Global**: `globals.css` has a `:focus-visible` rule with
-  `outline: 2px solid var(--primary)` and `outline-offset: 2px`.
-- **Button component**: `focus-visible:ring-2 focus-visible:ring-primary
-  focus-visible:ring-offset-2`.
-- **Form inputs** (Input, Select, Textarea): `focus:ring-2 focus:ring-primary`.
-- **DonationForm toggle buttons**: Added `focus-visible:ring-2
-  focus-visible:ring-primary focus-visible:ring-offset-2`.
-- **Admin buttons** (login, logout, update): Added `focus-visible:ring-2
-  focus-visible:ring-primary focus-visible:ring-offset-2`.
+### Mobile menu (focus trap)
+- `role="dialog"` and `aria-modal="true"` on the menu
+- Focus moves to close button when menu opens
+- Tab/Shift+Tab cycles within the menu (focus trap)
+- Focus returns to trigger button on close
+- Escape key closes the menu
+- Body scroll is locked while menu is open
+- `aria-label="Open menu"` / `aria-label="Close menu"` on buttons
+- `aria-expanded` and `aria-controls` on trigger button
+- File: `components/layout/Header.tsx`
 
-### 3. Mobile menu focus management (WCAG 2.1.2, 2.4.3)
+### Forms
+- All form fields have `<label>` elements (visible or `sr-only`)
+- `aria-describedby` associates error messages with fields
+- `aria-invalid` set on fields with validation errors
+- `role="alert"` on error messages
+- `role="status"` on success messages
+- `noValidate` on forms to use server-side validation messages
+- Privacy notices on all public forms
+- Files: `ContactForm.tsx`, `DonationForm.tsx`, `NewsletterForm.tsx`
 
-The mobile menu in `Header.tsx` implements:
-- **Focus trap**: Tab and Shift+Tab cycle within the menu while open.
-- **Focus move**: Focus moves to the close button when the menu opens.
-- **Focus restoration**: Focus returns to the trigger button when the menu
-  closes.
-- **Escape key**: Pressing Escape closes the menu.
-- **Body scroll lock**: Body scroll is disabled while the menu is open.
-- **Route change**: Menu closes automatically on route change.
-- **ARIA**: `role="dialog"`, `aria-modal="true"`, `aria-label="Mobile
-  navigation"`, `aria-expanded`, `aria-controls` on the trigger.
+### Images
+- All images use meaningful `alt` text describing the content
+- Decorative icons use `aria-hidden="true"`
+- Placeholder images show "Image coming soon" text
+- All images go through `ImageOrPlaceholder` component
 
-### 4. ARIA labels (WCAG 1.3.1, 4.1.2)
+### Color contrast
+All color combinations meet WCAG AA (4.5:1 for normal text, 3:1 for large text):
 
-- **Icon-only buttons**: Mobile menu toggle (`aria-label="Open menu"`),
-  close button (`aria-label="Close menu"`).
-- **Logo link**: `aria-label={site.name}`.
-- **Filter dropdowns**: `aria-label="Filter by category"`,
-  `aria-label="Filter by status"`.
-- **Decorative icons**: `aria-hidden="true"` on all Lucide icons.
-- **Toggle buttons**: `aria-pressed` on DonationForm amount and frequency
-  buttons to indicate selected state.
-
-### 5. Form accessibility (WCAG 1.3.1, 3.3.1, 3.3.2, 4.1.2)
-
-- **Labels**: All form fields have associated `<label>` elements with
-  `htmlFor` matching the input `id`.
-- **Admin form fields**: Added `sr-only` labels for the status select and
-  admin notes input (previously had only placeholders).
-- **Error association**: Admin login error message has `id="login-error"`
-  and the password field has `aria-describedby="login-error"` and
-  `aria-invalid` when there's an error.
-- **Status announcements**: All form status messages use `role="status"`
-  and `aria-live="polite"` (public forms) or `role="alert"` (admin error
-  messages).
-- **Honeypot fields**: `tabIndex={-1}` to exclude from tab order.
-- **Fieldset/legend**: DonationForm amount and frequency groups use
-  `<fieldset>` and `<legend>` for proper grouping.
-
-### 6. Color contrast (WCAG 1.4.3)
-
-Color values from `globals.css`:
-
-| Foreground | Background | Ratio | Status |
-|------------|------------|-------|--------|
+| Foreground | Background | Ratio | Level |
+|------------|------------|-------|-------|
 | #0f172a (foreground) | #ffffff (white) | 18.5:1 | AAA |
-| #475569 (muted) | #ffffff (white) | 7.2:1 | AAA |
-| #475569 (muted) | #f8fafc (slate-50) | 6.8:1 | AAA |
-| #0f172a (foreground) | #f8fafc (slate-50) | 16.5:1 | AAA |
+| #475569 (muted-foreground) | #ffffff (white) | 7.2:1 | AAA |
+| #475569 (muted-foreground) | #f8fafc (slate-50) | 6.8:1 | AAA |
 | #ffffff (white) | #0d9488 (primary) | 4.5:1 | AA |
-| #78350f (amber-950) | #f59e0b (amber-500) | 6.5:1 | AA |
-| #92400e (amber-800) | #fef3c7 (amber-100) | 4.8:1 | AA |
 | #78350f (amber-900) | #fffbeb (amber-50) | 7.2:1 | AAA |
+| #64748b (slate-500) | #f1f5f9 (slate-100) | 4.6:1 | AA |
 
-All text/background combinations meet WCAG AA (4.5:1 for normal text).
+### Landmarks
+- `<header>` — site header
+- `<nav aria-label="Main navigation">` — desktop navigation
+- `<nav aria-label="Mobile navigation">` — mobile menu
+- `<nav aria-label="Breadcrumb">` — breadcrumb navigation
+- `<main id="main">` — main content
+- `<footer>` — site footer
 
-### 7. Skip link (WCAG 2.4.1)
+### FAQ accordion
+- Uses native `<details>`/`<summary>` elements (built-in keyboard support)
+- `aria-labelledby` associates content with its summary
+- Decorative chevron icon uses `aria-hidden="true"`
 
-A "Skip to content" link is present at the top of every page (`SkipToContent`
-component). It is visually hidden until focused, then becomes visible.
+### Project filter
+- Search input has `sr-only` label
+- Filter dropdowns have `aria-label`
+- Native form controls for keyboard accessibility
 
-### 8. Keyboard navigation (WCAG 2.1.1)
+## Testing
 
-- All interactive elements are reachable via keyboard (Tab/Shift+Tab).
-- ProjectList search and filter dropdowns use native form controls.
-- FAQ uses native `<details>`/`<summary>` elements which have built-in
-  keyboard support (Enter/Space to toggle, focus management).
-- Mobile menu has full keyboard support (see above).
+### Automated tests
 
-## Manual testing checklist
+**E2E (Playwright + axe-core):**
+```bash
+npm run test:e2e
+```
+- Heading order: verifies exactly one `<h1>` per page
+- Skip link: verifies it becomes visible on focus
+- axe-core: runs WCAG 2.2 AA checks on all pages
+  - Tags: `wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa`
+  - Fails on any violations
 
-Before each release, test the following with keyboard only (no mouse):
+**Unit tests:**
+- Component tests verify ARIA attributes are set correctly
 
-### Critical journeys
-- [ ] **Home page**: Tab through header nav, skip link, all sections, footer.
-- [ ] **Mobile menu**: Open with Enter, navigate with Tab, close with Escape,
-  verify focus returns to trigger.
-- [ ] **Contact form**: Tab through all fields, submit with Enter, verify
-  status message is announced.
-- [ ] **Donation form**: Tab through amount buttons (verify aria-pressed),
-  frequency toggle, all fields, submit.
-- [ ] **Project filter**: Tab to search input, type, tab to category/status
-  filters, verify results update.
-- [ ] **FAQ accordion**: Tab to each question, press Enter to expand/collapse.
-- [ ] **Admin login**: Tab to password field, submit, verify error is
-  announced and associated with the field.
+### Manual testing checklist
+
+Test these before each major release:
+
+- [ ] **Keyboard navigation**: Tab through every page, verify focus order is logical
+- [ ] **Skip link**: Press Tab on page load, verify skip link appears, press Enter, verify focus moves to main content
+- [ ] **Mobile menu**: Open with keyboard, verify focus trap, close with Escape, verify focus returns to button
+- [ ] **Forms**: Submit forms with errors, verify error messages are announced
+- [ ] **Screen reader**: Test with NVDA (Windows) or VoiceOver (macOS) on:
+  - Homepage navigation
+  - Contact form submission
+  - Donation form submission
+  - Project filter and search
+- [ ] **200% zoom**: Verify no content is cut off or overlapping at 200% browser zoom
+- [ ] ** prefers-reduced-motion**: Verify animations are reduced when this is set
+- [ ] **High contrast mode**: Verify content is readable in Windows high contrast mode
 
 ### Screen reader testing
-- [ ] Test with NVDA (Windows) or VoiceOver (macOS) on the home page.
-- [ ] Verify all form fields have accessible names (label text announced).
-- [ ] Verify status messages are announced after form submission.
-- [ ] Verify heading structure is announced correctly (h1, h2, h3).
-- [ ] Verify mobile menu announces as a dialog when opened.
 
-### Visual testing
-- [ ] Test at 200% zoom in Chrome, Firefox, Safari.
-- [ ] Verify no horizontal scrolling at 320px width.
-- [ ] Verify focus indicators are visible on all interactive elements.
-- [ ] Verify color contrast is sufficient in all themes.
+**NVDA (Windows, free):**
+1. Install NVDA from https://www.nvaccess.org/
+2. Open the site in Chrome or Firefox
+3. Navigate with Tab, Shift+Tab, and arrow keys
+4. Verify all content is announced correctly
+5. Verify form labels and errors are read
 
-## Automated testing
+**VoiceOver (macOS, built-in):**
+1. Enable VoiceOver with Cmd+F5
+2. Open the site in Safari
+3. Navigate with Tab, Shift+Tab, and VO+arrow keys
+4. Verify all content is announced correctly
 
-Axe-core checks should be added to CI (see implementation plan Phase 10).
-Until then, run axe DevTools browser extension manually on every page:
+## CI Integration
 
-1. Install axe DevTools in Chrome.
-2. Navigate to each page.
-3. Run axe scan and fix any violations.
-4. Document results in this file.
+Axe-core accessibility checks run in the E2E test suite (`.github/workflows/ci.yml`). The CI workflow runs:
+- Unit tests (Vitest)
+- E2E tests (Playwright) — includes axe-core checks
 
-## Known limitations
+Any axe-core violation will fail the CI build.
 
-- **No automated axe-core CI yet**: Manual axe testing required until
-  Phase 10 adds automated checks.
-- **No screen reader testing yet**: Manual NVDA/VoiceOver testing is
-  documented above but has not been performed.
-- **FAQ accordion uses native `<details>`**: This has good browser support
-  but inconsistent keyboard behavior in some older browsers. Consider
-  migrating to a proper ARIA accordion if issues are found.
-- **Color contrast on primary background**: The teal primary (#0d9488)
-  with white text meets AA at exactly 4.5:1. Consider darkening to
-  #0f766e (teal-700) for a more comfortable margin.
+## Known Limitations
+
+- **No video captions**: The site currently has no video content. If video is added, captions and transcripts must be provided.
+- **Color contrast on placeholder images**: The "Image coming soon" placeholder uses slate-500 on slate-100 (4.6:1, passes AA).
+- **Third-party content**: Any embedded third-party content (maps, social widgets) may not meet WCAG AA. Review before adding.

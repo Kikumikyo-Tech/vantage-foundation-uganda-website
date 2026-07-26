@@ -12,13 +12,14 @@ afterEach(() => {
 });
 
 describe("session tokens", () => {
-  it("createSessionToken returns a token with two hex parts", async () => {
+  it("createSessionToken returns a token with three parts (sessionId.expiresAt.hmac)", async () => {
     const { createSessionToken } = await import("@/lib/session");
     const { token } = createSessionToken();
     const parts = token.split(".");
-    expect(parts.length).toBe(2);
+    expect(parts.length).toBe(3);
     expect(parts[0]).toMatch(/^[a-f0-9]{64}$/);
-    expect(parts[1]).toMatch(/^[a-f0-9]{64}$/);
+    expect(parts[1]).toMatch(/^\d+$/);
+    expect(parts[2]).toMatch(/^[a-f0-9]{64}$/);
   });
 
   it("verifySessionToken accepts a valid token", async () => {
@@ -45,9 +46,25 @@ describe("session tokens", () => {
   it("verifySessionToken rejects a token with wrong signature", async () => {
     const { createSessionToken, verifySessionToken } = await import("@/lib/session");
     const { token } = createSessionToken();
-    // Tamper with the signature part
-    const tampered = token.split(".")[0] + "." + "a".repeat(64);
+    // Tamper with the signature part (third part)
+    const parts = token.split(".");
+    const tampered = `${parts[0]}.${parts[1]}.${"a".repeat(64)}`;
     expect(verifySessionToken(tampered)).toBe(false);
+  });
+
+  it("verifySessionToken rejects an expired token", async () => {
+    const { createSessionToken, verifySessionToken } = await import("@/lib/session");
+    const { token } = createSessionToken();
+    // Replace the expiresAt with a timestamp in the past, keeping the
+    // original sessionId and re-signing so the HMAC matches the tampered payload.
+    const { createHmac } = await import("node:crypto");
+    const parts = token.split(".");
+    const sessionId = parts[0];
+    const expiredAt = String(Math.floor(Date.now() / 1000) - 1);
+    const payload = `${sessionId}.${expiredAt}`;
+    const hmac = createHmac("sha256", TEST_SECRET).update(payload).digest("hex");
+    const expiredToken = `${payload}.${hmac}`;
+    expect(verifySessionToken(expiredToken)).toBe(false);
   });
 
   it("verifySessionToken rejects a token signed with a different secret", async () => {
