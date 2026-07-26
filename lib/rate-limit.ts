@@ -64,13 +64,38 @@ export function rateLimit({ key, limit, windowMs }: RateLimitOptions): boolean {
 /**
  * Extracts the client IP from standard proxy headers.
  * Returns "unknown" if no IP can be determined.
+ *
+ * Trust order (most-trusted first):
+ *   1. `x-vercel-forwarded-for` — set by Vercel's edge with the real client IP.
+ *      Preferred on Vercel deployments and harder to forge than the standard
+ *      XFF header.
+ *   2. `x-forwarded-for` — take the RIGHTMOST entry (added by the closest
+ *      trusted proxy). The leftmost entry is the easiest to forge, so trusting
+ *      it lets an attacker rotate arbitrary IPs to bypass rate limiting if the
+ *      app is ever reached without a proxy that overwrites this header.
+ *   3. `x-real-ip` — fallback for some hosting providers.
+ *
+ * Note: this assumes a single trusted proxy hop in front of the app. If the app
+ * is ever deployed behind multiple chained proxies, the trust-hop count must be
+ * adjusted (e.g. via a TRUSTED_PROXY_HOPS env var) to take the Nth-from-right
+ * entry instead of the rightmost.
  */
 export function getClientIp(headers: Headers): string {
-  // Vercel and most reverse proxies set x-forwarded-for with the client IP first.
+  // Vercel sets this with the real client IP; prefer it on Vercel deployments.
+  const vff = headers.get("x-vercel-forwarded-for");
+  if (vff) {
+    const ip = vff.split(",")[0]?.trim();
+    if (ip) return ip;
+  }
+  // Standard XFF: trust the rightmost entry (added by the closest proxy),
+  // not the leftmost (which is client-controlled and easy to forge).
   const xff = headers.get("x-forwarded-for");
   if (xff) {
-    const ip = xff.split(",")[0]?.trim();
-    if (ip) return ip;
+    const parts = xff.split(",").map((s) => s.trim()).filter(Boolean);
+    if (parts.length > 0) {
+      const ip = parts[parts.length - 1];
+      if (ip) return ip;
+    }
   }
   // Fallback for some hosting providers.
   const realIp = headers.get("x-real-ip");

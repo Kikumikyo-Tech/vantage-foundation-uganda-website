@@ -24,7 +24,7 @@ function log(level: LogLevel, event: string, context?: LogContext): void {
   };
   // Use console.error for all levels so output goes to stderr (Vercel captures
   // stderr for structured logs). This avoids mixing with request stdout.
-  const fn = level === "info" ? console.log : console.error;
+  const fn = console.error;
   fn(JSON.stringify(entry));
 }
 

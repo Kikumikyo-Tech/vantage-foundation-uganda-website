@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # Lint, type-check, content validation, and unit tests.
+  # Runs on every push and PR — fast feedback.
+  quality:
+    name: Lint, type-check, unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type-check
+        run: npm run type-check
+
+      - name: Validate content
+        run: npm run validate-content
+
+      - name: Unit tests
+        run: npm test
+
+  # Production build — ensures the site compiles and all pages prerender.
+  build:
+    name: Production build
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          # Build doesn't need a real database — pages that query the DB
+          # are dynamic and won't be prerendered.
+          DATABASE_URL: postgresql://placeholder:placeholder@localhost/placehold
