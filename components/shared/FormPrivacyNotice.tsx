@@ -4,6 +4,11 @@ interface FormPrivacyNoticeProps {
   /** Customize the notice text for the specific form. */
   text?: string;
   className?: string;
+  /**
+   * Use light text colors when rendered on a dark background (e.g.
+   * bg-primary). Defaults to false (dark text on light backgrounds).
+   */
+  light?: boolean;
 }
 
 const defaultText =
@@ -12,11 +17,17 @@ const defaultText =
 export function FormPrivacyNotice({
   text = defaultText,
   className,
+  light = false,
 }: FormPrivacyNoticeProps) {
   return (
-    <p className={`text-xs text-muted-foreground ${className ?? ""}`}>
+    <p
+      className={`text-xs ${light ? "text-white/90" : "text-muted-foreground"} ${className ?? ""}`}
+    >
       {text}{" "}
-      <Link href="/privacy" className="text-primary hover:underline">
+      <Link
+        href="/privacy"
+        className={light ? "text-white underline" : "text-primary underline"}
+      >
         Privacy Policy
       </Link>
       .

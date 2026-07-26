@@ -119,7 +119,7 @@ export default function TermsPage() {
                   that could cause harm or distress (see our{" "}
                   <a
                     href="/safeguarding"
-                    className="text-primary hover:underline"
+                    className="text-primary underline"
                   >
                     Safeguarding Policy
                   </a>
@@ -212,7 +212,7 @@ export default function TermsPage() {
                   Email:{" "}
                   <a
                     href={`mailto:${site.contact.email}`}
-                    className="text-primary hover:underline"
+                    className="text-primary underline"
                   >
                     {site.contact.email}
                   </a>
@@ -221,7 +221,7 @@ export default function TermsPage() {
                   Phone/WhatsApp:{" "}
                   <a
                     href={`tel:${site.contact.phone.replace(/\s/g, "")}`}
-                    className="text-primary hover:underline"
+                    className="text-primary underline"
                   >
                     {site.contact.phone}
                   </a>

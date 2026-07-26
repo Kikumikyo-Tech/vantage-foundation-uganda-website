@@ -12,8 +12,8 @@ All design tokens are defined as CSS custom properties in `app/globals.css` and 
 |-------|-----|----------|-------|
 | `--background` | `#ffffff` | `bg-white` | Page background |
 | `--foreground` | `#0f172a` | `text-foreground` | Primary text (slate-900) |
-| `--primary` | `#0d9488` | `bg-primary`, `text-primary` | Brand color (teal-600) |
-| `--primary-dark` | `#0f766e` | — | Hover states (teal-700) |
+| `--primary` | `#0f766e` | `bg-primary`, `text-primary` | Brand color (teal-700) |
+| `--primary-dark` | `#115e59` | — | Hover states (teal-800) |
 | `--accent` | `#f59e0b` | `bg-accent` | Highlights (amber-500) |
 | `--muted` | `#f8fafc` | `bg-muted` | Subtle backgrounds (slate-50) |
 | `--muted-foreground` | `#475569` | `text-muted-foreground` | Secondary text (slate-600) |
@@ -28,7 +28,8 @@ All combinations meet WCAG AA (4.5:1 for normal text):
 | #0f172a | #ffffff | 18.5:1 | AAA |
 | #475569 | #ffffff | 7.2:1 | AAA |
 | #475569 | #f8fafc | 6.8:1 | AAA |
-| #ffffff | #0d9488 | 4.5:1 | AA |
+| #ffffff | #0f766e | 5.5:1 | AA |
+| #0f766e | #ffffff | 5.5:1 | AA |
 
 ## Typography
 

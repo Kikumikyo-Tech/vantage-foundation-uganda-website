@@ -13,7 +13,7 @@ export function NewsletterSection() {
             light
           />
           <div className="mt-8 mx-auto max-w-md">
-            <NewsletterForm />
+            <NewsletterForm light />
           </div>
         </div>
       </Container>
