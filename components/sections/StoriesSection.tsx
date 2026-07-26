@@ -1,11 +1,11 @@
-import { stories } from "@/content/stories";
+import { getPublishedStories } from "@/content/stories";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { StoryCard } from "@/components/shared/StoryCard";
 import { Button } from "@/components/ui/Button";
 
 export function StoriesSection() {
-  const featured = stories.slice(0, 3);
+  const featured = getPublishedStories().slice(0, 3);
 
   return (
     <section className="py-16 md:py-24 lg:py-32">

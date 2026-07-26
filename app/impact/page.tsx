@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getPublishedImpactStats, outputs, outcomes, longTermGoals, regions, sdgs } from "@/content/impact";
-import { projects } from "@/content/projects";
+import { getPublishedProjects } from "@/content/projects";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { StatCard } from "@/components/shared/StatCard";
@@ -155,7 +155,7 @@ export default function ImpactPage() {
         <Container>
           <SectionHeader title="Projects behind the numbers" />
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {projects.slice(0, 3).map((project) => (
+            {getPublishedProjects().slice(0, 3).map((project) => (
               <ProjectCard key={project.slug} project={project} />
             ))}
           </div>

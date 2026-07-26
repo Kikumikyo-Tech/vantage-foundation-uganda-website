@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { site } from "@/content/site";
 import { getProjectSlugs } from "@/content/projects";
 import { getStorySlugs } from "@/content/stories";
+import { areasOfWork } from "@/content/areas";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = site.url;
@@ -18,6 +19,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
     "/reports-and-accountability",
     "/faq",
+    "/privacy",
+    "/terms",
+    "/safeguarding",
+    "/accessibility",
   ];
 
   const routes: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
@@ -25,6 +30,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(),
     changeFrequency: "monthly",
     priority: route === "/" ? 1 : 0.8,
+  }));
+
+  const programmeRoutes = areasOfWork.map((area) => ({
+    url: `${baseUrl}/programmes/${area.id}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
   }));
 
   const projectRoutes = getProjectSlugs().map((slug) => ({
@@ -41,5 +53,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...routes, ...projectRoutes, ...storyRoutes];
+  return [...routes, ...programmeRoutes, ...projectRoutes, ...storyRoutes];
 }

@@ -1,11 +1,11 @@
-import { projects } from "@/content/projects";
+import { getPublishedProjects } from "@/content/projects";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { ProjectCard } from "@/components/shared/ProjectCard";
 import { Button } from "@/components/ui/Button";
 
 export function FeaturedProjects() {
-  const featured = projects.slice(0, 3);
+  const featured = getPublishedProjects().slice(0, 3);
 
   return (
     <section className="py-16 md:py-24 lg:py-32">

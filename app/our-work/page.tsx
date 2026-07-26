@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { site } from "@/content/site";
 import { areasOfWork, projectCategoriesByAreaId } from "@/content/areas";
 import { getPublishedProjects } from "@/content/projects";
@@ -10,7 +11,7 @@ import { Card } from "@/components/ui/Card";
 
 export const metadata: Metadata = {
   title: "Our Work",
-  description: `Explore the four pillars of ${site.name}: health, education, humanitarian aid and water & sanitation.`,
+  description: `Explore the five pillars of ${site.name}: health, education, humanitarian aid, water & sanitation, and youth leadership.`,
 };
 
 export default function OurWorkPage() {
@@ -21,7 +22,7 @@ export default function OurWorkPage() {
           <SectionHeader
             level="h1"
             title="Our Work"
-            description="Health, education, humanitarian aid and water, sanitation & hygiene — working together for sustainable livelihoods."
+            description="Health, education, humanitarian aid, water & sanitation, and youth leadership — working together for sustainable livelihoods."
             light
           />
         </Container>
@@ -43,8 +44,23 @@ export default function OurWorkPage() {
                       <div className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
                         <AreaIcon id={area.id} className="h-6 w-6" />
                       </div>
-                      <div>
-                        <h2 className="text-2xl font-bold">{area.title}</h2>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between gap-4">
+                          <h2 className="text-2xl font-bold">
+                            <Link
+                              href={`/programmes/${area.id}`}
+                              className="hover:text-primary"
+                            >
+                              {area.title}
+                            </Link>
+                          </h2>
+                          <Link
+                            href={`/programmes/${area.id}`}
+                            className="shrink-0 text-sm font-medium text-primary hover:underline"
+                          >
+                            Learn more &rarr;
+                          </Link>
+                        </div>
                         <p className="mt-2 text-muted-foreground">{area.description}</p>
                         <ul className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                           {area.items.map((item) => (

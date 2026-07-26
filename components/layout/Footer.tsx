@@ -109,17 +109,18 @@ export function Footer() {
             <Link href="/faq" className="hover:text-primary">
               FAQ
             </Link>
-            {/* Legal pages are planned but not yet published. See docs/implementation-plan.md Phase 4.
-                Wording requires Vantage Foundation management approval (audit §4.7). */}
-            <span className="text-muted-foreground/70" title="Coming soon — pending management approval">
+            <Link href="/privacy" className="hover:text-primary">
               Privacy
-            </span>
-            <span className="text-muted-foreground/70" title="Coming soon — pending management approval">
+            </Link>
+            <Link href="/terms" className="hover:text-primary">
+              Terms
+            </Link>
+            <Link href="/safeguarding" className="hover:text-primary">
               Safeguarding
-            </span>
-            <span className="text-muted-foreground/70" title="Coming soon — pending management approval">
+            </Link>
+            <Link href="/accessibility" className="hover:text-primary">
               Accessibility
-            </span>
+            </Link>
           </div>
         </div>
       </Container>

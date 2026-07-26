@@ -8,6 +8,7 @@ import {
 import { Container } from "@/components/shared/Container";
 import { Badge } from "@/components/ui/Badge";
 import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
+import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { StoryCard } from "@/components/shared/StoryCard";
 import { Markdown } from "@/components/shared/Markdown";
 
@@ -79,6 +80,14 @@ export default async function StoryPage({
 
       <section className="py-12 md:py-16">
         <Container>
+          <Breadcrumbs
+            className="mb-8"
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Stories", href: "/stories" },
+              { label: story.title },
+            ]}
+          />
           {story.heroImage && (
             <div className="relative aspect-[16/9] overflow-hidden rounded-2xl">
               <ImageOrPlaceholder
