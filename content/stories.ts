@@ -12,7 +12,7 @@ export const stories: Story[] = [
     date: "2023",
     location: "Uganda",
     category: "Youth voice",
-    heroImage: "/images/placeholder-story.jpg",
+    heroImage: "/images/photos/photo-071.webp",
     relatedProjectSlugs: ["savegirl-uganda", "advantage-book-club"],
     body: `"What are we without our dreams?" This question sits at the heart of Vantage Foundation's work. For many young people in underserved communities, dreams are often buried under the weight of poverty, lack of opportunity and limited support systems.
 
@@ -29,7 +29,7 @@ Vantage Foundation has become a space where those dreams are named, nurtured and
     date: "2023",
     location: "Uganda",
     category: "Leadership reflection",
-    heroImage: "/images/placeholder-story.jpg",
+    heroImage: "/images/photos/photo-058.webp",
     relatedProjectSlugs: ["savegirl-uganda"],
     body: `"Advantage isn't about driving the latest cars or flying first class. It's about how that elevated post helps your people. It's about bringing people together and making lives better."
 
@@ -46,7 +46,7 @@ This belief shapes how Vantage Foundation approaches every project. We are not c
     date: "2023",
     location: "Rural Uganda",
     category: "Programme update",
-    heroImage: "/images/placeholder-story.jpg",
+    heroImage: "/images/photos/photo-016.webp",
     relatedProjectSlugs: ["savegirl-uganda", "menstrual-cups-project"],
     body: `SaveGirl Uganda began as a simple idea: crowdfund money to buy sanitary pads for young women in rural areas who could not afford them. The response was immediate and generous. But as we met the young women we were serving, we realised that pads alone would not remove the barriers they faced.
 
@@ -63,7 +63,7 @@ Period poverty is connected to low self-esteem, limited financial literacy, lack
     date: "March 2023",
     location: "Basajjabalaba High School, Bushenyi",
     category: "Event highlight",
-    heroImage: "/images/placeholder-story.jpg",
+    heroImage: "/images/photos/photo-038.webp",
     relatedProjectSlugs: ["savegirl-uganda", "mental-health-financial-literacy-workshops"],
     body: `On International Women's Day 2023, the Vantage Foundation team joined students and staff at Basajjabalaba High School in Bushenyi for a day of conversation, celebration and empowerment.
 
@@ -80,7 +80,7 @@ The event focused on confidence, education and the power of young women to shape
     date: "2023",
     location: "Bushenyi, Uganda",
     category: "Event highlight",
-    heroImage: "/images/placeholder-story.jpg",
+    heroImage: "/images/photos/photo-004.webp",
     relatedProjectSlugs: ["advantage-book-club", "mental-health-financial-literacy-workshops"],
     body: `Our youth conference in Bushenyi brought together young people for sessions on financial literacy, habit building and career education. The day was designed to fill gaps left by the formal school system, giving participants practical skills they can use immediately.
 
@@ -97,7 +97,7 @@ From budgeting to goal-setting, the conversations were energetic and honest. You
     date: "2023",
     location: "Kampala, Uganda",
     category: "Event highlight",
-    heroImage: "/images/placeholder-story.jpg",
+    heroImage: "/images/photos/photo-073.webp",
     relatedProjectSlugs: ["mental-health-financial-literacy-workshops"],
     body: `At a high school in Kampala, our team led a mentorship session focused on mental health. The conversation covered stress, coping skills, seeking help and supporting friends.
 
