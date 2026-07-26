@@ -1,6 +1,12 @@
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  imagePresets,
+  DEFAULT_IMAGE_PRESET,
+  type ImagePreset,
+} from "@/lib/image-presets";
+import { BLUR_DATA_URL } from "@/lib/blur-placeholder";
 
 interface ImageOrPlaceholderProps {
   src?: string;
@@ -11,6 +17,22 @@ interface ImageOrPlaceholderProps {
   className?: string;
   containerClassName?: string;
   priority?: boolean;
+  /**
+   * Image size preset for the `sizes` attribute.
+   * Controls which source the browser picks from the srcset at different
+   * breakpoints. Defaults to "card" (3-column grid).
+   */
+  preset?: ImagePreset;
+  /**
+   * Custom sizes string. Overrides `preset` if provided.
+   * Use this for one-off layouts that don't match any preset.
+   */
+  sizes?: string;
+  /**
+   * Focal point for object-position (e.g. "center top", "left center").
+   * Defaults to "center".
+   */
+  objectPosition?: string;
 }
 
 export function ImageOrPlaceholder({
@@ -22,6 +44,9 @@ export function ImageOrPlaceholder({
   className,
   containerClassName,
   priority,
+  preset = DEFAULT_IMAGE_PRESET,
+  sizes,
+  objectPosition,
 }: ImageOrPlaceholderProps) {
   // Placeholder convention: any src whose filename contains "placeholder"
   // renders the "Image coming soon" fallback instead of a real <Image>.
@@ -45,6 +70,11 @@ export function ImageOrPlaceholder({
     );
   }
 
+  const resolvedSizes = sizes || imagePresets[preset];
+  const objectPositionStyle = objectPosition
+    ? { objectPosition }
+    : undefined;
+
   if (fill) {
     return (
       <Image
@@ -52,8 +82,11 @@ export function ImageOrPlaceholder({
         alt={alt}
         fill
         className={cn("object-cover", className)}
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        style={objectPositionStyle}
+        sizes={resolvedSizes}
         priority={priority}
+        placeholder="blur"
+        blurDataURL={BLUR_DATA_URL}
       />
     );
   }
@@ -65,8 +98,11 @@ export function ImageOrPlaceholder({
       width={width || 800}
       height={height || 600}
       className={cn("object-cover", className)}
-      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      style={objectPositionStyle}
+      sizes={resolvedSizes}
       priority={priority}
+      placeholder="blur"
+      blurDataURL={BLUR_DATA_URL}
     />
   );
 }

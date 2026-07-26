@@ -12,6 +12,7 @@ export function AboutTeaser() {
               src="/images/placeholder-about.jpg"
               alt="Vantage Foundation Uganda community work"
               fill
+              preset="half"
               containerClassName="h-full w-full"
             />
           </div>

@@ -39,6 +39,7 @@ export function Hero() {
                 alt="Young people and community members in Uganda"
                 fill
                 priority
+                preset="hero"
                 containerClassName="h-full w-full"
               />
             </div>
