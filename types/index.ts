@@ -174,6 +174,39 @@ export interface Story {
   published?: boolean;
 }
 
+export type BlogCategory =
+  | "Health"
+  | "Education"
+  | "Humanitarian Action"
+  | "Community Stories"
+  | "Foundation News"
+  | "Research & Learning"
+  | "Accountability";
+
+export interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  category: BlogCategory;
+  summary: string;
+  body: string;
+  author?: string;
+  /** ISO date string, e.g. "2026-07-27". */
+  publishedAt: string;
+  readingTimeMinutes?: number;
+  heroImage?: string;
+  heroImageAlt?: string;
+  relatedSlugs?: string[];
+  consentClassification?: ConsentClassification;
+  seo?: SeoMeta;
+  /**
+   * Whether the post is published. Defaults to true when omitted.
+   * Unpublished/draft posts are filtered out of production routes but
+   * remain visible in development for previewing.
+   */
+  published?: boolean;
+}
+
 export type TeamCategory = "leadership" | "volunteer";
 
 export interface TeamMember {
