@@ -56,14 +56,14 @@ Maintain clear space on all sides equal to the height of the "V" in the symbol. 
 ## Safe backgrounds
 
 - ✅ White
-- ✅ Deep Teal (#007D8A) — use the monochrome white variant
-- ✅ Dark Navy (#08233A) — use the monochrome white variant
-- ✅ `--surface` (#F4F7F9) muted neutral
+- ✅ Teal Primary (#008F95) — use the monochrome white variant
+- ✅ Black (#050708) — use the monochrome white variant
+- ✅ `--surface` (#F7FAFA) muted neutral
 
 ## Unsuitable backgrounds
 
 - ❌ Busy photographic backgrounds without a solid overlay panel
-- ❌ Bright Aqua (#1CC7D6) — insufficient contrast
+- ❌ Teal Light (#DDF5F4) — insufficient contrast
 - ❌ Programme accent colours — clashes with the logo's own colours
 - ❌ Any background where contrast drops below 3:1
 

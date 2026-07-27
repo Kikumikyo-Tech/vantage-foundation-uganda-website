@@ -23,7 +23,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         />
         <span
           className="absolute left-3 top-3 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold text-white"
-          style={{ backgroundColor: prog.hex }}
+          style={{ backgroundColor: prog.safeHex }}
         >
           {project.category}
         </span>

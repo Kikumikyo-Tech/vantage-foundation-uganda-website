@@ -20,65 +20,78 @@ The single source of truth for the Vantage Foundation Uganda visual identity sys
 
 ### Primary brand palette
 
+Exactly three dominant colours, roughly a third each: teal, white, and
+black/dark charcoal. Confirmed by the founder 2026-07-27. Full detail and
+contrast ratios: `docs/brand/colour-system.md`.
+
 | Token | Hex | RGB | Usage |
 |-------|-----|-----|-------|
-| `--deep-teal` | `#007D8A` | 0,125,138 | Brand anchor (mapped to `--primary`) |
-| `--bright-aqua` | `#1CC7D6` | 28,199,214 | Accents only — never body text (contrast 1.9:1 on white) |
-| `--ocean-blue` | `#005B7A` | 0,91,122 | Hover/active states (mapped to `--primary-dark`) |
-| `--dark-navy` | `#08233A` | 8,35,58 | Body text, dark backgrounds (mapped to `--foreground`, `--navy`) |
+| `--deep-teal` | `#008F95` | 0,143,149 | "Teal Primary" — large text/surfaces only (3.9:1 on white, below AA for normal text) |
+| `--bright-aqua` | `#DDF5F4` | 221,245,244 | "Teal Light" — pale wash, never body text |
+| `--ocean-blue` | `#006B70` | 0,107,112 | "Teal Dark" — mapped to `--primary` (6.3:1 on white) |
+| `--dark-navy` | `#050708` | 5,7,8 | "Black" — body text, dark backgrounds (mapped to `--foreground`, `--navy`) |
 | `--white` | `#FFFFFF` | 255,255,255 | Page background |
-| `--charcoal` | `#232323` | 35,35,35 | Alternate dark text |
+| `--charcoal` | `#0B1B22` | 11,27,34 | "Dark Charcoal" — secondary dark sections/cards on black |
 
 ### Semantic surface tokens
+
+**`--primary` is Teal Dark (`--ocean-blue`), not Teal Primary (`--deep-teal`).**
+Teal Primary fails WCAG AA (4.5:1) for normal-sized text, so the token that
+backs every button and link uses the darker, AA-safe shade instead.
 
 | Token | Hex | Tailwind | Usage |
 |-------|-----|----------|-------|
 | `--background` | `#FFFFFF` | `bg-background` | Page background |
-| `--foreground` | `#08233A` | `text-foreground` | Body text |
-| `--primary` | `#007D8A` | `bg-primary`, `text-primary` | Buttons, links, brand |
-| `--primary-dark` | `#005B7A` | `bg-primary-dark` | Hover/active |
-| `--primary-light` | `#1CC7D6` | `bg-primary-light` | Accents (not text on white) |
-| `--accent` | `#F59E0B` | `bg-accent` | Warm highlights |
-| `--muted` | `#F4F7F9` | `bg-muted` | Subtle surfaces |
-| `--muted-foreground` | `#4A6072` | `text-muted-foreground` | Secondary text (7:1 on white) |
-| `--border` | `#DCE5EA` | `border-border` | Borders |
-| `--surface` | `#F4F7F9` | `bg-surface` | Section backgrounds |
-| `--surface-strong` | `#E8EEF2` | `bg-surface-strong` | Cards on muted bg |
+| `--foreground` | `#050708` | `text-foreground` | Body text |
+| `--primary` | `#006B70` | `bg-primary`, `text-primary` | Buttons, links, brand (AA-safe) |
+| `--primary-dark` | `#00565A` | `bg-primary-dark` | Hover/active |
+| `--primary-light` | `#DDF5F4` | `bg-primary-light` | Accents (not text on white) |
+| `--accent` | `#006B70` | `bg-accent` | Aliased to Teal Dark — no orange/yellow accents |
+| `--muted` | `#F7FAFA` | `bg-muted` | Subtle surfaces ("Soft White") |
+| `--muted-foreground` | `#475569` | `text-muted-foreground` | Secondary text (~7.5:1 on white) |
+| `--border` | `#DCE5E5` | `border-border` | Borders |
+| `--surface` | `#F7FAFA` | `bg-surface` | Section backgrounds |
+| `--surface-strong` | `#EEF4F4` | `bg-surface-strong` | Cards on muted bg |
 
 ### Programme accent colours
 
-Used for categorisation. **Never as body text on white.** Always paired with an icon or text label (WCAG 2.2 §1.4.1 — don't convey information by colour alone).
+Used for categorisation. **Never as body text on white.** Always paired with
+an icon or text label (WCAG 2.2 §1.4.1 — don't convey information by colour
+alone). Kept within the teal/black system — no unrelated hues.
+`--programme-alert` stays red as a functional safety colour, not a
+decorative accent.
 
 | Token | Hex | Programme |
 |-------|-----|-----------|
-| `--programme-health` | `#0F9D58` | Health (emerald) |
-| `--programme-education` | `#2563EB` | Education (royal blue) |
-| `--programme-water` | `#38BDF8` | Water & WASH (sky blue) |
-| `--programme-humanitarian` | `#F97316` | Humanitarian Assistance (warm orange) |
-| `--programme-research` | `#7C3AED` | Research (purple) |
-| `--programme-environment` | `#15803D` | Environment & Agriculture (forest green) |
-| `--programme-youth` | `#06B6D4` | Youth Empowerment (vibrant cyan) |
+| `--programme-health` | `#008F95` | Health / Vantage Care |
+| `--programme-education` | `#006B70` | Education / KikumiKyo Academy |
+| `--programme-water` | `#0B1B22` | Water & WASH |
+| `--programme-humanitarian` | `#050708` | Humanitarian Assistance |
+| `--programme-research` | `#008F95` | Research |
+| `--programme-environment` | `#006B70` | Environment & Agriculture |
+| `--programme-youth` | `#0B1B22` | Youth Empowerment |
 | `--programme-alert` | `#DC2626` | Emergency / critical alert (red) |
 
 ### Status colours
+
+Functional/semantic, exempt from the teal/black-only rule.
 
 | Token | Hex | Pairing |
 |-------|-----|---------|
 | `--success` / `--success-bg` / `--success-fg` | `#15803D` / `#DCFCE7` / `#166534` | Success messages |
 | `--warning` / `--warning-bg` / `--warning-fg` | `#B45309` / `#FEF3C7` / `#78350F` | Warnings, placeholders |
 | `--destructive` / `--destructive-bg` / `--destructive-fg` | `#B91C1C` / `#FEE2E2` / `#7F1D1D` | Errors, destructive actions |
-| `--info` / `--info-bg` / `--info-fg` | `#005B7A` / `#E0F2FE` / `#0C4A6E` | Informational |
+| `--info` / `--info-bg` / `--info-fg` | `#006B70` / `#E0F2FE` / `#0C4A6E` | Informational |
 
 ### Colour usage ratio
 
 ```
-60% white / neutral space
-25% teal family (primary, primary-dark, surface)
-10% navy / charcoal (text, dark sections)
-5%  programme accents (categorisation only)
+~33% white / neutral space
+~33% teal (Teal Dark for text/UI, Teal Primary for large surfaces)
+~33% black / dark charcoal (text, dark sections)
 ```
 
-Gradients are subtle supporting elements only, derived from approved colours (e.g. `linear-gradient(135deg, #007D8A, #005B7A)`).
+Gradients are subtle supporting elements only, derived from approved colours (e.g. `linear-gradient(135deg, #008F95, #006B70)`).
 
 ---
 
@@ -133,7 +146,7 @@ Max line length for body: **66 characters** (~`max-w-prose`). Avoid excessive up
 
 ## Shadows
 
-Navy-tinted (`rgb(8 35 58 / a)`) for brand cohesion.
+Black-tinted (`rgb(5 7 8 / a)`) for brand cohesion.
 
 | Token | Usage |
 |-------|-------|

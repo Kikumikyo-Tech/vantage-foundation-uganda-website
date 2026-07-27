@@ -1,5 +1,10 @@
 # Design System
 
+> **Superseded.** This document predates the current brand system and its
+> colour values are stale. See `docs/design-tokens.md` (implementation) and
+> `docs/brand/colour-system.md` (palette + contrast ratios) for the current
+> source of truth. Kept for historical reference only.
+
 This document describes the design tokens, colors, typography, spacing, and components used on the Vantage Foundation Uganda website.
 
 ## Design Tokens

@@ -17,11 +17,18 @@
   --white: #ffffff;
   --charcoal: #0b1b22; /* dark charcoal — secondary dark sections/cards on black */
 
-  /* ---- Semantic surface tokens ---- */
+  /* ---- Semantic surface tokens ----
+     --primary uses teal DARK (#006b70), not teal primary (#008f95): the
+     brief's exact "teal primary" only reaches 3.9:1 contrast on white,
+     short of WCAG AA's 4.5:1 for normal text, and --primary backs buttons
+     and links everywhere (confirmed by axe-core in tests/e2e/accessibility.spec.ts).
+     Teal primary (--deep-teal) stays available for large text/surfaces
+     (24px+, which only needs 3:1) — e.g. the big "Vantage Care" programme
+     hero band via programmeColours. */
   --background: #ffffff;
   --foreground: #050708; /* black for body text */
-  --primary: #008f95; /* teal primary — buttons, links, brand */
-  --primary-dark: #006b70; /* teal dark — hover/active */
+  --primary: #006b70; /* teal dark — buttons, links, brand (AA-safe at 6.3:1 on white) */
+  --primary-dark: #00565a; /* darker teal — hover/active */
   --primary-light: #ddf5f4; /* teal light — accents only, never body text */
   --accent: #006b70; /* aliased to teal dark — no orange/yellow accents per brand system */
   --muted: #f7fafa; /* soft white */

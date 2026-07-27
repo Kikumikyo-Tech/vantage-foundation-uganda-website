@@ -73,7 +73,7 @@ export default async function ProjectPage({
           site.url
         )}
       />
-      <section className="py-16 text-white md:py-24" style={{ backgroundColor: prog.hex }}>
+      <section className="py-16 text-white md:py-24" style={{ backgroundColor: prog.safeHex }}>
         <Container>
           <div className="max-w-3xl">
             <div className="flex flex-wrap gap-2">

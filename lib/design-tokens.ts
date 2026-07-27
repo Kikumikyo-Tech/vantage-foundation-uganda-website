@@ -19,11 +19,16 @@ export const brandColors = {
   charcoal: "#0b1b22", // dark charcoal
 } as const;
 
+// --primary uses teal dark (#006b70), not teal primary (#008f95): teal
+// primary only reaches ~3.9:1 contrast on white, short of WCAG AA's 4.5:1
+// for normal text, and this token backs buttons/links everywhere. Teal
+// primary (brandColors.deepTeal) stays available for large text/surfaces
+// (24px+, which only needs 3:1 contrast).
 export const semanticColors = {
   background: "#ffffff",
   foreground: "#050708",
-  primary: "#008f95",
-  primaryDark: "#006b70",
+  primary: "#006b70",
+  primaryDark: "#00565a",
   primaryLight: "#ddf5f4",
   accent: "#006b70", // aliased to teal dark — no orange/yellow accents
   muted: "#f7fafa",
@@ -58,20 +63,30 @@ export interface ProgrammeToken {
   token: string;
   /** Accessible text colour to pair on top of the programme colour (white or navy). */
   onColor: string;
+  /**
+   * A shade of this programme's colour guaranteed to pass WCAG AA (4.5:1)
+   * both as text on white AND as a background for white text at any size.
+   * `hex` (Teal Primary, #008f95) only passes 3:1 — fine for large headings,
+   * but fails for small badges/labels/eyebrow text. Use `safeHex` for any
+   * section background or text colour that carries small text; `hex` is
+   * still fine for large headings and non-text decoration (icon tints,
+   * bullet dots).
+   */
+  safeHex: string;
 }
 
 // Kept within the teal/black brand system — no unrelated hues (orange,
 // purple, sky blue, cyan). "alert" stays red: a functional safety/status
 // colour, not a decorative brand accent.
 export const programmeColours: Record<ProgrammeId, ProgrammeToken> = {
-  health: { id: "health", label: "Health", hex: "#008f95", token: "programme-health", onColor: "#ffffff" },
-  education: { id: "education", label: "Education", hex: "#006b70", token: "programme-education", onColor: "#ffffff" },
-  water: { id: "water", label: "Water & WASH", hex: "#0b1b22", token: "programme-water", onColor: "#ffffff" },
-  humanitarian: { id: "humanitarian", label: "Humanitarian Assistance", hex: "#050708", token: "programme-humanitarian", onColor: "#ffffff" },
-  research: { id: "research", label: "Research", hex: "#008f95", token: "programme-research", onColor: "#ffffff" },
-  environment: { id: "environment", label: "Environment & Agriculture", hex: "#006b70", token: "programme-environment", onColor: "#ffffff" },
-  youth: { id: "youth", label: "Youth Empowerment", hex: "#0b1b22", token: "programme-youth", onColor: "#ffffff" },
-  alert: { id: "alert", label: "Emergency Alert", hex: "#dc2626", token: "programme-alert", onColor: "#ffffff" },
+  health: { id: "health", label: "Health", hex: "#008f95", safeHex: "#006b70", token: "programme-health", onColor: "#ffffff" },
+  education: { id: "education", label: "Education", hex: "#006b70", safeHex: "#006b70", token: "programme-education", onColor: "#ffffff" },
+  water: { id: "water", label: "Water & WASH", hex: "#0b1b22", safeHex: "#0b1b22", token: "programme-water", onColor: "#ffffff" },
+  humanitarian: { id: "humanitarian", label: "Humanitarian Assistance", hex: "#050708", safeHex: "#050708", token: "programme-humanitarian", onColor: "#ffffff" },
+  research: { id: "research", label: "Research", hex: "#008f95", safeHex: "#006b70", token: "programme-research", onColor: "#ffffff" },
+  environment: { id: "environment", label: "Environment & Agriculture", hex: "#006b70", safeHex: "#006b70", token: "programme-environment", onColor: "#ffffff" },
+  youth: { id: "youth", label: "Youth Empowerment", hex: "#0b1b22", safeHex: "#0b1b22", token: "programme-youth", onColor: "#ffffff" },
+  alert: { id: "alert", label: "Emergency Alert", hex: "#dc2626", safeHex: "#dc2626", token: "programme-alert", onColor: "#ffffff" },
 };
 
 /**

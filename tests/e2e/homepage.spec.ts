@@ -11,7 +11,7 @@ test.describe("Homepage", () => {
 
   test("skip link is present and focusable", async ({ page }) => {
     await page.goto("/");
-    const skipLink = page.getByRole("link", { name: /skip to content/i });
+    const skipLink = page.getByRole("link", { name: /skip to (main )?content/i });
     await expect(skipLink).toBeAttached();
   });
 

@@ -57,7 +57,7 @@ export default async function ProgrammePage({
 
   return (
     <>
-      <section className="py-16 text-white md:py-24" style={{ backgroundColor: prog.hex }}>
+      <section className="py-16 text-white md:py-24" style={{ backgroundColor: prog.safeHex }}>
         <Container>
           <SectionHeader
             level="h1"
@@ -107,7 +107,7 @@ export default async function ProgrammePage({
               </div>
 
               <div className="mt-8">
-                <h3 className="text-sm font-semibold uppercase tracking-wider" style={{ color: prog.hex }}>
+                <h3 className="text-sm font-semibold uppercase tracking-wider" style={{ color: prog.safeHex }}>
                   What we do
                 </h3>
                 <ul className="mt-4 grid gap-2 sm:grid-cols-2">

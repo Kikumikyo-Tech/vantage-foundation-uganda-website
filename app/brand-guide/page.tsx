@@ -121,6 +121,7 @@ export default function BrandGuidePage() {
   const white = "#ffffff";
   const navyOnWhite = ratioLabel(contrastRatio(semanticColors.foreground, white));
   const tealOnWhite = ratioLabel(contrastRatio(semanticColors.primary, white));
+  const deepTealOnWhite = ratioLabel(contrastRatio(brandColors.deepTeal, white));
   const whiteOnTeal = ratioLabel(contrastRatio(white, semanticColors.primary));
   const whiteOnNavy = ratioLabel(contrastRatio(white, semanticColors.foreground));
   const mutedOnWhite = ratioLabel(contrastRatio(semanticColors.mutedForeground, white));
@@ -336,9 +337,16 @@ export default function BrandGuidePage() {
           </p>
 
           <h3 className="mt-10 text-lg font-semibold">Primary palette</h3>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+            Teal Primary only reaches {deepTealOnWhite} on white — short of
+            WCAG AA&rsquo;s 4.5:1 for normal text — so it&rsquo;s reserved for large
+            text/surfaces (24px+, which only needs 3:1). Teal Dark backs
+            <code className="mx-1 rounded bg-surface-strong px-1 py-0.5 font-mono text-xs">--primary</code>
+            everywhere text- and button-sized contrast matters.
+          </p>
           <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <Swatch name="Teal Primary" hex={brandColors.deepTeal} token="--primary" on="#ffffff" ratio={tealOnWhite} />
-            <Swatch name="Teal Dark" hex={brandColors.oceanBlue} token="--primary-dark" on="#ffffff" />
+            <Swatch name="Teal Primary" hex={brandColors.deepTeal} token="Large text/surfaces only" on="#ffffff" ratio={deepTealOnWhite} />
+            <Swatch name="Teal Dark" hex={brandColors.oceanBlue} token="--primary" on="#ffffff" ratio={tealOnWhite} />
             <Swatch name="Teal Light" hex={brandColors.brightAqua} token="--primary-light" on="#050708" ratio={aquaOnWhite} />
             <Swatch name="Black" hex={brandColors.darkNavy} token="--foreground / --navy" on="#ffffff" ratio={navyOnWhite} />
             <Swatch name="Dark Charcoal" hex={brandColors.charcoal} token="--charcoal" on="#ffffff" />
@@ -347,17 +355,21 @@ export default function BrandGuidePage() {
 
           <h3 className="mt-10 text-lg font-semibold">Accessible pairings</h3>
           <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <Swatch name="White on Deep Teal" hex={brandColors.deepTeal} token="text on primary" on="#ffffff" ratio={whiteOnTeal} />
+            <Swatch name="White on Teal Dark" hex={brandColors.oceanBlue} token="text on primary" on="#ffffff" ratio={whiteOnTeal} />
             <Swatch name="White on Navy" hex={brandColors.darkNavy} token="text on navy" on="#ffffff" ratio={whiteOnNavy} />
             <Swatch name="Muted on White" hex={semanticColors.mutedForeground} token="muted-foreground" on="#ffffff" ratio={mutedOnWhite} />
           </div>
 
           <div className="mt-6 rounded-lg border border-border bg-surface p-4">
             <p className="text-sm text-muted-foreground">
-              <strong className="text-foreground">Warning:</strong> Bright Aqua
-              (#1CC7D6) fails WCAG AA as text on white (1.9:1). Use it only for
-              fills, decorative accents, and large non-text elements — never for
-              body text or links on light backgrounds.
+              <strong className="text-foreground">Warning:</strong> Teal
+              Primary ({brandColors.deepTeal.toUpperCase()}) reaches only{" "}
+              {deepTealOnWhite} as text on white — below WCAG AA&rsquo;s 4.5:1 for
+              normal text. Use it for large text/surfaces only (24px+, 3:1
+              threshold); use Teal Dark for body text, links and buttons.
+              Teal Light ({brandColors.brightAqua.toUpperCase()}) is a pale
+              wash — use it only for fills, decorative accents, and large
+              non-text elements, never for body text or links.
             </p>
           </div>
         </Container>
