@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { HeartHandshake } from "lucide-react";
 import { site } from "@/content/site";
 import { getPublishedPartners } from "@/content/partners";
+import { getPublishedLogos } from "@/lib/media-public";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Card } from "@/components/ui/Card";
@@ -15,6 +16,10 @@ export const metadata: Metadata = {
   alternates: { canonical: "/donors-and-sponsors" },
 };
 
+// Lets an admin recognise a new donor/sponsor via /admin/media without a
+// code deploy — refreshes periodically well within the presigned URL TTL.
+export const revalidate = 3600;
+
 const categories = [
   { name: "Strategic Partners", description: "Long-term organisational partnerships shaping our direction." },
   { name: "Programme Sponsors", description: "Sustained support for a specific health, education or humanitarian programme." },
@@ -24,8 +29,11 @@ const categories = [
   { name: "Anonymous Contributors", description: "Donors who choose to support us without public recognition." },
 ];
 
-export default function DonorsAndSponsorsPage() {
-  const recognized = getPublishedPartners();
+export default async function DonorsAndSponsorsPage() {
+  // Static partners plus anything an admin has since uploaded and recognised
+  // via /admin/media (newest uploads first).
+  const uploadedLogos = await getPublishedLogos();
+  const recognized = [...uploadedLogos, ...getPublishedPartners()];
 
   return (
     <>

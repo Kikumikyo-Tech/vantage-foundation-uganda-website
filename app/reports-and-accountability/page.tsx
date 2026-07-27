@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getPublishedReports } from "@/content/reports";
+import { getPublishedDocuments } from "@/lib/media-public";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Card } from "@/components/ui/Card";
@@ -12,7 +13,16 @@ export const metadata: Metadata = {
   alternates: { canonical: "/reports-and-accountability" },
 };
 
-export default function ReportsPage() {
+// Lets an admin publish a new report via /admin/media without a code
+// deploy — refreshes periodically well within the presigned URL TTL.
+export const revalidate = 3600;
+
+export default async function ReportsPage() {
+  // Static reports plus anything an admin has since uploaded via
+  // /admin/media (newest uploads first).
+  const uploaded = await getPublishedDocuments();
+  const reports = [...uploaded, ...getPublishedReports()];
+
   return (
     <>
       <section className="bg-primary py-16 text-white md:py-24">
@@ -29,7 +39,7 @@ export default function ReportsPage() {
       <section className="py-16 md:py-24">
         <Container>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {getPublishedReports().map((report) => (
+            {reports.map((report) => (
               <Card key={report.title} className="flex flex-col p-6">
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
                   <FileText className="h-6 w-6" />

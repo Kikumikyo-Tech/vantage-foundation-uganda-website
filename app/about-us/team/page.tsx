@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { site } from "@/content/site";
 import { getLeadership, getVolunteers } from "@/content/team";
+import { getTeamMemberPhotoOverride } from "@/lib/media-public";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
@@ -13,9 +14,21 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about-us/team" },
 };
 
-export default function TeamPage() {
+// Lets an admin update a team member's photo via /admin/media without a
+// code deploy — refreshes periodically well within the presigned URL TTL.
+export const revalidate = 3600;
+
+export default async function TeamPage() {
   const leadership = getLeadership();
   const volunteers = getVolunteers();
+  const allMembers = [...leadership, ...volunteers];
+  const overrides = new Map(
+    await Promise.all(
+      allMembers.map(
+        async (m) => [m.slug, await getTeamMemberPhotoOverride(m.slug)] as const,
+      ),
+    ),
+  );
 
   return (
     <>
@@ -57,7 +70,11 @@ export default function TeamPage() {
           />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {leadership.map((member) => (
-              <TeamCard key={member.slug} member={member} />
+              <TeamCard
+                key={member.slug}
+                member={member}
+                photoOverrideSrc={overrides.get(member.slug)?.src}
+              />
             ))}
           </div>
         </Container>
@@ -71,7 +88,11 @@ export default function TeamPage() {
           />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {volunteers.map((member) => (
-              <TeamCard key={member.slug} member={member} />
+              <TeamCard
+                key={member.slug}
+                member={member}
+                photoOverrideSrc={overrides.get(member.slug)?.src}
+              />
             ))}
           </div>
         </Container>

@@ -9,9 +9,15 @@ import { SectionHeader } from "@/components/shared/SectionHeader";
 import { AreaIcon } from "@/components/shared/AreaIcon";
 import { ProjectCard } from "@/components/shared/ProjectCard";
 import { StoryCard } from "@/components/shared/StoryCard";
+import { GalleryGrid } from "@/components/gallery/GalleryGrid";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { programmeTokenForArea } from "@/lib/design-tokens";
+import { getProgrammeAdditionalPhotos } from "@/lib/media-public";
+
+// Lets an admin add photos to a programme via /admin/media without a code
+// deploy — refreshes periodically well within the presigned URL TTL.
+export const revalidate = 3600;
 
 export function generateStaticParams() {
   return areasOfWork.map((area) => ({ slug: area.id }));
@@ -54,6 +60,7 @@ export default async function ProgrammePage({
       relatedProjects.some((p) => p.slug === projectSlug)
     )
   );
+  const additionalPhotos = await getProgrammeAdditionalPhotos(area.id);
 
   return (
     <>
@@ -178,6 +185,20 @@ export default async function ProgrammePage({
               {relatedStories.map((story) => (
                 <StoryCard key={story.slug} story={story} />
               ))}
+            </div>
+          </Container>
+        </section>
+      )}
+
+      {additionalPhotos.length > 0 && (
+        <section className="py-16 md:py-24">
+          <Container>
+            <SectionHeader
+              title={`Photos from ${area.title}`}
+              description="Moments from this programme's work in the field."
+            />
+            <div className="mt-12">
+              <GalleryGrid images={additionalPhotos} />
             </div>
           </Container>
         </section>

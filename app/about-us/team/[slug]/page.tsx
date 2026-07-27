@@ -4,11 +4,16 @@ import Link from "next/link";
 import { Mail, ExternalLink } from "lucide-react";
 import { site } from "@/content/site";
 import { getTeamBySlug, getTeamSlugs, getPublishedTeam } from "@/content/team";
+import { getTeamMemberPhotoOverride } from "@/lib/media-public";
 import { Container } from "@/components/shared/Container";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
 import { Button } from "@/components/ui/Button";
 import { JsonLd, buildBreadcrumbJsonLd } from "@/components/shared/JsonLd";
+
+// Lets an admin update a team member's photo via /admin/media without a
+// code deploy — refreshes periodically well within the presigned URL TTL.
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   return getTeamSlugs().map((slug) => ({ slug }));
@@ -42,6 +47,7 @@ export default async function TeamMemberPage({
   }
 
   const others = getPublishedTeam().filter((m) => m.slug !== member.slug);
+  const photoOverride = await getTeamMemberPhotoOverride(member.slug);
 
   return (
     <>
@@ -73,8 +79,8 @@ export default async function TeamMemberPage({
             <div>
               <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
                 <ImageOrPlaceholder
-                  src={`${member.image}-portrait.webp`}
-                  alt={member.imageAlt}
+                  src={photoOverride?.src ?? `${member.image}-portrait.webp`}
+                  alt={photoOverride?.alt || member.imageAlt}
                   fill
                   priority
                   preset="half"

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { site } from "@/content/site";
 import { getPublishedTeam } from "@/content/team";
+import { getTeamMemberPhotoOverride } from "@/lib/media-public";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
@@ -14,7 +15,19 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about-us" },
 };
 
-export default function AboutPage() {
+// Lets an admin update a team member's photo via /admin/media without a
+// code deploy — refreshes periodically well within the presigned URL TTL.
+export const revalidate = 3600;
+
+export default async function AboutPage() {
+  const teamPreview = getPublishedTeam().slice(0, 4);
+  const teamPhotoOverrides = new Map(
+    await Promise.all(
+      teamPreview.map(
+        async (m) => [m.slug, await getTeamMemberPhotoOverride(m.slug)] as const,
+      ),
+    ),
+  );
   return (
     <>
       <section className="bg-primary py-16 text-white md:py-24">
@@ -113,11 +126,13 @@ export default function AboutPage() {
         <Container>
           <SectionHeader title="Meet the team" description="Youth-led and volunteer-driven." />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {getPublishedTeam()
-              .slice(0, 4)
-              .map((member) => (
-                <TeamCard key={member.slug} member={member} />
-              ))}
+            {teamPreview.map((member) => (
+              <TeamCard
+                key={member.slug}
+                member={member}
+                photoOverrideSrc={teamPhotoOverrides.get(member.slug)?.src}
+              />
+            ))}
           </div>
           <div className="mt-10 text-center">
             <Button href="/about-us/team" variant="outline">

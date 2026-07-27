@@ -1,10 +1,16 @@
 import { getPublishedPartners } from "@/content/partners";
+import { getPublishedLogos } from "@/lib/media-public";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Card } from "@/components/ui/Card";
 import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
 
-export function PartnersSection() {
+export async function PartnersSection() {
+  // Static partners plus anything an admin has since uploaded and recognised
+  // via /admin/media (newest uploads first).
+  const uploadedLogos = await getPublishedLogos();
+  const partners = [...uploadedLogos, ...getPublishedPartners()];
+
   return (
     <section className="py-16 md:py-24 lg:py-32">
       <Container>
@@ -15,7 +21,7 @@ export function PartnersSection() {
         />
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {getPublishedPartners().map((partner) => (
+          {partners.map((partner) => (
             <Card key={partner.name} className="flex flex-col items-center p-6 text-center">
               <div className="relative h-16 w-32">
                 <ImageOrPlaceholder

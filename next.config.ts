@@ -18,8 +18,12 @@ const csp = [
   "script-src 'self' 'unsafe-inline'",
   // Next.js injects inline styles (e.g. for next/font CSS variables).
   "style-src 'self' 'unsafe-inline'",
-  // next/image serves optimized images from self; data: for placeholder SVGs.
-  "img-src 'self' data: blob:",
+  // next/image serves optimized images from self; data: for placeholder SVGs;
+  // Cloudflare R2 for admin-uploaded media (presigned GET URLs, see
+  // lib/media-public.ts) — R2's S3-compatible endpoint is always
+  // <account-id>.r2.cloudflarestorage.com, so the wildcard only ever matches
+  // Cloudflare-hosted buckets, never an arbitrary external origin.
+  "img-src 'self' data: blob: https://*.r2.cloudflarestorage.com",
   // Self-hosted fonts via next/font/google (downloaded at build time).
   "font-src 'self'",
   // No plugins (Flash, Java, PDF embeds).
@@ -83,6 +87,12 @@ const nextConfig: NextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    // Admin-uploaded media served via presigned R2 GET URLs (see
+    // lib/media-public.ts / /admin/media). Wildcard matches any Cloudflare R2
+    // bucket's S3-compatible endpoint, not an arbitrary external host.
+    remotePatterns: [
+      { protocol: "https", hostname: "*.r2.cloudflarestorage.com" },
+    ],
   },
   // Disabling the X-Powered-By header avoids advertising the framework.
   poweredByHeader: false,

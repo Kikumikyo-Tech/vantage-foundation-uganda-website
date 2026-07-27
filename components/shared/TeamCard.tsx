@@ -5,14 +5,16 @@ import { ImageOrPlaceholder } from "./ImageOrPlaceholder";
 
 interface TeamCardProps {
   member: TeamMember;
+  /** Resolved presigned URL from an /admin/media upload, if one exists. */
+  photoOverrideSrc?: string;
 }
 
-export function TeamCard({ member }: TeamCardProps) {
+export function TeamCard({ member, photoOverrideSrc }: TeamCardProps) {
   return (
     <Card className="overflow-hidden text-center">
       <div className="relative aspect-square overflow-hidden">
         <ImageOrPlaceholder
-          src={`${member.image}-square.webp`}
+          src={photoOverrideSrc ?? `${member.image}-square.webp`}
           alt={member.imageAlt}
           fill
           preset="team"

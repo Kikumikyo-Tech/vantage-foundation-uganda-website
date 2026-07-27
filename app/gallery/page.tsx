@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getPublishedMedia } from "@/content/media";
+import { getPublishedGalleryMedia } from "@/lib/media-public";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { GalleryGrid } from "@/components/gallery/GalleryGrid";
@@ -11,8 +12,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "/gallery" },
 };
 
-export default function GalleryPage() {
-  const images = getPublishedMedia();
+// Refreshes admin-uploaded photos periodically without a full redeploy.
+export const revalidate = 3600;
+
+export default async function GalleryPage() {
+  // Static, pre-processed photos plus anything an admin has since uploaded
+  // via /admin/media (newest uploads first).
+  const uploaded = await getPublishedGalleryMedia();
+  const images = [...uploaded, ...getPublishedMedia()];
 
   return (
     <>

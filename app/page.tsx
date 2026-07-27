@@ -25,6 +25,11 @@ export const metadata: Metadata = {
   },
 };
 
+// PartnersSection pulls admin-uploaded logos (see /admin/media). Next.js
+// requires this to be a literal, not the PAGE_REVALIDATE_SECONDS constant
+// from lib/media-public.ts — keep the two in sync if either changes.
+export const revalidate = 3600;
+
 export default function Home() {
   return (
     <>
