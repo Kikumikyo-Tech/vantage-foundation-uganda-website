@@ -52,7 +52,7 @@ export default function OurWorkPage() {
                               href={`/programmes/${area.id}`}
                               className="hover:text-primary"
                             >
-                              {area.title}
+                              {area.programmeName ?? area.title}
                             </Link>
                           </h2>
                           <Link
@@ -62,6 +62,11 @@ export default function OurWorkPage() {
                             Learn more &rarr;
                           </Link>
                         </div>
+                        {area.programmeName && (
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                            {area.title} Programme
+                          </p>
+                        )}
                         <p className="mt-2 text-muted-foreground">{area.description}</p>
                         <ul className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                           {area.items.map((item) => (

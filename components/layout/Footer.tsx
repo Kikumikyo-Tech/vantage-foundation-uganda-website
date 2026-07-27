@@ -3,6 +3,7 @@ import { site } from "@/content/site";
 import { Container } from "@/components/shared/Container";
 import { NewsletterForm } from "@/components/shared/NewsletterForm";
 import { Logo } from "@/components/shared/Logo";
+import { Button } from "@/components/ui/Button";
 
 export function Footer() {
   const footerNav = site.nav.filter((item) => item.href !== "/");
@@ -16,6 +17,9 @@ export function Footer() {
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
               {site.mission}
             </p>
+            <Button href={site.primaryCta.href} size="sm" className="mt-6">
+              {site.primaryCta.label}
+            </Button>
           </div>
 
           <div>

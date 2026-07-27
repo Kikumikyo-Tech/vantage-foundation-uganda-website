@@ -225,6 +225,8 @@ export interface FaqItem {
 export interface AreaOfWork {
   id: string;
   title: string;
+  /** Branded flagship programme name for this area, e.g. "Vantage Care". Falls back to `title` when unset. */
+  programmeName?: string;
   summary: string;
   description: string;
   items: string[];

@@ -28,7 +28,14 @@ export function AreasOfWork() {
               >
                 <AreaIcon id={area.id} className="h-6 w-6" />
               </div>
-              <h3 className="mt-4 text-xl font-semibold">{area.title}</h3>
+              <h3 className="mt-4 text-xl font-semibold">
+                {area.programmeName ?? area.title}
+              </h3>
+              {area.programmeName && (
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  {area.title} Programme
+                </p>
+              )}
               <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
                 {area.summary}
               </p>

@@ -21,12 +21,13 @@ export function generateMetadata({ params }: { params: Promise<{ slug: string }>
   return params.then(({ slug }) => {
     const area = areasOfWork.find((a) => a.id === slug);
     if (!area) return { title: "Programme not found" };
+    const name = area.programmeName ?? area.title;
     return {
-      title: area.title,
+      title: name,
       description: area.summary,
       alternates: { canonical: `/programmes/${slug}` },
       openGraph: {
-        title: area.title,
+        title: name,
         description: area.summary,
         type: "website",
       },
@@ -60,7 +61,8 @@ export default async function ProgrammePage({
         <Container>
           <SectionHeader
             level="h1"
-            title={area.title}
+            eyebrow={area.programmeName ? `${area.title} Programme` : undefined}
+            title={area.programmeName ?? area.title}
             description={area.summary}
             light
           />
@@ -83,7 +85,7 @@ export default async function ProgrammePage({
             </Link>
             <span aria-hidden="true">/</span>
             <span className="text-foreground" aria-current="page">
-              {area.title}
+              {area.programmeName ?? area.title}
             </span>
           </nav>
 
