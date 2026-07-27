@@ -44,7 +44,7 @@
     "@types/nodemailer": "^8.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@vitejs/plugin-react": "^4.7.0",
+    "@vitejs/plugin-react": "^6.0.4",
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
     "exifreader": "4.41.3",
@@ -52,7 +52,7 @@
     "tailwindcss": "^4",
     "tsx": "4.23.1",
     "typescript": "^5",
-    "vitest": "^2.1.9"
+    "vitest": "^4.1.10"
   },
   "overrides": {
     "sharp": "0.35.3",
