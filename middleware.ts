@@ -6,17 +6,22 @@ import {
   getOrCreateCsrfToken,
 } from "@/lib/csrf";
 
-// Proxy runs before routes are rendered. We use it to:
+// Middleware runs before routes are rendered. We use it to:
 //   - Set the CSRF cookie for admin pages (double-submit cookie pattern).
 //
-// In Next.js 16, `middleware.ts` is deprecated and renamed to `proxy.ts`.
-// See node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/proxy.md
+// In Next.js 16, `middleware.ts` is deprecated and renamed to `proxy.ts`, but
+// `proxy.ts` always runs on the Node.js runtime and cannot be changed to Edge.
+// Cloudflare Pages (via OpenNext) requires Edge middleware, so we keep the
+// deprecated `middleware.ts` name which still allows `runtime = "edge"`.
+// On Vercel, Edge middleware is also supported and preferred.
 //
-// Note: proxy.ts cannot import from the main app's module graph in all cases.
+// Note: middleware cannot import from the main app's module graph in all cases.
 // The CSRF token generation is self-contained in lib/csrf.ts which has no
 // heavy dependencies, so this is safe.
 
-export function proxy(request: NextRequest) {
+export const runtime = "experimental-edge";
+
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Only set CSRF cookie for admin pages and admin API routes.
