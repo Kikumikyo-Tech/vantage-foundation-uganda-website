@@ -24,6 +24,8 @@ import { impactStats } from "../content/impact";
 import { reports } from "../content/reports";
 import { faq } from "../content/faq";
 import { mediaAssets } from "../content/media";
+import { reachDistricts } from "../content/reach";
+import { blogPosts } from "../content/blog";
 
 // ---------------------------------------------------------------------------
 // Shared building blocks
@@ -178,12 +180,47 @@ const storySchema = z.object({
   published: z.boolean().optional(),
 });
 
+const blogPostSchema = z.object({
+  id: nonEmpty,
+  slug,
+  title: nonEmpty,
+  category: z.enum([
+    "Health",
+    "Education",
+    "Humanitarian Action",
+    "Community Stories",
+    "Foundation News",
+    "Research & Learning",
+    "Accountability",
+  ]),
+  summary: nonEmpty,
+  body: nonEmpty,
+  author: z.string().optional(),
+  publishedAt: dateish,
+  readingTimeMinutes: z.number().positive().optional(),
+  heroImage: z.string().optional(),
+  heroImageAlt: z.string().optional(),
+  relatedSlugs: z.array(slug).optional(),
+  consentClassification,
+  seo: seoMeta,
+  published: z.boolean().optional(),
+});
+
 const teamMemberSchema = z.object({
-  name: nonEmpty,
+  id: nonEmpty,
+  slug: nonEmpty,
+  fullName: nonEmpty,
+  displayName: nonEmpty,
   role: nonEmpty,
-  bio: nonEmpty,
-  photo: z.string().optional(),
-  placeholder: z.boolean().optional(),
+  category: z.enum(["leadership", "volunteer"]),
+  shortBio: nonEmpty,
+  fullBio: nonEmpty,
+  image: nonEmpty,
+  imageAlt: nonEmpty,
+  email: z.string().email().optional(),
+  linkedin: z.string().url().optional(),
+  displayOrder: z.number(),
+  published: z.boolean(),
 });
 
 const partnerSchema = z.object({
@@ -345,6 +382,7 @@ export function validateAllContent(): ValidationError[] {
     )
   );
   errors.push(...validateModule("content/team.ts", team, z.array(teamMemberSchema)));
+  errors.push(...validateModule("content/blog.ts", blogPosts, z.array(blogPostSchema)));
   errors.push(
     ...validateModule("content/partners.ts", partners, z.array(partnerSchema))
   );
@@ -359,6 +397,19 @@ export function validateAllContent(): ValidationError[] {
     ...validateModule("content/reports.ts", reports, z.array(reportSchema))
   );
   errors.push(...validateModule("content/faq.ts", faq, z.array(faqItemSchema)));
+  errors.push(
+    ...validateModule(
+      "content/reach.ts",
+      reachDistricts,
+      z.array(
+        z.object({
+          name: nonEmpty,
+          x: z.number().min(0).max(100),
+          y: z.number().min(0).max(100),
+        })
+      )
+    )
+  );
   errors.push(
     ...validateModule(
       "content/media.ts",

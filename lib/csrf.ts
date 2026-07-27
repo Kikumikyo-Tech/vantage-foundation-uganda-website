@@ -1,10 +1,10 @@
 // CSRF protection using the double-submit cookie pattern.
 //
 // In Next.js 16, cookies cannot be set in Server Components (only in Server
-// Actions or Route Handlers). So the CSRF cookie is set by proxy.ts, which
-// runs before the page renders. The proxy also passes the token to the page
-// via the `x-csrf-token` request header, which the page reads to embed in
-// the form as a hidden field.
+// Actions or Route Handlers). So the CSRF cookie is set by middleware.ts,
+// which runs before the page renders. The middleware also passes the token
+// to the page via the `x-csrf-token` request header, which the page reads to
+// embed in the form as a hidden field.
 //
 // Flow:
 //   1. Browser requests /admin/login (no CSRF cookie yet)

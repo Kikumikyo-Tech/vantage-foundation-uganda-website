@@ -18,10 +18,28 @@ function splitSql(sql) {
   let current = "";
   let inSingleQuote = false;
   let inDoubleQuote = false;
+  let inLineComment = false;
   let dollarTag = null;
 
   for (let i = 0; i < sql.length; i++) {
     const ch = sql[i];
+    const next = sql[i + 1] ?? "";
+
+    // Handle line comments (-- ... \n). Must be checked before the semicolon
+    // branch so that semicolons inside comments don't trigger a split.
+    if (inLineComment) {
+      current += ch;
+      if (ch === "\n") {
+        inLineComment = false;
+      }
+      continue;
+    }
+    if (ch === "-" && next === "-" && !inSingleQuote && !inDoubleQuote && dollarTag === null) {
+      inLineComment = true;
+      current += ch;
+      continue;
+    }
+
     current += ch;
 
     if (dollarTag !== null) {

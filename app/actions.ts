@@ -177,23 +177,23 @@ function emailTemplate(title: string, rows: { label: string; value: string }[]):
   const tableRows = rows
     .map(
       (r) =>
-        `<tr><td style="padding:4px 12px 4px 0;font-weight:bold;color:#374151;vertical-align:top;">${r.label}</td><td style="padding:4px 0;color:#4b5563;">${r.value}</td></tr>`
+        `<tr><td style="padding:4px 12px 4px 0;font-weight:bold;color:#050708;vertical-align:top;">${r.label}</td><td style="padding:4px 0;color:#475569;">${r.value}</td></tr>`
     )
     .join("");
   return `<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="utf-8"><title>${title}</title></head>
-<body style="margin:0;padding:0;background:#f9fafb;font-family:Arial,Helvetica,sans-serif;">
+<body style="margin:0;padding:0;background:#f7fafa;font-family:Arial,Helvetica,sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="padding:24px 0;">
     <tr><td align="center">
-      <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #e5e7eb;">
-        <tr><td style="background:#1c4e64;padding:20px 24px;">
+      <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #dce5e5;">
+        <tr><td style="background:#008f95;padding:20px 24px;">
           <h1 style="margin:0;color:#ffffff;font-size:18px;font-weight:600;">${title}</h1>
         </td></tr>
         <tr><td style="padding:24px;">
-          <p style="margin:0 0 16px;color:#4b5563;">A new submission was received on the Vantage Foundation Uganda website.</p>
+          <p style="margin:0 0 16px;color:#475569;">A new submission was received on the Vantage Foundation Uganda website.</p>
           <table cellpadding="0" cellspacing="0">${tableRows}</table>
-          <p style="margin:24px 0 0;color:#6b7280;font-size:12px;border-top:1px solid #e5e7eb;padding-top:16px;">
+          <p style="margin:24px 0 0;color:#475569;font-size:12px;border-top:1px solid #dce5e5;padding-top:16px;">
             This is an automated notification from vantagefoundationuganda.org
           </p>
         </td></tr>

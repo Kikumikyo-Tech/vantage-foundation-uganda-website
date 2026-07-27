@@ -15,6 +15,7 @@ import { ProjectCard } from "@/components/shared/ProjectCard";
 import { MapPin, Calendar, Users } from "lucide-react";
 import { Markdown } from "@/components/shared/Markdown";
 import { site } from "@/content/site";
+import { programmeTokenForCategory } from "@/lib/design-tokens";
 
 export async function generateStaticParams() {
   return getProjectSlugs().map((slug) => ({ slug }));
@@ -58,6 +59,7 @@ export default async function ProjectPage({
   const relatedProjects = getPublishedProjects()
     .filter((p) => p.category === project.category && p.slug !== project.slug)
     .slice(0, 3);
+  const prog = programmeTokenForCategory(project.category);
 
   return (
     <>
@@ -71,11 +73,13 @@ export default async function ProjectPage({
           site.url
         )}
       />
-      <section className="bg-primary py-16 text-white md:py-24">
+      <section className="py-16 text-white md:py-24" style={{ backgroundColor: prog.safeHex }}>
         <Container>
           <div className="max-w-3xl">
             <div className="flex flex-wrap gap-2">
-              <Badge variant="accent">{project.category}</Badge>
+              <span className="inline-flex items-center rounded-full bg-white/20 px-2.5 py-0.5 text-xs font-semibold text-white">
+                {project.category}
+              </span>
               <Badge variant="outline" className="border-white/30 text-white">
                 {project.status}
               </Badge>

@@ -11,6 +11,7 @@ import { ProjectCard } from "@/components/shared/ProjectCard";
 import { StoryCard } from "@/components/shared/StoryCard";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { programmeTokenForArea } from "@/lib/design-tokens";
 
 export function generateStaticParams() {
   return areasOfWork.map((area) => ({ slug: area.id }));
@@ -20,12 +21,13 @@ export function generateMetadata({ params }: { params: Promise<{ slug: string }>
   return params.then(({ slug }) => {
     const area = areasOfWork.find((a) => a.id === slug);
     if (!area) return { title: "Programme not found" };
+    const name = area.programmeName ?? area.title;
     return {
-      title: area.title,
+      title: name,
       description: area.summary,
       alternates: { canonical: `/programmes/${slug}` },
       openGraph: {
-        title: area.title,
+        title: name,
         description: area.summary,
         type: "website",
       },
@@ -42,6 +44,7 @@ export default async function ProgrammePage({
   const area = areasOfWork.find((a) => a.id === slug);
   if (!area) notFound();
 
+  const prog = programmeTokenForArea(area.id);
   const categories = projectCategoriesByAreaId[area.id] ?? [];
   const relatedProjects = getPublishedProjects().filter((p) =>
     categories.includes(p.category)
@@ -54,11 +57,12 @@ export default async function ProgrammePage({
 
   return (
     <>
-      <section className="bg-primary py-16 text-white md:py-24">
+      <section className="py-16 text-white md:py-24" style={{ backgroundColor: prog.safeHex }}>
         <Container>
           <SectionHeader
             level="h1"
-            title={area.title}
+            eyebrow={area.programmeName ? `${area.title} Programme` : undefined}
+            title={area.programmeName ?? area.title}
             description={area.summary}
             light
           />
@@ -81,14 +85,17 @@ export default async function ProgrammePage({
             </Link>
             <span aria-hidden="true">/</span>
             <span className="text-foreground" aria-current="page">
-              {area.title}
+              {area.programmeName ?? area.title}
             </span>
           </nav>
 
           <div className="grid gap-12 lg:grid-cols-3">
             <div className="lg:col-span-2">
               <div className="flex items-start gap-4">
-                <div className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <div
+                  className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg"
+                  style={{ backgroundColor: `${prog.hex}1a`, color: prog.hex }}
+                >
                   <AreaIcon id={area.id} className="h-6 w-6" />
                 </div>
                 <div>
@@ -100,13 +107,13 @@ export default async function ProgrammePage({
               </div>
 
               <div className="mt-8">
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-primary">
+                <h3 className="text-sm font-semibold uppercase tracking-wider" style={{ color: prog.safeHex }}>
                   What we do
                 </h3>
                 <ul className="mt-4 grid gap-2 sm:grid-cols-2">
                   {area.items.map((item) => (
                     <li key={item} className="flex items-center gap-2 text-sm">
-                      <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                      <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: prog.hex }} aria-hidden="true" />
                       {item}
                     </li>
                   ))}
@@ -145,7 +152,7 @@ export default async function ProgrammePage({
       </section>
 
       {relatedProjects.length > 0 && (
-        <section className="bg-slate-50 py-16 md:py-24">
+        <section className="bg-surface py-16 md:py-24">
           <Container>
             <SectionHeader
               title={`Projects in ${area.title}`}
@@ -176,7 +183,7 @@ export default async function ProgrammePage({
         </section>
       )}
 
-      <section className="bg-slate-50 py-16">
+      <section className="bg-surface py-16">
         <Container>
           <div className="flex flex-col items-center justify-between gap-4 rounded-xl bg-primary p-8 text-white md:flex-row">
             <div>

@@ -10,21 +10,22 @@ export function Hero() {
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="max-w-2xl">
             <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-primary">
-              Youth-led nonprofit since 2020
+              Empowering Communities
             </p>
             <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              Changing the world,{" "}
+              Change the world{" "}
               <span className="text-primary">one advantage</span> at a time.
             </h1>
             <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-              {site.description}
+              {site.name} works with communities to expand access to health,
+              education and humanitarian support.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Button href="/impact" size="lg">
-                Explore Our Impact
+              <Button href="/donate" size="lg">
+                Donate Now
               </Button>
-              <Button href="/donate" variant="outline" size="lg">
-                Support Our Work
+              <Button href="/impact" variant="outline" size="lg">
+                Explore Our Impact
               </Button>
             </div>
             <blockquote className="mt-10 border-l-4 border-primary pl-4 italic text-muted-foreground">

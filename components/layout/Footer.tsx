@@ -2,21 +2,24 @@ import Link from "next/link";
 import { site } from "@/content/site";
 import { Container } from "@/components/shared/Container";
 import { NewsletterForm } from "@/components/shared/NewsletterForm";
+import { Logo } from "@/components/shared/Logo";
+import { Button } from "@/components/ui/Button";
 
 export function Footer() {
   const footerNav = site.nav.filter((item) => item.href !== "/");
 
   return (
-    <footer className="border-t border-border bg-slate-50">
+    <footer className="border-t border-border bg-surface">
       <Container>
         <div className="grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-1">
-            <Link href="/" className="text-xl font-bold tracking-tight">
-              {site.name}
-            </Link>
+            <Logo href="/" variant="horizontal" height={36} alt={site.name} />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
               {site.mission}
             </p>
+            <Button href={site.primaryCta.href} size="sm" className="mt-6">
+              {site.primaryCta.label}
+            </Button>
           </div>
 
           <div>
@@ -120,6 +123,9 @@ export function Footer() {
             </Link>
             <Link href="/accessibility" className="hover:text-primary">
               Accessibility
+            </Link>
+            <Link href="/brand-guide" className="hover:text-primary">
+              Brand Guide
             </Link>
           </div>
         </div>

@@ -82,7 +82,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
             type="button"
             onClick={() => setOpenIndex(index)}
             aria-label={`View photo: ${image.alt}`}
-            className="group relative aspect-square overflow-hidden rounded-xl bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            className="group relative aspect-square overflow-hidden rounded-xl bg-surface-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
             <Image
               src={image.src}

@@ -7,7 +7,7 @@ export const site: SiteConfig = {
   description:
     "Vantage Foundation Uganda is a youth-led nonprofit improving lives through health, education and humanitarian action in underserved communities across Uganda.",
   mission: "To change the world, one advantage at a time.",
-  vision: "Improved livelihoods in Ugandan and African communities.",
+  vision: "Improved livelihoods in Ugandan and East African communities.",
   values: ["Growth", "Sustainability", "Safety", "Inclusivity"],
   founded: "December 2020",
   contact: {
@@ -39,8 +39,10 @@ export const site: SiteConfig = {
     { label: "Projects", href: "/projects" },
     { label: "Impact", href: "/impact" },
     { label: "Stories", href: "/stories" },
+    { label: "Blog", href: "/blog" },
     { label: "Gallery", href: "/gallery" },
     { label: "Get Involved", href: "/get-involved" },
+    { label: "Donors & Sponsors", href: "/donors-and-sponsors" },
     { label: "Contact", href: "/contact" },
   ],
   primaryCta: { label: "Donate", href: "/donate" },

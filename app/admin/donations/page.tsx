@@ -52,22 +52,30 @@ export default async function AdminDonationsPage({
   return (
     <section className="py-12 md:py-16">
       <Container>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold">Donation verifications</h1>
             <p className="text-sm text-muted-foreground">
               Verify each donation against the official bank statement before marking it successful.
             </p>
           </div>
-          <form method="post" action="/api/admin/logout">
-            <input type="hidden" name={CSRF_FIELD_NAME} value={csrfToken} />
-            <button
-              type="submit"
+          <nav className="flex gap-2" aria-label="Admin navigation">
+            <a
+              href="/admin/media"
               className="rounded-lg border border-border bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
-              Log out
-            </button>
-          </form>
+              Media library
+            </a>
+            <form method="post" action="/api/admin/logout" className="inline">
+              <input type="hidden" name={CSRF_FIELD_NAME} value={csrfToken} />
+              <button
+                type="submit"
+                className="rounded-lg border border-border bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              >
+                Log out
+              </button>
+            </form>
+          </nav>
         </div>
 
         {updated && (

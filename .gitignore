@@ -52,6 +52,7 @@ next-env.d.ts
 # Do not commit 40 MB of UUID-named originals; curated images go in public/images/.
 vantage photos/
 vantage images/
+vantage_photos/
 
 # Intermediate image processing reports (not needed in repo)
 scripts/exif-report.json

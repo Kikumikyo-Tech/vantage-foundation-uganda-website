@@ -78,6 +78,11 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
     formats: ["image/webp", "image/avif"],
+    // Allow our own brand SVG logos to be served via next/image. These are
+    // trusted, hand-authored assets in /public/brand/logos/ — not user uploads.
+    dangerouslyAllowSVG: true,
+    contentDispositionType: "attachment",
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   // Disabling the X-Powered-By header avoids advertising the framework.
   poweredByHeader: false,

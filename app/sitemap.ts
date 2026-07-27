@@ -3,6 +3,8 @@ import { site } from "@/content/site";
 import { getProjectSlugs } from "@/content/projects";
 import { getStorySlugs } from "@/content/stories";
 import { areasOfWork } from "@/content/areas";
+import { getTeamSlugs } from "@/content/team";
+import { getBlogSlugs } from "@/content/blog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = site.url;
@@ -10,12 +12,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     "/",
     "/about-us",
+    "/about-us/team",
     "/our-work",
     "/projects",
     "/impact",
     "/stories",
+    "/blog",
     "/gallery",
     "/get-involved",
+    "/donors-and-sponsors",
     "/donate",
     "/contact",
     "/reports-and-accountability",
@@ -54,5 +59,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...routes, ...programmeRoutes, ...projectRoutes, ...storyRoutes];
+  const teamRoutes = getTeamSlugs().map((slug) => ({
+    url: `${baseUrl}/about-us/team/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
+  const blogRoutes = getBlogSlugs().map((slug) => ({
+    url: `${baseUrl}/blog/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
+  return [
+    ...routes,
+    ...programmeRoutes,
+    ...projectRoutes,
+    ...storyRoutes,
+    ...teamRoutes,
+    ...blogRoutes,
+  ];
 }

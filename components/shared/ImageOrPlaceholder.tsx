@@ -58,7 +58,7 @@ export function ImageOrPlaceholder({
     return (
       <div
         className={cn(
-          "relative flex items-center justify-center overflow-hidden bg-slate-100 text-slate-600",
+          "relative flex items-center justify-center overflow-hidden bg-surface-strong text-muted-foreground",
           containerClassName
         )}
       >

@@ -13,7 +13,7 @@ export function TrustStrip() {
   ];
 
   return (
-    <section className="border-y border-border bg-slate-50 py-10">
+    <section className="border-y border-border bg-surface py-10">
       <Container>
         <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm font-medium text-muted-foreground">
           {trustItems.map((item) => (

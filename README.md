@@ -58,6 +58,10 @@ Copy `.env.example` to `.env.local` and set:
 | `SMTP_USER` | No | SMTP username |
 | `SMTP_PASS` | No | SMTP password |
 | `SMTP_FROM` | No | From email address |
+| `R2_ENDPOINT` | For media uploads | Cloudflare R2 endpoint URL (server-only) |
+| `R2_ACCESS_KEY_ID` | For media uploads | R2 access key (server-only, never commit) |
+| `R2_SECRET_ACCESS_KEY` | For media uploads | R2 secret key (server-only, never commit) |
+| `R2_BUCKET_NAME` | For media uploads | R2 bucket name (shared with sibling kikumikyo project; Vantage objects live under `vantage/` prefix) |
 
 See `docs/deployment.md` for detailed setup instructions.
 
@@ -150,7 +154,9 @@ See `docs/deployment.md` for detailed database setup instructions.
 
 - **URL:** `/admin/login`
 - **Password:** the value of `ADMIN_SECRET`
-- **Features:** View donations, verify/reject donation status
+- **Features:**
+  - View donations, verify/reject donation status (`/admin/donations`)
+  - Upload and manage media in Cloudflare R2 (`/admin/media`) — photos, documents, logos. New uploads default to `pending` consent and `unpublished`; set both before publishing.
 - **Security:** Signed session tokens (HMAC), CSRF protection, rate limiting, lockout after 5 failed attempts
 
 ## Testing

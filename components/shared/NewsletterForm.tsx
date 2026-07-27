@@ -35,7 +35,7 @@ export function NewsletterForm({ light = false }: NewsletterFormProps) {
         name="email"
         required
         placeholder="Enter your email"
-        className="w-full rounded-lg border border-border bg-white px-3 py-2 text-sm text-foreground placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary"
+        className="w-full rounded-lg border border-border bg-white px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
         aria-invalid={state.fieldErrors?.email ? true : undefined}
         aria-describedby={state.fieldErrors?.email ? "newsletter-email-error" : undefined}
       />
@@ -69,11 +69,11 @@ export function NewsletterForm({ light = false }: NewsletterFormProps) {
           className={`text-xs ${
             state.success
               ? light
-                ? "text-green-200"
-                : "text-green-700"
+                ? "text-success-bg"
+                : "text-success"
               : light
-                ? "text-red-200"
-                : "text-red-600"
+                ? "text-destructive-bg"
+                : "text-destructive"
           }`}
         >
           {state.message}

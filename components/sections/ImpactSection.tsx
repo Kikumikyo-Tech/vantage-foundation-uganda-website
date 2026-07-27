@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 
 export function ImpactSection() {
   return (
-    <section className="bg-slate-50 py-16 md:py-24 lg:py-32">
+    <section className="bg-surface py-16 md:py-24 lg:py-32">
       <Container>
         <SectionHeader
           eyebrow="Impact"

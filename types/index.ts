@@ -174,12 +174,57 @@ export interface Story {
   published?: boolean;
 }
 
+export type BlogCategory =
+  | "Health"
+  | "Education"
+  | "Humanitarian Action"
+  | "Community Stories"
+  | "Foundation News"
+  | "Research & Learning"
+  | "Accountability";
+
+export interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  category: BlogCategory;
+  summary: string;
+  body: string;
+  author?: string;
+  /** ISO date string, e.g. "2026-07-27". */
+  publishedAt: string;
+  readingTimeMinutes?: number;
+  heroImage?: string;
+  heroImageAlt?: string;
+  relatedSlugs?: string[];
+  consentClassification?: ConsentClassification;
+  seo?: SeoMeta;
+  /**
+   * Whether the post is published. Defaults to true when omitted.
+   * Unpublished/draft posts are filtered out of production routes but
+   * remain visible in development for previewing.
+   */
+  published?: boolean;
+}
+
+export type TeamCategory = "leadership" | "volunteer";
+
 export interface TeamMember {
-  name: string;
+  id: string;
+  slug: string;
+  fullName: string;
+  displayName: string;
   role: string;
-  bio: string;
-  photo?: string;
-  placeholder?: boolean;
+  category: TeamCategory;
+  shortBio: string;
+  fullBio: string;
+  /** Base path without extension/suffix, e.g. "/images/team/omara-godfrey" — square/portrait crops in webp+avif are derived from this. */
+  image: string;
+  imageAlt: string;
+  email?: string;
+  linkedin?: string;
+  displayOrder: number;
+  published: boolean;
 }
 
 export interface Partner {
@@ -213,6 +258,8 @@ export interface FaqItem {
 export interface AreaOfWork {
   id: string;
   title: string;
+  /** Branded flagship programme name for this area, e.g. "Vantage Care". Falls back to `title` when unset. */
+  programmeName?: string;
   summary: string;
   description: string;
   items: string[];

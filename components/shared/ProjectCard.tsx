@@ -3,6 +3,7 @@ import { Project } from "@/types";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { ImageOrPlaceholder } from "./ImageOrPlaceholder";
+import { programmeTokenForCategory } from "@/lib/design-tokens";
 import { MapPin } from "lucide-react";
 
 interface ProjectCardProps {
@@ -10,6 +11,7 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
+  const prog = programmeTokenForCategory(project.category);
   return (
     <Card className="flex flex-col overflow-hidden">
       <div className="relative aspect-[16/10] overflow-hidden">
@@ -19,10 +21,15 @@ export function ProjectCard({ project }: ProjectCardProps) {
           fill
           containerClassName="h-full w-full"
         />
+        <span
+          className="absolute left-3 top-3 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold text-white"
+          style={{ backgroundColor: prog.safeHex }}
+        >
+          {project.category}
+        </span>
       </div>
       <div className="flex flex-1 flex-col p-5">
-        <div className="flex flex-wrap items-center gap-2">
-          <Badge>{project.category}</Badge>
+        <div className="flex items-center gap-2">
           <Badge variant="outline">{project.status}</Badge>
         </div>
         <h3 className="mt-3 text-lg font-semibold leading-snug">

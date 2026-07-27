@@ -85,7 +85,7 @@ export default function ImpactPage() {
         </Container>
       </section>
 
-      <section className="bg-slate-50 py-16 md:py-24">
+      <section className="bg-surface py-16 md:py-24">
         <Container>
           <div className="grid gap-12 lg:grid-cols-2">
             <div>
@@ -152,7 +152,7 @@ export default function ImpactPage() {
         </Container>
       </section>
 
-      <section className="bg-slate-50 py-16 md:py-24">
+      <section className="bg-surface py-16 md:py-24">
         <Container>
           <SectionHeader title="Projects behind the numbers" />
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
