@@ -17,9 +17,12 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - `app/` — Next.js App Router pages and special files (`sitemap.ts`, `robots.ts`, `actions.ts`)
 - `components/sections/` — homepage section components
 - `components/shared/` — reusable components (forms, cards, image placeholders)
+- `components/admin/` — admin-only client components (media manager)
 - `components/ui/` — small primitives (Button, Card, Input, etc.)
 - `content/` — all editable content (site config, projects, stories, team, partners, impact, FAQ, reports, donation)
 - `lib/` — utilities and content helpers
+- `lib/storage/` — Cloudflare R2 client and object-key conventions (server-only)
+- `lib/db/` — Neon PostgreSQL queries (`index.ts` = donations, `media.ts` = media objects, `schema.sql` = table definitions)
 - `public/images/` — real images go here; placeholder filenames are handled by `ImageOrPlaceholder`
 - `types/` — shared TypeScript interfaces
 
@@ -32,15 +35,17 @@ Copy `.env.example` to `.env.local` and set:
 - `DATABASE_URL` — Neon PostgreSQL connection string (server-side only, never commit)
 - `ADMIN_SECRET` — password for the donation verification dashboard
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` — optional email server for form notifications
+- `R2_ENDPOINT`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME` — Cloudflare R2 object storage (server-only). Same bucket/credentials as the sibling kikumikyo project; Vantage objects live under a `vantage/` prefix. Do not rename these variables or create a new bucket.
 
 ## Database setup
 1. Create a Neon PostgreSQL database.
-2. Run `node scripts/setup-db.mjs` (or paste `lib/db/schema.sql` in the Neon SQL editor) to create the `donations` table.
+2. Run `node scripts/setup-db.mjs` (or paste `lib/db/schema.sql` in the Neon SQL editor) to create the `donations` and `media_objects` tables. The script is idempotent — safe to re-run after schema updates.
 3. Never commit `.env.local` or any real credentials.
 
 ## Admin dashboard
 - `/admin/login` — sign in with `ADMIN_SECRET`.
 - `/admin/donations` — view and verify/reject donor submissions. Donations are stored with status `pending` and are only marked `verified` after an administrator confirms the transfer against the official bank statement.
+- `/admin/media` — upload and manage photos, documents, and logos stored in Cloudflare R2. New uploads default to `pending` consent and `unpublished`; set both before publishing. The browser uploads directly to R2 via a presigned PUT URL (issued by `/api/admin/media/presign`), then the server confirms the object via HEAD and records it in the `media_objects` table. R2 object keys are stored (never signed URLs) so the DB stays stable; presigned GET URLs are minted at render time.
 
 ## Deployment
 This project is configured for Vercel. Set the framework preset to Next.js and, if needed, the root directory to `vantage-website`.
