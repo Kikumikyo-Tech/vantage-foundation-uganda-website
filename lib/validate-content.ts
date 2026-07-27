@@ -24,6 +24,7 @@ import { impactStats } from "../content/impact";
 import { reports } from "../content/reports";
 import { faq } from "../content/faq";
 import { mediaAssets } from "../content/media";
+import { reachDistricts } from "../content/reach";
 
 // ---------------------------------------------------------------------------
 // Shared building blocks
@@ -368,6 +369,19 @@ export function validateAllContent(): ValidationError[] {
     ...validateModule("content/reports.ts", reports, z.array(reportSchema))
   );
   errors.push(...validateModule("content/faq.ts", faq, z.array(faqItemSchema)));
+  errors.push(
+    ...validateModule(
+      "content/reach.ts",
+      reachDistricts,
+      z.array(
+        z.object({
+          name: nonEmpty,
+          x: z.number().min(0).max(100),
+          y: z.number().min(0).max(100),
+        })
+      )
+    )
+  );
   errors.push(
     ...validateModule(
       "content/media.ts",
