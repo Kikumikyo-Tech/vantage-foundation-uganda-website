@@ -3,19 +3,19 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { verifySessionToken, sessionCookieName } from "@/lib/session";
 import { getCsrfTokenFromRequest, CSRF_FIELD_NAME } from "@/lib/csrf";
-import { getMediaObjects } from "@/lib/db/media";
+import { getBlogPosts } from "@/lib/db/blog";
 import { Container } from "@/components/shared/Container";
 import { Badge } from "@/components/ui/Badge";
-import { MediaManager } from "@/components/admin/MediaManager";
+import { BlogManager } from "@/components/admin/BlogManager";
 
 export const metadata: Metadata = {
-  title: "Media Library",
+  title: "Blog",
   robots: { index: false, follow: false },
 };
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminMediaPage({
+export default async function AdminBlogPage({
   searchParams,
 }: {
   searchParams: Promise<{ created?: string; updated?: string; deleted?: string; error?: string }>;
@@ -29,48 +29,33 @@ export default async function AdminMediaPage({
 
   const csrfToken = await getCsrfTokenFromRequest();
 
-  let items: Awaited<ReturnType<typeof getMediaObjects>> = [];
+  let items: Awaited<ReturnType<typeof getBlogPosts>> = [];
   let dbError = "";
   try {
-    items = await getMediaObjects();
+    items = await getBlogPosts();
   } catch {
     dbError =
-      "Could not load media. Check that DATABASE_URL is set and the media_objects table exists (run `node scripts/setup-db.mjs`).";
+      "Could not load posts. Check that DATABASE_URL is set and the blog_posts table exists (run `node scripts/setup-db.mjs`).";
   }
-
-  const consentVariant = (
-    consent: string
-  ): "success" | "warning" | "destructive" | "default" => {
-    switch (consent) {
-      case "verified":
-        return "success";
-      case "group-consent":
-        return "success";
-      case "pending":
-        return "warning";
-      default:
-        return "default";
-    }
-  };
 
   return (
     <section className="py-12 md:py-16">
       <Container>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold">Media library</h1>
+            <h1 className="text-2xl font-bold">Blog</h1>
             <p className="text-sm text-muted-foreground">
-              Upload and manage photos, documents, and logos stored in Cloudflare R2.
-              New uploads default to <strong>pending</strong> consent and
-              <strong> unpublished</strong> — set both before publishing.
+              Write and manage blog posts. New posts default to a{" "}
+              <strong>draft</strong> — set <strong>published</strong> once
+              the post and any hero image consent are final.
             </p>
           </div>
           <nav className="flex gap-2" aria-label="Admin navigation">
             <a
-              href="/admin/blog"
+              href="/admin/media"
               className="rounded-lg border border-border bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
-              Blog
+              Media library
             </a>
             <a
               href="/admin/donations"
@@ -92,17 +77,17 @@ export default async function AdminMediaPage({
 
         {created && (
           <div role="status" className="mt-4 rounded-lg bg-green-50 p-4 text-sm text-green-800">
-            Media uploaded successfully. Review consent and alt text before publishing.
+            Post created. Review it before publishing.
           </div>
         )}
         {updated && (
           <div role="status" className="mt-4 rounded-lg bg-green-50 p-4 text-sm text-green-800">
-            Media updated successfully.
+            Post updated successfully.
           </div>
         )}
         {deleted && (
           <div role="status" className="mt-4 rounded-lg bg-slate-50 p-4 text-sm text-slate-700">
-            Media deleted. The R2 object was removed and the database record soft-deleted.
+            Post deleted. Its hero image (if any) was removed from R2 and the record soft-deleted.
           </div>
         )}
         {error && (
@@ -110,13 +95,10 @@ export default async function AdminMediaPage({
             {error === "csrf" && "Security check failed. Please reload the page."}
             {error === "unauthorized" && "Your session expired. Please log in again."}
             {error === "rate-limited" && "Too many requests. Please wait a minute."}
-            {error === "presign-failed" && "Could not issue an upload URL. Check R2 credentials."}
-            {error === "object-not-found" && "The uploaded file was not found in R2. Try again."}
-            {error === "duplicate" && "A record for this object already exists."}
-            {error === "unsupported-type" && "That file type is not allowed."}
-            {error === "too-large" && "The file exceeds the 10 MB limit."}
-            {error === "db" && "Database error. Check DATABASE_URL and the media_objects table."}
-            {error === "not-found" && "Media record not found."}
+            {error === "object-not-found" && "The hero image was not found in R2. Try uploading again."}
+            {error === "duplicate" && "A post with this slug already exists."}
+            {error === "db" && "Database error. Check DATABASE_URL and the blog_posts table."}
+            {error === "not-found" && "Post not found."}
             {error === "invalid" && "Invalid input."}
           </div>
         )}
@@ -126,7 +108,7 @@ export default async function AdminMediaPage({
           </div>
         )}
 
-        <MediaManager csrfToken={csrfToken} initialItems={items} />
+        <BlogManager csrfToken={csrfToken} initialItems={items} />
 
         {items.length > 0 && (
           <div className="mt-8 overflow-x-auto rounded-xl border border-border bg-white shadow-sm">
@@ -137,22 +119,16 @@ export default async function AdminMediaPage({
                     ID
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Object key
+                    Title / slug
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Type
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Size
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Consent
+                    Category
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Published
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Uploaded
+                    Date
                   </th>
                 </tr>
               </thead>
@@ -160,17 +136,11 @@ export default async function AdminMediaPage({
                 {items.map((item) => (
                   <tr key={item.id} className="align-top">
                     <td className="whitespace-nowrap px-4 py-3 text-sm">#{item.id}</td>
-                    <td className="px-4 py-3 text-sm font-mono text-xs break-all">
-                      {item.objectKey}
-                      <div className="text-muted-foreground">{item.originalFilename}</div>
+                    <td className="px-4 py-3 text-sm">
+                      {item.title}
+                      <div className="font-mono text-xs text-muted-foreground">/blog/{item.slug}</div>
                     </td>
-                    <td className="whitespace-nowrap px-4 py-3 text-sm">{item.contentType}</td>
-                    <td className="whitespace-nowrap px-4 py-3 text-sm text-muted-foreground">
-                      {formatBytes(item.byteSize)}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-3 text-sm">
-                      <Badge variant={consentVariant(item.consent)}>{item.consent}</Badge>
-                    </td>
+                    <td className="whitespace-nowrap px-4 py-3 text-sm">{item.category}</td>
                     <td className="whitespace-nowrap px-4 py-3 text-sm">
                       {item.published ? (
                         <Badge variant="success">published</Badge>
@@ -179,7 +149,7 @@ export default async function AdminMediaPage({
                       )}
                     </td>
                     <td className="whitespace-nowrap px-4 py-3 text-sm text-muted-foreground">
-                      {new Date(item.createdAt).toLocaleString()}
+                      {item.publishedAt}
                     </td>
                   </tr>
                 ))}
@@ -190,10 +160,4 @@ export default async function AdminMediaPage({
       </Container>
     </section>
   );
-}
-
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }

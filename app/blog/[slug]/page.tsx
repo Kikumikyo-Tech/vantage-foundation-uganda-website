@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getBlogPostBySlug, getBlogSlugs, getPublishedBlogPosts } from "@/content/blog";
+import { getDbBlogPostBySlug, getPublishedDbBlogPosts, getDbBlogSlugs } from "@/lib/blog-public";
 import { site } from "@/content/site";
 import { Container } from "@/components/shared/Container";
 import { Badge } from "@/components/ui/Badge";
@@ -12,8 +13,13 @@ import { BlogCard } from "@/components/shared/BlogCard";
 import { Button } from "@/components/ui/Button";
 
 export async function generateStaticParams() {
-  return getBlogSlugs().map((slug) => ({ slug }));
+  const dbSlugs = await getDbBlogSlugs();
+  return [...dbSlugs, ...getBlogSlugs()].map((slug) => ({ slug }));
 }
+
+// Lets an admin publish a post via /admin/blog without a code deploy —
+// refreshes periodically well within the presigned hero-image URL TTL.
+export const revalidate = 3600;
 
 export async function generateMetadata({
   params,
@@ -21,7 +27,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
+  const post = (await getDbBlogPostBySlug(slug)) ?? getBlogPostBySlug(slug);
   if (!post) return {};
   return {
     title: post.seo?.title || post.title,
@@ -45,13 +51,14 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
+  const post = (await getDbBlogPostBySlug(slug)) ?? getBlogPostBySlug(slug);
 
   if (!post || (process.env.NODE_ENV === "production" && post.published === false)) {
     notFound();
   }
 
-  const related = getPublishedBlogPosts()
+  const allPublished = [...(await getPublishedDbBlogPosts()), ...getPublishedBlogPosts()];
+  const related = allPublished
     .filter((p) => p.category === post.category && p.slug !== post.slug)
     .slice(0, 3);
 

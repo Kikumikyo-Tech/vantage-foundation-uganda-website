@@ -39,13 +39,14 @@ Copy `.env.example` to `.env.local` and set:
 
 ## Database setup
 1. Create a Neon PostgreSQL database.
-2. Run `node scripts/setup-db.mjs` (or paste `lib/db/schema.sql` in the Neon SQL editor) to create the `donations` and `media_objects` tables. The script is idempotent — safe to re-run after schema updates.
+2. Run `node scripts/setup-db.mjs` (or paste `lib/db/schema.sql` in the Neon SQL editor) to create the `donations`, `media_objects` and `blog_posts` tables. The script is idempotent — safe to re-run after schema updates.
 3. Never commit `.env.local` or any real credentials.
 
 ## Admin dashboard
 - `/admin/login` — sign in with `ADMIN_SECRET`.
 - `/admin/donations` — view and verify/reject donor submissions. Donations are stored with status `pending` and are only marked `verified` after an administrator confirms the transfer against the official bank statement.
 - `/admin/media` — upload and manage photos, documents, and logos stored in Cloudflare R2. New uploads default to `pending` consent and `unpublished`; set both before publishing. The browser uploads directly to R2 via a presigned PUT URL (issued by `/api/admin/media/presign`), then the server confirms the object via HEAD and records it in the `media_objects` table. R2 object keys are stored (never signed URLs) so the DB stays stable; presigned GET URLs are minted at render time.
+- `/admin/blog` — write, edit and publish blog posts (stored in `blog_posts`), each optionally with a hero image uploaded the same way media is (folder `blog`, presigned PUT, HEAD-confirmed before saving). New posts default to a draft; publishing is a separate explicit toggle. `/blog` and `/blog/[slug]` merge published rows here with the (normally empty) static `content/blog.ts` manifest.
 
 ## Deployment
 This project is configured for Vercel. Set the framework preset to Next.js and, if needed, the root directory to `vantage-website`.

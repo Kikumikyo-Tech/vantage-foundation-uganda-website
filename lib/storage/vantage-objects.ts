@@ -16,6 +16,7 @@ import "server-only";
  *   vantage/documents/{id}-{filename}
  *   vantage/logos/{id}-{filename}
  *   vantage/resources/{id}-{filename}
+ *   vantage/blog/{slug}/{id}-{filename}
  *
  * Each key includes a server-generated `id` (a short random token) so that
  * re-uploading a file with the same name does not overwrite the previous
@@ -28,7 +29,8 @@ export type MediaFolder =
   | "gallery"
   | "documents"
   | "logos"
-  | "resources";
+  | "resources"
+  | "blog";
 
 const VANTAGE_PREFIX = "vantage";
 
@@ -112,6 +114,7 @@ export function parseObjectKey(
     "documents",
     "logos",
     "resources",
+    "blog",
   ];
   if (!validFolders.includes(folder)) return null;
 
@@ -121,9 +124,12 @@ export function parseObjectKey(
   const id = last.slice(0, dashIdx);
   const filename = last.slice(dashIdx + 1);
 
-  // programmes/team have a slug segment between folder and filename.
+  // programmes/team/blog have a slug segment between folder and filename.
   let slug: string | undefined;
-  if ((folder === "programmes" || folder === "team") && parts.length === 4) {
+  if (
+    (folder === "programmes" || folder === "team" || folder === "blog") &&
+    parts.length === 4
+  ) {
     slug = parts[2];
   }
   return { folder, slug, id, filename };

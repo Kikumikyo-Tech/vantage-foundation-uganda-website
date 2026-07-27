@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Newspaper } from "lucide-react";
 import { getPublishedBlogPosts } from "@/content/blog";
+import { getPublishedDbBlogPosts } from "@/lib/blog-public";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { BlogCard } from "@/components/shared/BlogCard";
@@ -13,8 +14,15 @@ export const metadata: Metadata = {
   alternates: { canonical: "/blog" },
 };
 
-export default function BlogPage() {
-  const posts = getPublishedBlogPosts();
+// Lets an admin publish a post via /admin/blog without a code deploy —
+// refreshes periodically well within the presigned hero-image URL TTL.
+export const revalidate = 3600;
+
+export default async function BlogPage() {
+  const dbPosts = await getPublishedDbBlogPosts();
+  const posts = [...dbPosts, ...getPublishedBlogPosts()].sort((a, b) =>
+    a.publishedAt < b.publishedAt ? 1 : -1
+  );
 
   return (
     <>

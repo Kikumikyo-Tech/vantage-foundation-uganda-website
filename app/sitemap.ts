@@ -5,8 +5,9 @@ import { getStorySlugs } from "@/content/stories";
 import { areasOfWork } from "@/content/areas";
 import { getTeamSlugs } from "@/content/team";
 import { getBlogSlugs } from "@/content/blog";
+import { getDbBlogSlugs } from "@/lib/blog-public";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = site.url;
 
   const staticRoutes = [
@@ -66,7 +67,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  const blogRoutes = getBlogSlugs().map((slug) => ({
+  const dbBlogSlugs = await getDbBlogSlugs();
+  const blogRoutes = [...dbBlogSlugs, ...getBlogSlugs()].map((slug) => ({
     url: `${baseUrl}/blog/${slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
