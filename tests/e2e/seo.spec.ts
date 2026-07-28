@@ -94,6 +94,49 @@ test.describe("SEO — meta tags", () => {
     expect(hasFaqSchema).toBe(true);
   });
 
+  test("homepage has OG image meta tag", async ({ page }) => {
+    await page.goto("/");
+    const ogImage = await page
+      .locator('meta[property="og:image"]')
+      .getAttribute("content");
+    expect(ogImage).toBeTruthy();
+  });
+
+  test("homepage has Twitter card meta tag", async ({ page }) => {
+    await page.goto("/");
+    const twitterCard = await page
+      .locator('meta[name="twitter:card"]')
+      .getAttribute("content");
+    expect(twitterCard).toBe("summary_large_image");
+  });
+
+  test("homepage has Organization with logo in JSON-LD", async ({ page }) => {
+    await page.goto("/");
+    const jsonLdContent = await page
+      .locator('script[type="application/ld+json"]')
+      .allTextContents();
+    const hasOrgWithLogo = jsonLdContent.some(
+      (c) => c.includes("Organization") && c.includes("logo")
+    );
+    expect(hasOrgWithLogo).toBe(true);
+  });
+
+  test("homepage has sameAs social links in JSON-LD", async ({ page }) => {
+    await page.goto("/");
+    const jsonLdContent = await page
+      .locator('script[type="application/ld+json"]')
+      .allTextContents();
+    const hasSameAs = jsonLdContent.some(
+      (c) => c.includes("sameAs") && c.includes("instagram")
+    );
+    expect(hasSameAs).toBe(true);
+  });
+
+  test("web-app manifest is accessible", async ({ page }) => {
+    const response = await page.goto("/manifest.webmanifest");
+    expect(response?.status()).toBe(200);
+  });
+
   test("sitemap.xml is accessible", async ({ page }) => {
     const response = await page.goto("/sitemap.xml");
     expect(response?.status()).toBe(200);

@@ -23,16 +23,24 @@ export async function PartnersSection() {
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {partners.map((partner) => (
             <Card key={partner.name} className="flex flex-col items-center p-6 text-center">
-              <div className="relative h-16 w-32">
-                <ImageOrPlaceholder
-                  src={partner.logo}
-                  alt={partner.name}
-                  fill
-                  preset="card"
-                  containerClassName="h-full w-full"
-                />
-              </div>
-              <h3 className="mt-4 text-lg font-semibold">{partner.name}</h3>
+              {partner.logo ? (
+                <div className="relative h-16 w-32">
+                  <ImageOrPlaceholder
+                    src={partner.logo}
+                    alt={partner.name}
+                    fill
+                    preset="card"
+                    containerClassName="h-full w-full"
+                  />
+                </div>
+              ) : (
+                <div className="flex h-16 items-center justify-center">
+                  <span className="text-lg font-semibold text-muted-foreground">{partner.name}</span>
+                </div>
+              )}
+              {partner.logo && (
+                <h3 className="mt-4 text-lg font-semibold">{partner.name}</h3>
+              )}
               <p className="mt-2 text-sm text-muted-foreground">{partner.description}</p>
             </Card>
           ))}

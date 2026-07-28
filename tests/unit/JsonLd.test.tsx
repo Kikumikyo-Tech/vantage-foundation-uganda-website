@@ -97,7 +97,7 @@ describe("buildFaqJsonLd", () => {
 });
 
 describe("buildNgoJsonLd", () => {
-  it("builds an NGO with address", () => {
+  it("builds an NGO/Organization with address, logo, socials, and foundingDate", () => {
     const result = buildNgoJsonLd({
       name: "Test NGO",
       legalName: "Test NGO Ltd",
@@ -108,9 +108,21 @@ describe("buildNgoJsonLd", () => {
       city: "Kampala",
       country: "Uganda",
       description: "A test NGO",
+      logoUrl: "/brand/logos/logo.svg",
+      socials: {
+        instagram: "https://instagram.com/test",
+        linkedin: "https://linkedin.com/test",
+        youtube: "https://youtube.com/test",
+      },
+      foundingDate: "2020-12",
     });
-    expect(result["@type"]).toBe("NGO");
+    expect(result["@type"]).toEqual(["NGO", "Organization"]);
     expect(result.name).toBe("Test NGO");
+    expect(result.legalName).toBe("Test NGO Ltd");
+    expect(result.logo).toBe("https://example.com/brand/logos/logo.svg");
+    expect(result.foundingDate).toBe("2020-12");
+    expect(result.sameAs).toHaveLength(3);
+    expect(result.sameAs).toContain("https://instagram.com/test");
     expect(result.address["@type"]).toBe("PostalAddress");
     expect(result.address.addressLocality).toBe("Kampala");
   });

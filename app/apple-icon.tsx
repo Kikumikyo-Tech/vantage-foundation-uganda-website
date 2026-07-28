@@ -4,10 +4,9 @@ export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
 /**
- * Apple touch icon — generated as a teal rounded square with a white "V".
- *
- * TODO (brand): replace with the real Vantage symbol SVG when supplied.
- * See app/icon.tsx for the replacement plan.
+ * Apple touch icon — teal rounded square with a white "V" monogram.
+ * Uses the brand teal colour. When a raster version of the Vantage symbol
+ * becomes available, replace this generated icon with a static file.
  */
 export default function AppleIcon() {
   return new ImageResponse(
@@ -16,7 +15,7 @@ export default function AppleIcon() {
         style={{
           width: "100%",
           height: "100%",
-          background: "#008f95",
+          background: "#006b70",
           borderRadius: 40,
           display: "flex",
           alignItems: "center",

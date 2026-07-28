@@ -17,8 +17,81 @@ test.describe("Homepage", () => {
 
   test("navigation links work", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("link", { name: /our work/i }).first().click();
+    await page.getByRole("link", { name: /^Programmes$/i }).first().click();
     await expect(page).toHaveURL(/\/our-work/);
     await expect(page.locator("h1")).toBeVisible();
+  });
+
+  test("logo is visible in header", async ({ page }) => {
+    await page.goto("/");
+    const headerLogo = page.locator("header img");
+    await expect(headerLogo).toBeVisible();
+    const src = await headerLogo.getAttribute("src");
+    expect(src).toContain("vantage-logo-horizontal");
+    expect(src).not.toContain("/_next/image");
+  });
+
+  test("logo is visible in footer", async ({ page }) => {
+    await page.goto("/");
+    const footerLogo = page.locator("footer img");
+    await expect(footerLogo).toBeVisible();
+    const src = await footerLogo.getAttribute("src");
+    expect(src).toContain("vantage-logo-horizontal");
+  });
+
+  test("homepage sections appear in correct order", async ({ page }) => {
+    await page.goto("/");
+    // Verify key section headings appear in the expected order.
+    const heroH1 = page.locator("h1").first();
+    await expect(heroH1).toContainText("Changing the world");
+
+    // Trust strip items
+    await expect(page.getByText("Youth-led since")).toBeVisible();
+    await expect(page.getByText("100% volunteer-run")).toBeVisible();
+
+    // Impact section
+    await expect(page.getByRole("heading", { name: /impact/i })).toBeVisible();
+
+    // Programmes section
+    await expect(page.getByRole("heading", { name: /curated, sustainable/i })).toBeVisible();
+
+    // Final CTA
+    await expect(page.getByRole("heading", { name: /help us create one more advantage/i })).toBeVisible();
+  });
+
+  test("no placeholder text is visible", async ({ page }) => {
+    await page.goto("/");
+    const body = page.locator("body");
+    await expect(body).not.toContainText("Image coming soon");
+    await expect(body).not.toContainText("Video coming soon");
+    await expect(body).not.toContainText("Our first posts are on the way");
+    await expect(body).not.toContainText("[Number]");
+    await expect(body).not.toContainText("[Partner name to be added]");
+  });
+
+  test("Donate button is prominent in header", async ({ page }) => {
+    await page.goto("/");
+    const donateButton = page.locator("header").getByRole("link", { name: /donate/i });
+    await expect(donateButton).toBeVisible();
+  });
+
+  test("header is sticky", async ({ page }) => {
+    await page.goto("/");
+    const header = page.locator("header");
+    await expect(header).toHaveClass(/sticky/);
+  });
+
+  test("Instagram section is visible", async ({ page }) => {
+    await page.goto("/");
+    const igSection = page.getByRole("heading", { name: /Popular on Instagram/i });
+    await expect(igSection).toBeVisible();
+  });
+
+  test("Instagram follow button is present", async ({ page }) => {
+    await page.goto("/");
+    const followLink = page.getByRole("link", { name: /@vantagefoundationuganda/i });
+    await expect(followLink).toBeVisible();
+    const href = await followLink.getAttribute("href");
+    expect(href).toContain("instagram.com");
   });
 });

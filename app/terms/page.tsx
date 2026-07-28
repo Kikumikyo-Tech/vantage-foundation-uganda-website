@@ -44,8 +44,11 @@ export default function TermsPage() {
               </h2>
               <p>
                 This website is operated by {site.legalName}, a youth-led
-                non-profit organisation registered in Uganda. Our address is{" "}
-                {site.contact.address}.
+                non-profit organisation registered in Uganda. We have offices in{" "}
+                {site.contact.offices
+                  .map((o) => `${o.city}, ${o.region}`)
+                  .join(" and ")}
+                .
               </p>
             </div>
 

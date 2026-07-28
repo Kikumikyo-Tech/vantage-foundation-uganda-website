@@ -8,6 +8,11 @@ import { cn } from "@/lib/utils";
  * Supports three lockup variants (primary/stacked, horizontal, symbol-only)
  * and light/dark background themes. Uses true vector SVG assets.
  *
+ * SVGs are always served with `unoptimized` to bypass the Next.js image
+ * optimizer (`/_next/image?…svg`). The optimizer can fail or produce
+ * unexpected results for SVGs — serving them directly from /public is
+ * reliable, faster, and preserves vector fidelity.
+ *
  * Variant + theme selects the correct file:
  *   - primary / light  → vantage-logo-primary.svg (full colour on white)
  *   - primary / dark   → vantage-logo-primary-dark.svg (full colour on dark)
@@ -80,6 +85,7 @@ export function Logo({
       alt={alt}
       height={height}
       width={width}
+      style={{ aspectRatio: `${dims.w} / ${dims.h}` }}
       className={cn("h-auto w-auto", className)}
     />
   ) : (
@@ -89,8 +95,17 @@ export function Logo({
       width={width}
       height={height}
       priority={variant === "horizontal" && href === "/"}
+      unoptimized
+      style={{ aspectRatio: `${dims.w} / ${dims.h}` }}
       className={cn("h-auto w-auto", className)}
     />
+  );
+
+  const content = (
+    <>
+      {img}
+      <span className="sr-only">{orgName}</span>
+    </>
   );
 
   if (href) {
@@ -100,12 +115,12 @@ export function Logo({
         aria-label={alt}
         className="inline-flex items-center"
       >
-        {img}
+        {content}
       </Link>
     );
   }
 
-  return img;
+  return content;
 }
 
 export { orgName as LOGO_ORG_NAME };

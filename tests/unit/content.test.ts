@@ -8,18 +8,19 @@ import { getPublishedReports } from "@/content/reports";
 import { getPublishedImpactStats } from "@/content/impact";
 
 describe("areasOfWork", () => {
-  it("has 5 programme areas", () => {
-    expect(areasOfWork).toHaveLength(5);
+  it("has 4 core programme areas", () => {
+    expect(areasOfWork).toHaveLength(4);
   });
 
-  it("includes youth-leadership as the 5th pillar", () => {
-    expect(areasOfWork[4].id).toBe("youth-leadership");
+  it("does not include youth-leadership as a standalone area", () => {
+    expect(areasOfWork.find((a) => a.id === "youth-leadership")).toBeUndefined();
   });
 
-  it("each area has id, title, summary, description, items, and icon", () => {
+  it("each area has id, title, programmeName, summary, description, items, and icon", () => {
     for (const area of areasOfWork) {
       expect(area.id).toBeTruthy();
       expect(area.title).toBeTruthy();
+      expect(area.programmeName).toBeTruthy();
       expect(area.summary).toBeTruthy();
       expect(area.description).toBeTruthy();
       expect(area.items.length).toBeGreaterThan(0);

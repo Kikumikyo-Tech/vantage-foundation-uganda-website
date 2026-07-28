@@ -33,6 +33,7 @@ vi.mock("next/image", () => ({
     delete rest.blurDataURL;
     delete rest.onLoadingComplete;
     delete rest.loader;
+    delete rest.unoptimized;
     return createElement("img", rest);
   },
 }));

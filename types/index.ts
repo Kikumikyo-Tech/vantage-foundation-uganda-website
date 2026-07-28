@@ -3,12 +3,31 @@ export interface NavItem {
   href: string;
 }
 
+export interface NavDropdownItem {
+  label: string;
+  href: string;
+}
+
+export interface NavEntry {
+  label: string;
+  href: string;
+  children?: NavDropdownItem[];
+}
+
+export interface OfficeLocation {
+  label: string;
+  city: string;
+  region: string;
+  country: string;
+}
+
 export interface ContactInfo {
   email: string;
   phone: string;
   address: string;
   city: string;
   country: string;
+  offices: OfficeLocation[];
 }
 
 export interface SocialLinks {
@@ -16,6 +35,7 @@ export interface SocialLinks {
   linkedin?: string;
   twitter?: string;
   facebook?: string;
+  youtube?: string;
 }
 
 export interface BankDetails {
@@ -38,7 +58,7 @@ export interface SiteConfig {
   socials: SocialLinks;
   bankDetails: BankDetails;
   mobileMoney: string;
-  nav: NavItem[];
+  nav: NavEntry[];
   primaryCta: NavItem;
   secondaryCta: NavItem;
   url: string;
@@ -300,4 +320,76 @@ export interface MediaAsset {
   consentNotes?: string;
   /** Whether this asset is published. Defaults to true when omitted. */
   published?: boolean;
+}
+
+// ---------------------------------------------------------------------------
+// Instagram
+// ---------------------------------------------------------------------------
+
+export type InstagramMediaType = "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM" | "REEL";
+
+export interface InstagramMetrics {
+  reach?: number;
+  impressions?: number;
+  likes?: number;
+  comments?: number;
+  shares?: number;
+  saves?: number;
+  views?: number;
+  profileVisits?: number;
+}
+
+export interface InstagramPost {
+  id: string;
+  mediaType: InstagramMediaType;
+  mediaUrl: string;
+  thumbnailUrl?: string;
+  permalink: string;
+  caption: string;
+  timestamp: string;
+  username: string;
+  metrics: InstagramMetrics;
+  score?: number;
+  pinned?: boolean;
+  hidden?: boolean;
+  featuredCampaign?: boolean;
+  programmeCategory?: string;
+  manuallyAdded?: boolean;
+}
+
+export interface InstagramScoreWeights {
+  reach: number;
+  shares: number;
+  saves: number;
+  interactions: number;
+  freshness: number;
+}
+
+export interface InstagramManualPost {
+  id: string;
+  mediaType: InstagramMediaType;
+  mediaUrl: string;
+  thumbnailUrl?: string;
+  permalink: string;
+  caption: string;
+  timestamp: string;
+  programmeCategory?: string;
+  featuredCampaign?: boolean;
+}
+
+export interface InstagramEditorialOverrides {
+  pinnedPostIds: string[];
+  hiddenPostIds: string[];
+  manualPosts: InstagramManualPost[];
+  disableAutoRanking: boolean;
+  featuredCampaignPostIds: string[];
+  safeguardingExcludedIds: string[];
+}
+
+export interface InstagramFeedResult {
+  posts: InstagramPost[];
+  source: "api" | "cache" | "manual" | "empty";
+  fetchedAt: number;
+  profileUrl: string;
+  username: string;
 }

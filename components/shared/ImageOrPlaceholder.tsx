@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   imagePresets,
@@ -58,15 +57,11 @@ export function ImageOrPlaceholder({
     return (
       <div
         className={cn(
-          "relative flex items-center justify-center overflow-hidden bg-surface-strong text-muted-foreground",
+          "relative flex items-center justify-center overflow-hidden bg-surface-strong",
           containerClassName
         )}
-      >
-        <div className="text-center">
-          <ImageIcon className="mx-auto h-8 w-8" aria-hidden="true" />
-          <span className="mt-1 block text-xs">Image coming soon</span>
-        </div>
-      </div>
+        aria-hidden="true"
+      />
     );
   }
 

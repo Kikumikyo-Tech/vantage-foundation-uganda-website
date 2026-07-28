@@ -79,7 +79,15 @@ export default async function ContactPage({
                   </div>
                   <div>
                     <h3 className="font-semibold">Location</h3>
-                    <p className="text-sm text-muted-foreground">{site.contact.address}</p>
+                    <div className="mt-1 space-y-2">
+                      {site.contact.offices.map((office) => (
+                        <p key={office.label} className="text-sm text-muted-foreground">
+                          <span className="font-medium">{office.label}</span>
+                          <br />
+                          {office.city}, {office.region}, {office.country}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </Card>

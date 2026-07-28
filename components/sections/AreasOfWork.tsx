@@ -14,7 +14,7 @@ export function AreasOfWork() {
         <SectionHeader
           eyebrow="Our Work"
           title="Curated, sustainable and holistic projects"
-          description="We work across four interconnected areas because health, education, relief and clean water reinforce one another."
+          description="We work across four interconnected areas because health, education, relief and clean water reinforce one another. Youth leadership is a cross-cutting approach across all our programmes."
         />
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

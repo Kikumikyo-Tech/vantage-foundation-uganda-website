@@ -13,7 +13,7 @@ export default function OpenGraphImage() {
     (
       <div
         style={{
-          background: "linear-gradient(135deg, #008f95 0%, #006b70 100%)",
+          background: "linear-gradient(135deg, #006b70 0%, #00565a 100%)",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -25,27 +25,14 @@ export default function OpenGraphImage() {
           fontFamily: "Inter, system-ui, sans-serif",
         }}
       >
-        <div
-          style={{
-            width: 80,
-            height: 80,
-            borderRadius: 16,
-            background: "white",
-            color: "#008f95",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: 48,
-            fontWeight: 700,
-          }}
-        >
-          V
-        </div>
-        <h1 style={{ fontSize: 64, fontWeight: 700, marginTop: 32, textAlign: "center" }}>
+        <h1 style={{ fontSize: 64, fontWeight: 700, marginTop: 0, textAlign: "center" }}>
           {site.name}
         </h1>
         <p style={{ fontSize: 32, marginTop: 16, textAlign: "center", opacity: 0.9 }}>
           {site.tagline}
+        </p>
+        <p style={{ fontSize: 24, marginTop: 24, textAlign: "center", opacity: 0.7 }}>
+          Health · Education · Clean Water · Humanitarian Support
         </p>
       </div>
     ),

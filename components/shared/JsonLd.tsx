@@ -103,7 +103,7 @@ export function buildFaqJsonLd(
 }
 
 /**
- * Builds an NGO schema.org object (richer than Organization).
+ * Builds an Organization/NGO schema.org object with rich metadata.
  */
 export function buildNgoJsonLd(args: {
   name: string;
@@ -115,13 +115,24 @@ export function buildNgoJsonLd(args: {
   city: string;
   country: string;
   description: string;
+  logoUrl?: string;
+  socials?: { instagram?: string; linkedin?: string; youtube?: string };
+  foundingDate?: string;
 }) {
+  const sameAs: string[] = [];
+  if (args.socials?.instagram) sameAs.push(args.socials.instagram);
+  if (args.socials?.linkedin) sameAs.push(args.socials.linkedin);
+  if (args.socials?.youtube) sameAs.push(args.socials.youtube);
+
   return {
     "@context": "https://schema.org",
-    "@type": "NGO",
+    "@type": ["NGO", "Organization"],
     name: args.name,
     alternateName: args.legalName,
+    legalName: args.legalName,
     url: args.url,
+    logo: args.logoUrl ? `${args.url}${args.logoUrl}` : undefined,
+    image: args.logoUrl ? `${args.url}${args.logoUrl}` : undefined,
     email: args.email,
     telephone: args.telephone,
     address: {
@@ -131,5 +142,7 @@ export function buildNgoJsonLd(args: {
       addressCountry: args.country,
     },
     description: args.description,
+    foundingDate: args.foundingDate,
+    sameAs: sameAs.length > 0 ? sameAs : undefined,
   };
 }

@@ -67,11 +67,6 @@ export default function DonatePage() {
                 </div>
               </div>
 
-              <div className="mt-6 rounded-xl border border-dashed border-amber-300 bg-amber-50 p-6">
-                <h3 className="text-lg font-semibold text-amber-900">Mobile Money</h3>
-                <p className="mt-2 text-sm text-amber-800">{site.mobileMoney}</p>
-              </div>
-
               <div className="mt-8 flex items-start gap-3 text-sm text-muted-foreground">
                 <Shield className="h-5 w-5 shrink-0 text-primary" />
                 <p>

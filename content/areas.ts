@@ -38,6 +38,7 @@ export const areasOfWork: AreaOfWork[] = [
   {
     id: "humanitarian",
     title: "Humanitarian Aid",
+    programmeName: "Humanitarian Assistance",
     summary: "Emergency and household support, food, essential supplies and care for vulnerable children and families.",
     description:
       "We provide essential nutrition, clothing, household support and relief to orphans, women and communities in crisis. Our aid is disability-inclusive and centred on dignity.",
@@ -53,6 +54,7 @@ export const areasOfWork: AreaOfWork[] = [
   {
     id: "water",
     title: "Water, Sanitation & Hygiene",
+    programmeName: "Water, Sanitation and Hygiene",
     summary: "Sustainable water, sanitation and hygiene infrastructure for rural and underserved communities.",
     description:
       "Clean water and dignified sanitation are foundational to health and education. We build wells, promote hygiene education and support WASH interventions that last.",
@@ -64,23 +66,6 @@ export const areasOfWork: AreaOfWork[] = [
       "WASH in schools",
     ],
     icon: "droplets",
-  },
-  {
-    id: "youth-leadership",
-    title: "Youth Leadership & Community Empowerment",
-    summary:
-      "Equipping young people with the confidence, skills and platforms to lead change in their communities.",
-    description:
-      "We believe that young people are not just beneficiaries but leaders. Through mentorship, conference platforms, youth-led initiatives and community organising, we support young Ugandans to step into leadership roles, shape conversations and drive sustainable change from within their communities.",
-    items: [
-      "Youth conferences and forums",
-      "Leadership mentorship",
-      "Community organising",
-      "Youth-led initiatives",
-      "Public speaking and advocacy",
-      "Peer-to-peer mentorship",
-    ],
-    icon: "lightbulb",
   },
 ];
 

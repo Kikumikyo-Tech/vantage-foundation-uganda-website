@@ -269,7 +269,12 @@ export default function PrivacyPage() {
                     {site.contact.phone}
                   </a>
                 </li>
-                <li>Address: {site.contact.address}</li>
+                <li>
+                  Address:{" "}
+                  {site.contact.offices
+                    .map((o) => `${o.city}, ${o.region}`)
+                    .join("; ")}
+                </li>
               </ul>
             </div>
 

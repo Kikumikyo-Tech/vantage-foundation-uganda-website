@@ -26,11 +26,24 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_UG",
     siteName: site.name,
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: site.name,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: site.name,
     description: site.description,
+    images: ["/opengraph-image"],
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
   alternates: {
     canonical: "/",
@@ -52,6 +65,9 @@ const ngoJsonLd = buildNgoJsonLd({
   city: site.contact.city,
   country: site.contact.country,
   description: site.description,
+  logoUrl: "/brand/logos/vantage-logo-horizontal.svg",
+  socials: site.socials,
+  foundingDate: "2020-12",
 });
 
 const websiteJsonLd = buildWebSiteJsonLd(site.url, site.name);
