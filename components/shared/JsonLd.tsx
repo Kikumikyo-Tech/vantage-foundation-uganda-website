@@ -2,6 +2,10 @@ interface JsonLdProps {
   data: Record<string, unknown>;
 }
 
+function toAbsoluteUrl(baseUrl: string, value: string) {
+  return new URL(value, `${baseUrl.replace(/\/$/, "")}/`).toString();
+}
+
 /**
  * Renders a JSON-LD structured data script tag.
  * Use this to add schema.org structured data to any page for SEO.
@@ -31,7 +35,7 @@ export function buildBreadcrumbJsonLd(
       "@type": "ListItem",
       position: index + 1,
       name: item.label,
-      item: `${baseUrl}${item.url}`,
+      item: toAbsoluteUrl(baseUrl, item.url),
     })),
   };
 }
@@ -45,22 +49,38 @@ export function buildArticleJsonLd(args: {
   url: string;
   baseUrl: string;
   datePublished?: string;
+  dateModified?: string;
   author?: string;
   image?: string;
+  type?: "Article" | "BlogPosting";
 }) {
+  const pageUrl = toAbsoluteUrl(args.baseUrl, args.url);
+
   return {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": args.type ?? "Article",
     headline: args.title,
     description: args.description,
-    url: `${args.baseUrl}${args.url}`,
+    url: pageUrl,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": pageUrl,
+    },
     datePublished: args.datePublished,
+    dateModified: args.dateModified ?? args.datePublished,
     author: args.author ? { "@type": "Person", name: args.author } : undefined,
-    image: args.image ? `${args.baseUrl}${args.image}` : undefined,
+    image: args.image ? toAbsoluteUrl(args.baseUrl, args.image) : undefined,
     publisher: {
       "@type": "Organization",
       name: "Vantage Foundation Uganda",
       url: args.baseUrl,
+      logo: {
+        "@type": "ImageObject",
+        url: toAbsoluteUrl(
+          args.baseUrl,
+          "/brand/logos/vantage-logo-horizontal.svg"
+        ),
+      },
     },
   };
 }

@@ -62,14 +62,35 @@ describe("buildArticleJsonLd", () => {
       url: "/stories/test",
       baseUrl: "https://example.com",
       datePublished: "2024-01-01",
+      dateModified: "2024-01-02",
       author: "Jane Doe",
       image: "/images/test.jpg",
+      type: "BlogPosting",
     });
-    expect(result["@type"]).toBe("Article");
+    expect(result["@type"]).toBe("BlogPosting");
     expect(result.headline).toBe("Test Article");
     expect(result.datePublished).toBe("2024-01-01");
+    expect(result.dateModified).toBe("2024-01-02");
     expect(result.author?.name).toBe("Jane Doe");
+    expect(result.image).toBe("https://example.com/images/test.jpg");
+    expect(result.mainEntityOfPage["@id"]).toBe(
+      "https://example.com/stories/test"
+    );
     expect(result.publisher["@type"]).toBe("Organization");
+  });
+
+  it("keeps absolute image URLs and falls back dateModified", () => {
+    const result = buildArticleJsonLd({
+      title: "Remote image",
+      description: "A test",
+      url: "/stories/remote",
+      baseUrl: "https://example.com",
+      datePublished: "2024-01-01",
+      image: "https://cdn.example.com/remote.jpg",
+    });
+
+    expect(result.image).toBe("https://cdn.example.com/remote.jpg");
+    expect(result.dateModified).toBe("2024-01-01");
   });
 });
 

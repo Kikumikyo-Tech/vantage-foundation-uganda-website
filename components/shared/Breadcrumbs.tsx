@@ -9,41 +9,61 @@ export interface BreadcrumbItem {
 interface BreadcrumbsProps {
   items: BreadcrumbItem[];
   className?: string;
+  truncateCurrent?: boolean;
 }
 
-export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
+export function Breadcrumbs({
+  items,
+  className,
+  truncateCurrent = false,
+}: BreadcrumbsProps) {
   return (
     <nav
       className={cn(
-        "flex flex-wrap items-center gap-2 text-sm text-muted-foreground",
+        "min-w-0 text-sm text-muted-foreground",
         className
       )}
       aria-label="Breadcrumb"
     >
-      {items.map((item, index) => {
-        const isLast = index === items.length - 1;
-        return (
-          <span key={index} className="flex items-center gap-2">
-            {item.href && !isLast ? (
-              <Link href={item.href} className="hover:text-primary">
-                {item.label}
-              </Link>
-            ) : (
-              <span
-                className={isLast ? "text-foreground" : undefined}
-                aria-current={isLast ? "page" : undefined}
-              >
-                {item.label}
-              </span>
-            )}
-            {!isLast && (
-              <span aria-hidden="true" className="text-muted-foreground/60">
-                /
-              </span>
-            )}
-          </span>
-        );
-      })}
+      <ol className="flex min-w-0 items-center gap-2">
+        {items.map((item, index) => {
+          const isLast = index === items.length - 1;
+          return (
+            <li
+              key={`${item.label}-${index}`}
+              className={cn(
+                "flex items-center gap-2",
+                isLast && truncateCurrent ? "min-w-0 flex-1" : "shrink-0"
+              )}
+            >
+              {item.href && !isLast ? (
+                <Link
+                  href={item.href}
+                  className="rounded-sm hover:text-primary"
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <span
+                  className={cn(
+                    isLast && "text-foreground",
+                    isLast && truncateCurrent && "block truncate"
+                  )}
+                  aria-current={isLast ? "page" : undefined}
+                  title={isLast && truncateCurrent ? item.label : undefined}
+                >
+                  {item.label}
+                </span>
+              )}
+              {!isLast && (
+                <span aria-hidden="true" className="text-muted-foreground/60">
+                  /
+                </span>
+              )}
+            </li>
+          );
+        })}
+      </ol>
     </nav>
   );
 }

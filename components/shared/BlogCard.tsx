@@ -3,6 +3,7 @@ import { BlogPost } from "@/types";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { ImageOrPlaceholder } from "./ImageOrPlaceholder";
+import { formatContentDate } from "@/lib/content-date";
 
 interface BlogCardProps {
   post: BlogPost;
@@ -30,7 +31,9 @@ export function BlogCard({ post }: BlogCardProps) {
           {post.summary}
         </p>
         <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
-          <span>{post.publishedAt}</span>
+          <time dateTime={post.publishedAt}>
+            {formatContentDate(post.publishedAt)}
+          </time>
           {post.readingTimeMinutes && <span>{post.readingTimeMinutes} min read</span>}
         </div>
         <Link

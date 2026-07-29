@@ -41,6 +41,14 @@ test.describe("Accessibility — heading order", () => {
     expect(h1s).toBe(1);
   });
 
+  test("/blog/[slug] has exactly one h1", async ({ page }) => {
+    await page.goto(
+      "/blog/what-we-mean-when-we-say-advantage"
+    );
+    const h1s = await page.locator("h1").count();
+    expect(h1s).toBe(1);
+  });
+
   test("/programmes/health has exactly one h1", async ({ page }) => {
     await page.goto("/programmes/health");
     const h1s = await page.locator("h1").count();
@@ -82,6 +90,7 @@ test.describe("Accessibility — axe-core automated checks", () => {
     "/projects",
     "/reports-and-accountability",
     "/stories",
+    "/blog/what-we-mean-when-we-say-advantage",
     "/gallery",
     "/privacy",
     "/terms",
