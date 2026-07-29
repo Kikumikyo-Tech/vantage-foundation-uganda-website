@@ -85,6 +85,59 @@ test.describe("SEO — meta tags", () => {
     expect(scripts).toBeGreaterThanOrEqual(2); // NGO + WebSite + BreadcrumbList + Article
   });
 
+  test("blog article has complete BlogPosting metadata and JSON-LD", async ({
+    page,
+  }) => {
+    const path = "/blog/what-we-mean-when-we-say-advantage";
+    await page.goto(path);
+
+    await expect(page).toHaveTitle(/What We Mean When We Say "Advantage"/);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      "href",
+      `https://www.vantagefoundationuganda.com${path}`
+    );
+    await expect(page.locator('meta[property="og:type"]')).toHaveAttribute(
+      "content",
+      "article"
+    );
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+      "content",
+      /what-we-mean-advantage-hero\.webp/
+    );
+    await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
+      "content",
+      "summary_large_image"
+    );
+
+    const schemas = await page
+      .locator('script[type="application/ld+json"]')
+      .allTextContents();
+    const blogPosting = schemas
+      .map((schema) => JSON.parse(schema))
+      .find((schema) => schema["@type"] === "BlogPosting");
+
+    expect(blogPosting).toMatchObject({
+      headline: 'What We Mean When We Say "Advantage"',
+      datePublished: "2026-07-29",
+      dateModified: "2026-07-29",
+      author: {
+        "@type": "Person",
+        name: "Hillary Turyasingura",
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "Vantage Foundation Uganda",
+      },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": `https://www.vantagefoundationuganda.com${path}`,
+      },
+    });
+    expect(blogPosting.image).toContain(
+      "/images/blog/what-we-mean-advantage-hero.webp"
+    );
+  });
+
   test("FAQ page has FAQPage JSON-LD", async ({ page }) => {
     await page.goto("/faq");
     const jsonLdContent = await page

@@ -88,5 +88,7 @@ export const site: SiteConfig = {
   ],
   primaryCta: { label: "Donate", href: "/donate" },
   secondaryCta: { label: "Partner With Us", href: "/get-involved" },
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://vantagefoundationuganda.org",
+  url:
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    "https://www.vantagefoundationuganda.com",
 };

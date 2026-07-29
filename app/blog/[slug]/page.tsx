@@ -3,14 +3,18 @@ import { notFound } from "next/navigation";
 import { getBlogPostBySlug, getBlogSlugs, getPublishedBlogPosts } from "@/content/blog";
 import { getDbBlogPostBySlug, getPublishedDbBlogPosts, getDbBlogSlugs } from "@/lib/blog-public";
 import { site } from "@/content/site";
-import { Container } from "@/components/shared/Container";
-import { Badge } from "@/components/ui/Badge";
-import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
-import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
-import { JsonLd, buildBreadcrumbJsonLd } from "@/components/shared/JsonLd";
+import {
+  JsonLd,
+  buildArticleJsonLd,
+  buildBreadcrumbJsonLd,
+} from "@/components/shared/JsonLd";
 import { Markdown } from "@/components/shared/Markdown";
-import { BlogCard } from "@/components/shared/BlogCard";
-import { Button } from "@/components/ui/Button";
+import { ArticleContainer } from "@/components/blog/ArticleContainer";
+import { ArticleHeader } from "@/components/blog/ArticleHeader";
+import { ArticleHero } from "@/components/blog/ArticleHero";
+import { ArticleShare } from "@/components/blog/ArticleShare";
+import { RelatedContent } from "@/components/blog/RelatedContent";
+import { SupportCta } from "@/components/blog/SupportCta";
 
 export async function generateStaticParams() {
   const dbSlugs = await getDbBlogSlugs();
@@ -29,18 +33,44 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = (await getDbBlogPostBySlug(slug)) ?? getBlogPostBySlug(slug);
   if (!post) return {};
+  const title = post.seo?.title || post.title;
+  const description = post.seo?.description || post.summary;
+  const image = post.seo?.ogImage || post.heroImage;
+  const canonicalUrl = `${site.url}/blog/${slug}`;
+
   return {
-    title: post.seo?.title || post.title,
-    description: post.seo?.description || post.summary,
+    title,
+    description,
+    authors: post.author ? [{ name: post.author }] : undefined,
     openGraph: {
-      title: post.seo?.title || post.title,
-      description: post.seo?.description || post.summary,
+      title,
+      description,
       type: "article",
+      url: canonicalUrl,
+      siteName: site.name,
+      locale: "en_UG",
       publishedTime: post.publishedAt,
-      images: post.seo?.ogImage ? [{ url: post.seo.ogImage }] : undefined,
+      modifiedTime: post.publishedAt,
+      authors: post.author ? [post.author] : undefined,
+      images: image
+        ? [
+            {
+              url: image,
+              width: 1600,
+              height: 900,
+              alt: post.heroImageAlt || post.title,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: image ? [image] : undefined,
     },
     alternates: {
-      canonical: `/blog/${slug}`,
+      canonical: canonicalUrl,
     },
   };
 }
@@ -61,6 +91,18 @@ export default async function BlogPostPage({
   const related = allPublished
     .filter((p) => p.category === post.category && p.slug !== post.slug)
     .slice(0, 3);
+  const articleUrl = `${site.url}/blog/${slug}`;
+  const quoteIntroduction = post.author
+    ? `As founding-team member ${post.author} put it:`
+    : undefined;
+  const hasPullQuoteIntroduction =
+    quoteIntroduction && post.body.includes(`${quoteIntroduction}\n\n>`);
+  const articleBody = hasPullQuoteIntroduction
+    ? post.body.replace(`${quoteIntroduction}\n\n`, "")
+    : post.body;
+  const pullQuoteAttribution = hasPullQuoteIntroduction
+    ? `${post.author}, founding-team member`
+    : undefined;
 
   return (
     <>
@@ -74,67 +116,50 @@ export default async function BlogPostPage({
           site.url
         )}
       />
+      <JsonLd
+        data={buildArticleJsonLd({
+          title: post.title,
+          description: post.seo?.description || post.summary,
+          url: `/blog/${slug}`,
+          baseUrl: site.url,
+          datePublished: post.publishedAt,
+          dateModified: post.publishedAt,
+          author: post.author,
+          image: post.seo?.ogImage || post.heroImage,
+          type: "BlogPosting",
+        })}
+      />
 
-      <section className="py-12 md:py-16">
-        <Container>
-          <Breadcrumbs
-            className="mb-8"
-            items={[
-              { label: "Home", href: "/" },
-              { label: "Blog", href: "/blog" },
-              { label: post.title },
-            ]}
-          />
-
-          <div className="max-w-3xl">
-            <Badge variant="accent">{post.category}</Badge>
-            <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-              {post.title}
-            </h1>
-            <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
-              {post.author && <span>{post.author}</span>}
-              <span>{post.publishedAt}</span>
-              {post.readingTimeMinutes && <span>{post.readingTimeMinutes} min read</span>}
-            </div>
-          </div>
-
-          <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-2xl">
-            <ImageOrPlaceholder
+      <section className="pb-20 pt-10 md:pb-24 md:pt-12 lg:pt-14">
+        <article>
+          <ArticleContainer width="wide">
+            <ArticleHeader
+              title={post.title}
+              category={post.category}
+              summary={post.summary}
+              author={post.author}
+              publishedAt={post.publishedAt}
+              readingTimeMinutes={post.readingTimeMinutes}
+            />
+            <ArticleHero
               src={post.heroImage}
               alt={post.heroImageAlt ?? post.title}
-              fill
-              priority
-              preset="detailHero"
-              containerClassName="h-full w-full"
             />
-          </div>
+          </ArticleContainer>
 
-          <div className="mt-8 max-w-3xl">
-            <Markdown>{post.body}</Markdown>
-          </div>
+          <ArticleContainer width="reading" className="mt-10 md:mt-12">
+            <Markdown
+              variant="article"
+              pullQuoteAttribution={pullQuoteAttribution}
+            >
+              {articleBody}
+            </Markdown>
+            <ArticleShare title={post.title} url={articleUrl} />
+          </ArticleContainer>
+        </article>
 
-          <div className="mt-12 rounded-xl bg-primary p-8 text-white">
-            <h2 className="text-2xl font-bold">Support this work</h2>
-            <p className="mt-2 text-white/90">
-              Your contribution helps us expand our health, education and
-              humanitarian programmes.
-            </p>
-            <Button href="/donate" variant="secondary" className="mt-6">
-              Donate now
-            </Button>
-          </div>
-
-          {related.length > 0 && (
-            <div className="mt-16">
-              <h2 className="text-2xl font-bold">Related posts</h2>
-              <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {related.map((p) => (
-                  <BlogCard key={p.slug} post={p} />
-                ))}
-              </div>
-            </div>
-          )}
-        </Container>
+        <SupportCta />
+        <RelatedContent posts={related} />
       </section>
     </>
   );
