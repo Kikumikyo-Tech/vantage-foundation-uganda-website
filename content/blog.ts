@@ -13,8 +13,8 @@ export const blogPosts: BlogPost[] = [
     readingTimeMinutes: 5,
     heroImage: "/images/blog/what-we-mean-advantage-hero.webp",
     heroImageAlt:
-      "An illustration of Ugandan community members climbing a hillside together as one person reaches back to help another, with a town in the valley below.",
-    consentClassification: "none",
+      "Hillary Turyasingura stands on a green hillside overlooking a broad mountain valley beneath a blue, cloud-filled sky.",
+    consentClassification: "verified",
     seo: {
       title: 'What We Mean When We Say "Advantage"',
       description:

@@ -1001,14 +1001,14 @@ export const mediaAssets: MediaAsset[] = [
   {
     id: "blog-advantage-vantage-point",
     src: "/images/blog/what-we-mean-advantage-hero.webp",
-    alt: "An illustration of Ugandan community members climbing a hillside together as one person reaches back to help another, with a town in the valley below.",
+    alt: "Hillary Turyasingura stands on a green hillside overlooking a broad mountain valley beneath a blue, cloud-filled sky.",
     caption:
-      "Advantage as a vantage point: using an elevated position to see further and help others rise.",
-    credit: "AI-generated editorial illustration for Vantage Foundation Uganda",
+      "Hillary Turyasingura reflects on advantage as a vantage point: a position from which to see farther and serve others.",
+    credit: "Image supplied by Vantage Foundation Uganda",
     date: "2026-07-29",
     programme: "education",
-    consent: "none",
-    consentNotes: "Editorial illustration; no real or identifiable people are depicted.",
+    consent: "verified",
+    consentNotes: "Cleared for publication by Vantage Foundation Uganda management, 2026-07-29.",
     published: true,
     // Dimensions: 1600x900 (landscape)
   },
