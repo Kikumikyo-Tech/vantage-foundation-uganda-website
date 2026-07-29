@@ -998,9 +998,23 @@ export const mediaAssets: MediaAsset[] = [
     // Original: F7F44180-2B7F-4CFA-938F-15D93A634512.jpg (188KB → WebP 112KB, 40% smaller)
     // AVIF also available: /images/photos/photo-089.avif
   },
+  {
+    id: "blog-advantage-vantage-point",
+    src: "/images/blog/what-we-mean-advantage-hero.webp",
+    alt: "An illustration of Ugandan community members climbing a hillside together as one person reaches back to help another, with a town in the valley below.",
+    caption:
+      "Advantage as a vantage point: using an elevated position to see further and help others rise.",
+    credit: "AI-generated editorial illustration for Vantage Foundation Uganda",
+    date: "2026-07-29",
+    programme: "education",
+    consent: "none",
+    consentNotes: "Editorial illustration; no real or identifiable people are depicted.",
+    published: true,
+    // Dimensions: 1600x900 (landscape)
+  },
 ];
 
-/** Total processed photos: 89 (89 published, 0 pending review) */
+/** Total processed media assets: 90 (90 published, 0 pending review) */
 export const totalProcessedPhotos = mediaAssets.length;
 
 /** Get a media asset by id. */
