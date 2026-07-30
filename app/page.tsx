@@ -10,15 +10,17 @@ import { InstagramSection } from "@/components/sections/InstagramSection";
 import { PartnersSection } from "@/components/sections/PartnersSection";
 import { NewsletterSection } from "@/components/sections/NewsletterSection";
 import { FinalCta } from "@/components/sections/FinalCta";
+import { AboutTeaser } from "@/components/sections/AboutTeaser";
+import { StoriesSection } from "@/components/sections/StoriesSection";
+import { GetInvolvedSection } from "@/components/sections/GetInvolvedSection";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Vantage Foundation Uganda | Health, Education and Community Impact",
+export const metadata: Metadata = createPublicMetadata({
+  title: "Vantage Foundation Uganda | Community-led impact",
   description:
     "Vantage Foundation Uganda is a youth-led nonprofit improving access to health, education, clean water and humanitarian support in underserved Ugandan communities.",
-  alternates: {
-    canonical: "/",
-  },
-};
+  path: "/",
+});
 
 export const revalidate = 3600;
 
@@ -27,13 +29,16 @@ export default function Home() {
     <>
       <Hero />
       <TrustStrip />
+      <AboutTeaser />
       <ImpactSection />
       <AreasOfWork />
       <FeaturedProjects />
       <FeaturedImpactStory />
       <UgandaReachMap />
+      <StoriesSection />
       <InstagramSection />
       <PartnersSection />
+      <GetInvolvedSection />
       <FinalCta />
       <NewsletterSection />
     </>

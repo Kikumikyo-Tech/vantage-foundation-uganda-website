@@ -17,6 +17,7 @@ import {
 import { StoryCard } from "@/components/shared/StoryCard";
 import { Markdown } from "@/components/shared/Markdown";
 import { site } from "@/content/site";
+import { createPublicMetadata } from "@/lib/metadata";
 
 export async function generateStaticParams() {
   return getStorySlugs().map((slug) => ({ slug }));
@@ -30,21 +31,15 @@ export async function generateMetadata({
   const { slug } = await params;
   const story = getStoryBySlug(slug);
   if (!story) return {};
-  return {
+  return createPublicMetadata({
     title: story.seo?.title || story.title,
     description: story.seo?.description || story.excerpt,
-    openGraph: {
-      title: story.seo?.title || story.title,
-      description: story.seo?.description || story.excerpt,
-      type: "article",
-      publishedTime: story.date,
-      authors: story.author ? [story.author] : undefined,
-      images: story.seo?.ogImage ? [{ url: story.seo.ogImage }] : undefined,
-    },
-    alternates: {
-      canonical: `/stories/${slug}`,
-    },
-  };
+    path: `/stories/${slug}`,
+    type: "article",
+    publishedTime: story.date,
+    authors: story.author ? [story.author] : undefined,
+    image: story.seo?.ogImage || story.heroImage,
+  });
 }
 
 export default async function StoryPage({
@@ -121,7 +116,7 @@ export default async function StoryPage({
                 src={story.heroImage}
                 alt={story.title}
                 fill
-                priority
+                preload
                 preset="detailHero"
                 containerClassName="h-full w-full"
               />

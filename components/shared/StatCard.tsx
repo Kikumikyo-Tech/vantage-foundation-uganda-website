@@ -1,24 +1,41 @@
-interface StatCardProps {
-  value: string;
-  label: string;
-  note?: string;
-}
+import Link from "next/link";
+import type { ImpactStat } from "@/types";
 
-export function StatCard({ value, label, note }: StatCardProps) {
-  const isPlaceholder = value.includes("[") || value.includes("]") || label.includes("[");
-
+export function StatCard({
+  value,
+  label,
+  programme,
+  location,
+  period,
+  methodology,
+  href,
+}: ImpactStat) {
   return (
-    <div className="rounded-xl bg-white p-6 text-center shadow-sm">
+    <article className="flex h-full flex-col rounded-xl border border-border bg-white p-6 shadow-sm">
       <p className="text-3xl font-bold text-primary sm:text-4xl">{value}</p>
-      <p className="mt-2 text-sm font-medium text-foreground">{label}</p>
-      {note && (
-        <p className="mt-1 text-xs text-muted-foreground">{note}</p>
-      )}
-      {isPlaceholder && (
-        <span className="mt-2 inline-block rounded-full bg-warning-bg px-2 py-0.5 text-xs font-semibold text-warning-fg">
-          Placeholder
-        </span>
-      )}
-    </div>
+      <h3 className="mt-2 text-base font-semibold text-foreground">{label}</h3>
+      <dl className="mt-5 space-y-3 text-sm">
+        <div>
+          <dt className="font-semibold text-foreground">Programme</dt>
+          <dd className="text-muted-foreground">{programme}</dd>
+        </div>
+        <div>
+          <dt className="font-semibold text-foreground">Place and period</dt>
+          <dd className="text-muted-foreground">
+            {location} · {period}
+          </dd>
+        </div>
+        <div>
+          <dt className="font-semibold text-foreground">How it was counted</dt>
+          <dd className="text-muted-foreground">{methodology}</dd>
+        </div>
+      </dl>
+      <Link
+        href={href}
+        className="mt-5 inline-flex min-h-11 items-center self-start text-sm font-semibold text-primary underline-offset-4 hover:underline"
+      >
+        View project evidence
+      </Link>
+    </article>
   );
 }

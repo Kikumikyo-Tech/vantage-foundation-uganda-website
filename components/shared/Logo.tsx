@@ -85,8 +85,12 @@ export function Logo({
       alt={alt}
       height={height}
       width={width}
-      style={{ aspectRatio: `${dims.w} / ${dims.h}` }}
-      className={cn("h-auto w-auto", className)}
+      style={{
+        width: `${width}px`,
+        height: `${height}px`,
+        aspectRatio: `${dims.w} / ${dims.h}`,
+      }}
+      className={cn("block max-w-none shrink-0", className)}
     />
   ) : (
     <Image
@@ -94,10 +98,14 @@ export function Logo({
       alt={alt}
       width={width}
       height={height}
-      priority={variant === "horizontal" && href === "/"}
+      preload={variant === "horizontal" && href === "/"}
       unoptimized
-      style={{ aspectRatio: `${dims.w} / ${dims.h}` }}
-      className={cn("h-auto w-auto", className)}
+      style={{
+        width: `${width}px`,
+        height: `${height}px`,
+        aspectRatio: `${dims.w} / ${dims.h}`,
+      }}
+      className={cn("block max-w-none shrink-0", className)}
     />
   );
 
@@ -113,7 +121,7 @@ export function Logo({
       <Link
         href={href}
         aria-label={alt}
-        className="inline-flex items-center"
+        className="inline-flex shrink-0 items-center"
       >
         {content}
       </Link>

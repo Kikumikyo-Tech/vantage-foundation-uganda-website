@@ -15,7 +15,7 @@ interface ImageOrPlaceholderProps {
   fill?: boolean;
   className?: string;
   containerClassName?: string;
-  priority?: boolean;
+  preload?: boolean;
   /**
    * Image size preset for the `sizes` attribute.
    * Controls which source the browser picks from the srcset at different
@@ -42,15 +42,13 @@ export function ImageOrPlaceholder({
   fill,
   className,
   containerClassName,
-  priority,
+  preload,
   preset = DEFAULT_IMAGE_PRESET,
   sizes,
   objectPosition,
 }: ImageOrPlaceholderProps) {
-  // Placeholder convention: any src whose filename contains "placeholder"
-  // renders the "Image coming soon" fallback instead of a real <Image>.
-  // This avoids HTTP 400s from next/image when a file does not exist yet.
-  // Real images must use filenames that do NOT contain "placeholder".
+  // Missing media renders a quiet neutral surface instead of making a
+  // publication claim or requesting a resource that does not exist.
   const isPlaceholder = !src || src.includes("placeholder");
 
   if (isPlaceholder) {
@@ -79,7 +77,7 @@ export function ImageOrPlaceholder({
         className={cn("object-cover", className)}
         style={objectPositionStyle}
         sizes={resolvedSizes}
-        priority={priority}
+        preload={preload}
         placeholder="blur"
         blurDataURL={BLUR_DATA_URL}
       />
@@ -95,7 +93,7 @@ export function ImageOrPlaceholder({
       className={cn("object-cover", className)}
       style={objectPositionStyle}
       sizes={resolvedSizes}
-      priority={priority}
+      preload={preload}
       placeholder="blur"
       blurDataURL={BLUR_DATA_URL}
     />

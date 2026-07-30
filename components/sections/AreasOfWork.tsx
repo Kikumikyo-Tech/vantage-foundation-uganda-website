@@ -13,7 +13,7 @@ export function AreasOfWork() {
       <Container>
         <SectionHeader
           eyebrow="Our Work"
-          title="Curated, sustainable and holistic projects"
+          title="Four programmes. One community-centred mission."
           description="We work across four interconnected areas because health, education, relief and clean water reinforce one another. Youth leadership is a cross-cutting approach across all our programmes."
         />
 
@@ -52,10 +52,11 @@ export function AreasOfWork() {
                 ))}
               </ul>
               <Link
-                href={`/our-work#${area.id}`}
+                href={`/programmes/${area.id}`}
                 className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
               >
-                Learn more <ArrowRight className="h-4 w-4" />
+                Explore {area.programmeName ?? area.title}
+                <ArrowRight className="h-4 w-4 shrink-0" />
               </Link>
             </Card>
             );

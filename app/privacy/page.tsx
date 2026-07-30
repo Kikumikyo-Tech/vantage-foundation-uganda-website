@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { site } from "@/content/site";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPublicMetadata({
   title: "Privacy Policy",
   description:
     "How Vantage Foundation Uganda collects, uses, and protects personal data of donors, volunteers, and website visitors.",
-  alternates: { canonical: "/privacy" },
-};
+  path: "/privacy",
+});
 
 export default function PrivacyPage() {
   return (

@@ -3,13 +3,14 @@ import { getPublishedProjects } from "@/content/projects";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { ProjectList } from "@/components/projects/ProjectList";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPublicMetadata({
   title: "Projects",
   description:
     "Browse Vantage Foundation Uganda's projects in health, education, humanitarian aid and water & sanitation.",
-  alternates: { canonical: "/projects" },
-};
+  path: "/projects",
+});
 
 export default function ProjectsPage() {
   return (

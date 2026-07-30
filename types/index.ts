@@ -57,7 +57,6 @@ export interface SiteConfig {
   contact: ContactInfo;
   socials: SocialLinks;
   bankDetails: BankDetails;
-  mobileMoney: string;
   nav: NavEntry[];
   primaryCta: NavItem;
   secondaryCta: NavItem;
@@ -249,16 +248,21 @@ export interface TeamMember {
 
 export interface Partner {
   name: string;
+  relationshipType?: string;
   logo?: string;
+  logoAlt?: string;
   url?: string;
   description?: string;
-  placeholder?: boolean;
 }
 
 export interface ImpactStat {
   value: string;
   label: string;
-  note?: string;
+  programme: string;
+  location: string;
+  period: string;
+  methodology: string;
+  href: string;
 }
 
 export interface Report {
@@ -267,7 +271,6 @@ export interface Report {
   type: string;
   url?: string;
   description?: string;
-  placeholder?: boolean;
 }
 
 export interface FaqItem {

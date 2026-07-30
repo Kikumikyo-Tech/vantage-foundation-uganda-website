@@ -11,6 +11,7 @@ import { JsonLd, buildBreadcrumbJsonLd } from "@/components/shared/JsonLd";
 import { Markdown } from "@/components/shared/Markdown";
 import { BlogCard } from "@/components/shared/BlogCard";
 import { Button } from "@/components/ui/Button";
+import { createPublicMetadata } from "@/lib/metadata";
 
 export async function generateStaticParams() {
   const dbSlugs = await getDbBlogSlugs();
@@ -29,20 +30,14 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = (await getDbBlogPostBySlug(slug)) ?? getBlogPostBySlug(slug);
   if (!post) return {};
-  return {
+  return createPublicMetadata({
     title: post.seo?.title || post.title,
     description: post.seo?.description || post.summary,
-    openGraph: {
-      title: post.seo?.title || post.title,
-      description: post.seo?.description || post.summary,
-      type: "article",
-      publishedTime: post.publishedAt,
-      images: post.seo?.ogImage ? [{ url: post.seo.ogImage }] : undefined,
-    },
-    alternates: {
-      canonical: `/blog/${slug}`,
-    },
-  };
+    path: `/blog/${slug}`,
+    type: "article",
+    publishedTime: post.publishedAt,
+    image: post.seo?.ogImage || post.heroImage,
+  });
 }
 
 export default async function BlogPostPage({
@@ -103,7 +98,7 @@ export default async function BlogPostPage({
               src={post.heroImage}
               alt={post.heroImageAlt ?? post.title}
               fill
-              priority
+              preload
               preset="detailHero"
               containerClassName="h-full w-full"
             />

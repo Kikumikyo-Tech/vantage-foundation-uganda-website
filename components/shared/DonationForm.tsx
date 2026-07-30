@@ -166,7 +166,7 @@ export function DonationForm() {
         <Input
           id="donor-transaction"
           name="transactionReference"
-          placeholder="Bank or Mobile Money transfer reference"
+          placeholder="Bank transfer reference"
           className="mt-1.5"
         />
       </div>

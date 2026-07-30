@@ -7,12 +7,13 @@ import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { TeamCard } from "@/components/shared/TeamCard";
 import { Button } from "@/components/ui/Button";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPublicMetadata({
   title: "Our Team",
   description: `Meet the leadership and volunteers behind ${site.name}.`,
-  alternates: { canonical: "/about-us/team" },
-};
+  path: "/about-us/team",
+});
 
 // Lets an admin update a team member's photo via /admin/media without a
 // code deploy — refreshes periodically well within the presigned URL TTL.

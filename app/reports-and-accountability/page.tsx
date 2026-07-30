@@ -6,12 +6,13 @@ import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { FileText } from "lucide-react";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPublicMetadata({
   title: "Reports & Accountability",
-  description: "Annual reports, financial statements, project reports and policies from Vantage Foundation Uganda.",
-  alternates: { canonical: "/reports-and-accountability" },
-};
+  description: "Publication status, approved reports, safeguarding information and accountability commitments from Vantage Foundation Uganda.",
+  path: "/reports-and-accountability",
+});
 
 // Lets an admin publish a new report via /admin/media without a code
 // deploy — refreshes periodically well within the presigned URL TTL.
@@ -38,8 +39,9 @@ export default async function ReportsPage() {
 
       <section className="py-16 md:py-24">
         <Container>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {reports.map((report) => (
+          {reports.length > 0 ? (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {reports.map((report) => (
               <Card key={report.title} className="flex flex-col p-6">
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
                   <FileText className="h-6 w-6" />
@@ -51,18 +53,35 @@ export default async function ReportsPage() {
                 <p className="mt-2 flex-1 text-sm text-muted-foreground">
                   {report.description}
                 </p>
-                {report.url ? (
+                {report.url && (
                   <Button href={report.url} variant="outline" className="mt-4" size="sm">
                     Download
                   </Button>
-                ) : (
-                  <span className="mt-4 inline-flex items-center rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-800">
-                    Coming soon
-                  </span>
                 )}
               </Card>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <Card className="mx-auto max-w-3xl p-8 text-center">
+              <FileText className="mx-auto h-10 w-10 text-primary" aria-hidden="true" />
+              <h2 className="mt-4 text-2xl font-bold">Current publication status</h2>
+              <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
+                No annual or financial report is currently approved for public
+                download. We do not present unfinished documents as published
+                evidence. Approved reports will appear here with their
+                reporting period and document type.
+              </p>
+              <div className="mt-6 flex flex-wrap justify-center gap-3">
+                <Button href="/safeguarding" variant="outline">
+                  Read Safeguarding Policy
+                </Button>
+                <Button href="/about-us/team" variant="outline">
+                  Meet Our Leadership
+                </Button>
+                <Button href="/contact">Request Information</Button>
+              </div>
+            </Card>
+          )}
 
           <div className="mt-16 grid gap-8 lg:grid-cols-2">
             <div>
@@ -76,9 +95,10 @@ export default async function ReportsPage() {
             <div>
               <h2 className="text-2xl font-bold">Governance</h2>
               <p className="mt-4 text-muted-foreground">
-                Vantage Foundation Uganda is governed by a volunteer team and is working
-                towards a formal board structure. We publish annual and financial reports to
-                demonstrate accountability to our stakeholders.
+                Vantage Foundation Uganda is led by a published volunteer
+                leadership team and is working towards a formal board
+                structure. Governance documents and financial reports will be
+                added here only after approval for public release.
               </p>
             </div>
           </div>

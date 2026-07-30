@@ -6,11 +6,12 @@ describe("partners data", () => {
     expect(partners).toHaveLength(2);
   });
 
-  it("does not include placeholder partners", () => {
+  it("contains only named, described, verified relationships", () => {
     for (const p of partners) {
-      expect(p.placeholder).not.toBe(true);
       expect(p.name).not.toContain("[");
       expect(p.description).not.toContain("[");
+      expect(p.relationshipType).toBeTruthy();
+      expect(p.url).toMatch(/^https:\/\//);
     }
   });
 
@@ -22,12 +23,10 @@ describe("partners data", () => {
     }
   });
 
-  it("in production, returns only non-placeholder partners", () => {
+  it("returns the verified partner list in production", () => {
     vi.stubEnv("NODE_ENV", "production");
     const published = getPublishedPartners();
-    for (const p of published) {
-      expect(p.placeholder).not.toBe(true);
-    }
+    expect(published).toEqual(partners);
     vi.unstubAllEnvs();
   });
 });

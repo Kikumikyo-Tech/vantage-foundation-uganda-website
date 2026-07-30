@@ -138,9 +138,8 @@ describe("getPublishedPartners", () => {
 });
 
 describe("getPublishedReports", () => {
-  it("returns an array", () => {
-    const reports = getPublishedReports();
-    expect(Array.isArray(reports)).toBe(true);
+  it("does not manufacture report records before approval", () => {
+    expect(getPublishedReports()).toEqual([]);
   });
 });
 
@@ -150,12 +149,15 @@ describe("getPublishedImpactStats", () => {
     expect(Array.isArray(stats)).toBe(true);
   });
 
-  it("in production, filters out [Number] placeholder stats", () => {
-    vi.stubEnv("NODE_ENV", "production");
+  it("includes traceability for every published figure", () => {
     const stats = getPublishedImpactStats();
     for (const stat of stats) {
       expect(stat.value).not.toContain("[");
+      expect(stat.programme).toBeTruthy();
+      expect(stat.location).toBeTruthy();
+      expect(stat.period).toBeTruthy();
+      expect(stat.methodology).toBeTruthy();
+      expect(stat.href).toMatch(/^\/projects\//);
     }
-    vi.unstubAllEnvs();
   });
 });

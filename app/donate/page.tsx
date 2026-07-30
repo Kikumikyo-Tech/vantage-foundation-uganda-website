@@ -7,12 +7,13 @@ import { DonationForm } from "@/components/shared/DonationForm";
 import { Card } from "@/components/ui/Card";
 import { Shield, Heart } from "lucide-react";
 import { CopyBankDetails } from "@/components/shared/CopyBankDetails";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPublicMetadata({
   title: "Donate",
-  description: "Support Vantage Foundation Uganda through a secure one-time or monthly donation.",
-  alternates: { canonical: "/donate" },
-};
+  description: "Support Vantage Foundation Uganda by transferring to its official bank account and recording your donation for verification.",
+  path: "/donate",
+});
 
 export default function DonatePage() {
   return (
@@ -82,7 +83,7 @@ export default function DonatePage() {
                 Fill in your details, make the transfer, and include the transaction
                 reference if you have one.
               </p>
-              <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+              <div className="mt-4 rounded-lg border border-primary/20 bg-primary-light p-4 text-sm text-foreground">
                 All donations are recorded as <strong>pending</strong> until a Vantage
                 administrator verifies the transfer against our official bank statement.
               </div>

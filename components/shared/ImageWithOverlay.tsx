@@ -22,7 +22,7 @@ interface ImageWithOverlayProps {
   children?: ReactNode;
   overlay?: OverlayVariant;
   preset?: ImagePreset;
-  priority?: boolean;
+  preload?: boolean;
   className?: string;
   containerClassName?: string;
   contentClassName?: string;
@@ -41,7 +41,7 @@ export function ImageWithOverlay({
   children,
   overlay = "dark-gradient",
   preset = "card",
-  priority,
+  preload,
   className,
   containerClassName,
   contentClassName,
@@ -52,7 +52,7 @@ export function ImageWithOverlay({
         src={src}
         alt={alt}
         fill
-        priority={priority}
+        preload={preload}
         preset={preset}
         className={className}
         containerClassName="h-full w-full"

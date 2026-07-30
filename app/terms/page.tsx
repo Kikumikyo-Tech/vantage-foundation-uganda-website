@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { site } from "@/content/site";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPublicMetadata({
   title: "Terms of Use",
   description:
     "Terms and conditions for using the Vantage Foundation Uganda website and making donations.",
-  alternates: { canonical: "/terms" },
-};
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (

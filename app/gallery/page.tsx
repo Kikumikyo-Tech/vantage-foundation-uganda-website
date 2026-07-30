@@ -4,13 +4,14 @@ import { getPublishedGalleryMedia } from "@/lib/media-public";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { GalleryGrid } from "@/components/gallery/GalleryGrid";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPublicMetadata({
   title: "Gallery",
   description:
     "Photos from Vantage Foundation Uganda's water, education, health and community programmes.",
-  alternates: { canonical: "/gallery" },
-};
+  path: "/gallery",
+});
 
 // Refreshes admin-uploaded photos periodically without a full redeploy.
 export const revalidate = 3600;

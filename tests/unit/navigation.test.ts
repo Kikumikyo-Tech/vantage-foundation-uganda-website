@@ -70,6 +70,10 @@ describe("Navigation structure", () => {
 });
 
 describe("Site config", () => {
+  it("uses the exact canonical production origin", () => {
+    expect(site.url).toBe("https://www.vantagefoundationuganda.com");
+  });
+
   it("has YouTube in socials", () => {
     expect(site.socials.youtube).toBeTruthy();
     expect(site.socials.youtube).toContain("youtube.com");

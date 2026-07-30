@@ -248,11 +248,11 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-white/95 backdrop-blur">
       <Container>
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-20 items-center justify-between">
           <Logo
             href="/"
             variant="horizontal"
-            height={40}
+            height={56}
             alt={site.name}
           />
 
@@ -292,9 +292,9 @@ export function Header() {
           aria-label="Mobile navigation"
         >
           <Container>
-            <div className="flex h-16 items-center justify-between">
+            <div className="flex h-20 items-center justify-between">
               <Link href="/" onClick={() => setOpen(false)} aria-label={site.name}>
-                <Logo variant="horizontal" height={36} alt={site.name} />
+                <Logo variant="horizontal" height={48} alt={site.name} />
               </Link>
               <button
                 onClick={() => setOpen(false)}

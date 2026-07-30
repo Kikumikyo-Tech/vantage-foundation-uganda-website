@@ -7,13 +7,14 @@ import { StatCard } from "@/components/shared/StatCard";
 import { ProjectCard } from "@/components/shared/ProjectCard";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPublicMetadata({
   title: "Impact",
   description:
     "See how Vantage Foundation Uganda measures and reports its impact in health, education, humanitarian aid and WASH.",
-  alternates: { canonical: "/impact" },
-};
+  path: "/impact",
+});
 
 export default function ImpactPage() {
   return (
@@ -31,16 +32,16 @@ export default function ImpactPage() {
 
       <section className="py-16 md:py-24">
         <Container>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="grid gap-6 md:grid-cols-3">
             {getPublishedImpactStats().map((stat) => (
-              <StatCard
-                key={stat.label}
-                value={stat.value}
-                label={stat.label}
-                note={stat.note}
-              />
+              <StatCard key={stat.label} {...stat} />
             ))}
           </div>
+          <p className="mt-6 max-w-3xl text-sm text-muted-foreground">
+            Figures shown above are programme-team records, not independently
+            audited results. Each card explains the reporting period and
+            counting method and links to the relevant project.
+          </p>
 
           <div className="mt-16 grid gap-8 lg:grid-cols-3">
             <Card className="p-6">

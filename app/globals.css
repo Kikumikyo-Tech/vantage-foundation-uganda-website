@@ -25,17 +25,17 @@
      Teal primary (--deep-teal) stays available for large text/surfaces
      (24px+, which only needs 3:1) — e.g. the big "Vantage Care" programme
      hero band via programmeColours. */
-  --background: #ffffff;
+  --background: #fbfefd;
   --foreground: #050708; /* black for body text */
   --primary: #006b70; /* teal dark — buttons, links, brand (AA-safe at 6.3:1 on white) */
   --primary-dark: #00565a; /* darker teal — hover/active */
   --primary-light: #ddf5f4; /* teal light — accents only, never body text */
   --accent: #006b70; /* aliased to teal dark — no orange/yellow accents per brand system */
-  --muted: #f7fafa; /* soft white */
+  --muted: #f4faf9; /* soft mint-tinted white */
   --muted-foreground: #475569; /* secondary text on white — AA 7:1+ */
   --border: #dce5e5; /* neutral border */
-  --surface: #f7fafa; /* section backgrounds (soft white) */
-  --surface-strong: #eef4f4; /* cards on muted backgrounds */
+  --surface: #f1f8f7; /* section backgrounds (soft mint) */
+  --surface-strong: #e7f2f1; /* cards on muted backgrounds */
   --navy: #050708;
   --charcoal: #0b1b22;
 
@@ -68,7 +68,7 @@
   --info-fg: #0c4a6e;
 
   /* ---- Typography ---- */
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-source-sans);
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 
   /* Display */
@@ -260,7 +260,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-sans), "Frutiger", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 
 :focus-visible {

@@ -105,7 +105,6 @@ const siteConfigSchema = z.object({
   contact: contactInfo,
   socials: socialLinks,
   bankDetails,
-  mobileMoney: nonEmpty,
   nav: z.array(navItem).min(1),
   primaryCta: navItem,
   secondaryCta: navItem,
@@ -225,16 +224,21 @@ const teamMemberSchema = z.object({
 
 const partnerSchema = z.object({
   name: nonEmpty,
+  relationshipType: nonEmpty.optional(),
   logo: z.string().optional(),
+  logoAlt: z.string().optional(),
   url: z.string().url().optional(),
   description: z.string().optional(),
-  placeholder: z.boolean().optional(),
 });
 
 const impactStatSchema = z.object({
   value: nonEmpty,
   label: nonEmpty,
-  note: z.string().optional(),
+  programme: nonEmpty,
+  location: nonEmpty,
+  period: nonEmpty,
+  methodology: nonEmpty,
+  href: urlOrPath,
 });
 
 const reportSchema = z.object({
@@ -243,7 +247,6 @@ const reportSchema = z.object({
   type: nonEmpty,
   url: z.string().optional(),
   description: z.string().optional(),
-  placeholder: z.boolean().optional(),
 });
 
 const faqItemSchema = z.object({

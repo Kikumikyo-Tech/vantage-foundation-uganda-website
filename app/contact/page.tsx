@@ -5,12 +5,13 @@ import { SectionHeader } from "@/components/shared/SectionHeader";
 import { ContactForm } from "@/components/shared/ContactForm";
 import { Card } from "@/components/ui/Card";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPublicMetadata({
   title: "Contact",
   description: "Get in touch with Vantage Foundation Uganda for donations, volunteering, partnerships and media inquiries.",
-  alternates: { canonical: "/contact" },
-};
+  path: "/contact",
+});
 
 export default async function ContactPage({
   searchParams,

@@ -5,7 +5,7 @@ import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-white py-16 md:py-24 lg:py-32">
+    <section className="relative overflow-hidden bg-background py-16 md:py-24 lg:py-32">
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="max-w-2xl">
@@ -21,11 +21,11 @@ export function Hero() {
               and humanitarian support for underserved communities.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Button href="/impact" size="lg">
-                Explore Our Impact
-              </Button>
-              <Button href="/donate" variant="outline" size="lg">
+              <Button href="/donate" size="lg">
                 Support Our Work
+              </Button>
+              <Button href="/impact" variant="outline" size="lg">
+                Explore Our Impact
               </Button>
             </div>
           </div>
@@ -34,9 +34,9 @@ export function Hero() {
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-xl">
               <ImageOrPlaceholder
                 src="/images/photos/photo-006.webp"
-                alt="Young people and community members in Uganda"
+                alt="Vantage Foundation Uganda volunteers and community members gather around donated supplies during an outreach event"
                 fill
-                priority
+                preload
                 preset="hero"
                 containerClassName="h-full w-full"
               />

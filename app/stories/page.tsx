@@ -3,13 +3,14 @@ import { getPublishedStories } from "@/content/stories";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { StoryCard } from "@/components/shared/StoryCard";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPublicMetadata({
   title: "Stories",
   description:
     "Read community stories, project updates and reflections from Vantage Foundation Uganda.",
-  alternates: { canonical: "/stories" },
-};
+  path: "/stories",
+});
 
 export default function StoriesPage() {
   return (

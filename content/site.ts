@@ -1,4 +1,5 @@
 import { SiteConfig } from "@/types";
+import { CANONICAL_SITE_URL } from "@/lib/site-url";
 
 export const site: SiteConfig = {
   name: "Vantage Foundation Uganda",
@@ -32,8 +33,6 @@ export const site: SiteConfig = {
     accountNumber: "1160000227127",
     swiftCode: "HFINUGKAXXX",
   },
-  mobileMoney:
-    "Mobile Money details will be added here. Please contact us for the current number and registered name.",
   nav: [
     {
       label: "About",
@@ -88,5 +87,5 @@ export const site: SiteConfig = {
   ],
   primaryCta: { label: "Donate", href: "/donate" },
   secondaryCta: { label: "Partner With Us", href: "/get-involved" },
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://vantagefoundationuganda.org",
+  url: CANONICAL_SITE_URL,
 };
