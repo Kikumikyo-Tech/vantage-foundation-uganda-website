@@ -32,6 +32,8 @@ interface ImageOrPlaceholderProps {
    * Defaults to "center".
    */
   objectPosition?: string;
+  /** Priority loading for above-the-fold images (maps to next/image priority). */
+  priority?: boolean;
 }
 
 export function ImageOrPlaceholder({
@@ -46,6 +48,7 @@ export function ImageOrPlaceholder({
   preset = DEFAULT_IMAGE_PRESET,
   sizes,
   objectPosition,
+  priority,
 }: ImageOrPlaceholderProps) {
   // Missing media renders a quiet neutral surface instead of making a
   // publication claim or requesting a resource that does not exist.
@@ -78,6 +81,7 @@ export function ImageOrPlaceholder({
         style={objectPositionStyle}
         sizes={resolvedSizes}
         preload={preload}
+        priority={priority}
         placeholder="blur"
         blurDataURL={BLUR_DATA_URL}
       />
@@ -94,6 +98,7 @@ export function ImageOrPlaceholder({
       style={objectPositionStyle}
       sizes={resolvedSizes}
       preload={preload}
+      priority={priority}
       placeholder="blur"
       blurDataURL={BLUR_DATA_URL}
     />
