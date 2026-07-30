@@ -16,6 +16,7 @@ import { MapPin, Calendar, Users } from "lucide-react";
 import { Markdown } from "@/components/shared/Markdown";
 import { site } from "@/content/site";
 import { programmeTokenForCategory } from "@/lib/design-tokens";
+import { createPublicMetadata } from "@/lib/metadata";
 
 export async function generateStaticParams() {
   return getProjectSlugs().map((slug) => ({ slug }));
@@ -29,18 +30,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) return {};
-  return {
+  return createPublicMetadata({
     title: project.seo?.title || project.title,
     description: project.seo?.description || project.summary,
-    openGraph: {
-      title: project.seo?.title || project.title,
-      description: project.seo?.description || project.summary,
-      images: project.seo?.ogImage ? [{ url: project.seo.ogImage }] : undefined,
-    },
-    alternates: {
-      canonical: `/projects/${slug}`,
-    },
-  };
+    path: `/projects/${slug}`,
+    image: project.seo?.ogImage || project.heroImage,
+  });
 }
 
 export default async function ProjectPage({
@@ -107,7 +102,7 @@ export default async function ProjectPage({
               src={project.heroImage}
               alt={project.title}
               fill
-              priority
+              preload
               preset="detailHero"
               containerClassName="h-full w-full"
             />

@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { site } from "@/content/site";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPublicMetadata({
   title: "Accessibility Statement",
   description:
     "Vantage Foundation Uganda's commitment to making our website accessible to everyone, including people with disabilities.",
-  alternates: { canonical: "/accessibility" },
-};
+  path: "/accessibility",
+});
 
 export default function AccessibilityPage() {
   return (
@@ -134,11 +135,11 @@ export default function AccessibilityPage() {
               <ul className="mt-3 ml-6 list-disc space-y-2">
                 <li>
                   <strong className="text-foreground">
-                    Automated testing:
+                    Automated and manual testing:
                   </strong>{" "}
-                  we have not yet integrated automated axe-core checks into
-                  our development pipeline. Manual testing has been performed,
-                  but automated regression testing is planned.
+                  automated axe-core checks cover the public routes in our
+                  release suite. Manual keyboard, zoom and responsive checks
+                  complement those scans.
                 </li>
                 <li>
                   <strong className="text-foreground">
@@ -151,9 +152,9 @@ export default function AccessibilityPage() {
                   <strong className="text-foreground">
                     Image descriptions:
                   </strong>{" "}
-                  many photographs on the site have placeholder alt text
-                  pending human review. We are working through our media
-                  library to write descriptive alt text for every image.
+                  published photographs use descriptions based on their
+                  available media records. We continue to review descriptions
+                  with programme teams as more context becomes available.
                 </li>
                 <li>
                   <strong className="text-foreground">

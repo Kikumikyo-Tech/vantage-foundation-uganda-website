@@ -10,6 +10,7 @@ import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
 import { Button } from "@/components/ui/Button";
 import { JsonLd, buildBreadcrumbJsonLd } from "@/components/shared/JsonLd";
+import { createPublicMetadata } from "@/lib/metadata";
 
 // Lets an admin update a team member's photo via /admin/media without a
 // code deploy — refreshes periodically well within the presigned URL TTL.
@@ -27,11 +28,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const member = getTeamBySlug(slug);
   if (!member) return {};
-  return {
+  return createPublicMetadata({
     title: member.displayName,
     description: member.shortBio,
-    alternates: { canonical: `/about-us/team/${slug}` },
-  };
+    path: `/about-us/team/${slug}`,
+    image: `${member.image}-portrait.webp`,
+  });
 }
 
 export default async function TeamMemberPage({
@@ -82,7 +84,7 @@ export default async function TeamMemberPage({
                   src={photoOverride?.src ?? `${member.image}-portrait.webp`}
                   alt={photoOverride?.alt || member.imageAlt}
                   fill
-                  priority
+                  preload
                   preset="half"
                   containerClassName="h-full w-full"
                 />

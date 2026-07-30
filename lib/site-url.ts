@@ -1,6 +1,8 @@
 export const DEFAULT_SITE_URL =
   "https://www.vantagefoundationuganda.com";
 
+export const CANONICAL_SITE_URL = DEFAULT_SITE_URL;
+
 export function resolveSiteUrl(value = process.env.NEXT_PUBLIC_SITE_URL) {
   if (!value) return DEFAULT_SITE_URL;
 
@@ -16,4 +18,8 @@ export function resolveSiteUrl(value = process.env.NEXT_PUBLIC_SITE_URL) {
   } catch {
     return DEFAULT_SITE_URL;
   }
+}
+
+export function toCanonicalUrl(path = "/"): string {
+  return new URL(path, `${CANONICAL_SITE_URL}/`).toString();
 }

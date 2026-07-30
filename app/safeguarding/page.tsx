@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { site } from "@/content/site";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPublicMetadata({
   title: "Safeguarding Policy",
   description:
     "Vantage Foundation Uganda's safeguarding policy for protecting children, young people, and vulnerable adults.",
-  alternates: { canonical: "/safeguarding" },
-};
+  path: "/safeguarding",
+});
 
 export default function SafeguardingPage() {
   return (

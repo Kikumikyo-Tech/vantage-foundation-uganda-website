@@ -17,8 +17,12 @@ test.describe("Homepage", () => {
 
   test("navigation links work", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("link", { name: /^Programmes$/i }).first().click();
-    await expect(page).toHaveURL(/\/our-work/);
+    await page.getByRole("button", { name: /^Programmes$/i }).click();
+    await page
+      .getByRole("navigation", { name: "Main navigation" })
+      .getByRole("link", { name: "Vantage Care" })
+      .click();
+    await expect(page).toHaveURL(/\/programmes\/health/);
     await expect(page.locator("h1")).toBeVisible();
   });
 
@@ -29,6 +33,9 @@ test.describe("Homepage", () => {
     const src = await headerLogo.getAttribute("src");
     expect(src).toContain("vantage-logo-horizontal");
     expect(src).not.toContain("/_next/image");
+    const box = await headerLogo.boundingBox();
+    expect(box?.width).toBeGreaterThan(100);
+    expect(box?.height).toBeGreaterThan(30);
   });
 
   test("logo is visible in footer", async ({ page }) => {
@@ -37,6 +44,9 @@ test.describe("Homepage", () => {
     await expect(footerLogo).toBeVisible();
     const src = await footerLogo.getAttribute("src");
     expect(src).toContain("vantage-logo-horizontal");
+    const box = await footerLogo.boundingBox();
+    expect(box?.width).toBeGreaterThan(100);
+    expect(box?.height).toBeGreaterThan(30);
   });
 
   test("homepage sections appear in correct order", async ({ page }) => {
@@ -53,7 +63,7 @@ test.describe("Homepage", () => {
     await expect(page.getByRole("heading", { name: /impact/i })).toBeVisible();
 
     // Programmes section
-    await expect(page.getByRole("heading", { name: /curated, sustainable/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /four programmes/i })).toBeVisible();
 
     // Final CTA
     await expect(page.getByRole("heading", { name: /help us create one more advantage/i })).toBeVisible();

@@ -33,8 +33,6 @@ export const site: SiteConfig = {
     accountNumber: "1160000227127",
     swiftCode: "HFINUGKAXXX",
   },
-  mobileMoney:
-    "Mobile Money details will be added here. Please contact us for the current number and registered name.",
   nav: [
     {
       label: "About",

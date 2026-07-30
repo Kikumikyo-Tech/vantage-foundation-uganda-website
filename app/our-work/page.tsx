@@ -8,12 +8,13 @@ import { SectionHeader } from "@/components/shared/SectionHeader";
 import { AreaIcon } from "@/components/shared/AreaIcon";
 import { ProjectCard } from "@/components/shared/ProjectCard";
 import { Card } from "@/components/ui/Card";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPublicMetadata({
   title: "Our Work",
-  description: `Explore the five pillars of ${site.name}: health, education, humanitarian aid, water & sanitation, and youth leadership.`,
-  alternates: { canonical: "/our-work" },
-};
+  description: `Explore ${site.name}'s four community programmes: Vantage Care, KikumiKyo Academy, Humanitarian Assistance, and Water, Sanitation and Hygiene.`,
+  path: "/our-work",
+});
 
 export default function OurWorkPage() {
   return (
@@ -23,7 +24,7 @@ export default function OurWorkPage() {
           <SectionHeader
             level="h1"
             title="Our Work"
-            description="Health, education, humanitarian aid, water & sanitation, and youth leadership — working together for sustainable livelihoods."
+            description="Four connected programmes advancing health, financial capability, humanitarian support, and clean water and sanitation."
             light
           />
         </Container>
@@ -40,13 +41,13 @@ export default function OurWorkPage() {
 
               return (
                 <div key={area.id} id={area.id}>
-                  <Card className="overflow-hidden p-6 md:p-8">
+                  <Card className="min-w-0 overflow-hidden p-6 md:p-8">
                     <div className="flex items-start gap-4">
                       <div className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
                         <AreaIcon id={area.id} className="h-6 w-6" />
                       </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between gap-4">
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                           <h2 className="text-2xl font-bold">
                             <Link
                               href={`/programmes/${area.id}`}
@@ -59,7 +60,12 @@ export default function OurWorkPage() {
                             href={`/programmes/${area.id}`}
                             className="shrink-0 text-sm font-medium text-primary hover:underline"
                           >
-                            Learn more &rarr;
+                            Learn more
+                            <span className="sr-only">
+                              {" "}
+                              about {area.programmeName ?? area.title}
+                            </span>{" "}
+                            <span aria-hidden="true">&rarr;</span>
                           </Link>
                         </div>
                         {area.programmeName && (

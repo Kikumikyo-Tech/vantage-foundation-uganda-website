@@ -1,21 +1,40 @@
 import { ImpactStat } from "@/types";
 
 export const impactStats: ImpactStat[] = [
-  { value: "10,000+", label: "People with clean water access", note: "Kasaale Deep Borehole" },
-  { value: "500+", label: "Young women and men reached", note: "SaveGirl Uganda mentorship" },
-  { value: "4", label: "Orphanages supported", note: "Food, clothing and essentials" },
-  { value: "[Number]", label: "Medical camps conducted", note: "Placeholder — update with verified figure" },
-  { value: "[Number]", label: "Workshops hosted since 2021", note: "Mental health, SRH and financial literacy" },
+  {
+    value: "10,000+",
+    label: "People with access to the Kasaale water point",
+    programme: "Water, Sanitation and Hygiene",
+    location: "Kasaale, Uganda",
+    period: "Project completed in 2022",
+    methodology:
+      "Community catchment estimate recorded by the project team for the completed borehole.",
+    href: "/projects/kasaale-deep-borehole",
+  },
+  {
+    value: "About 500",
+    label: "Young women and men reached through mentorship",
+    programme: "SaveGirl Uganda",
+    location: "Communities across Uganda",
+    period: "Cumulative reach since 2021",
+    methodology:
+      "Cumulative participant count reported by the programme team across mentorship activities.",
+    href: "/projects/savegirl-uganda",
+  },
+  {
+    value: "4",
+    label: "Orphanages receiving food, clothing or essentials",
+    programme: "Humanitarian Assistance",
+    location: "Uganda",
+    period: "Programme activity since 2022",
+    methodology:
+      "Count of institutions recorded as receiving at least one relief delivery.",
+    href: "/projects/orphanage-relief",
+  },
 ];
 
-/**
- * Returns impact stats that are not placeholders. In development, all
- * stats are returned. In production, stats with "[Number]" values are
- * filtered out.
- */
 export function getPublishedImpactStats(): ImpactStat[] {
-  const isDev = process.env.NODE_ENV === "development";
-  return impactStats.filter((s) => isDev || !s.value.includes("["));
+  return impactStats;
 }
 
 export const outputs = [

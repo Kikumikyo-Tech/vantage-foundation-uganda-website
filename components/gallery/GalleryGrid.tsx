@@ -128,7 +128,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                 fill
                 sizes={LIGHTBOX_SIZES}
                 className="object-contain"
-                priority
+                preload
               />
 
               <button

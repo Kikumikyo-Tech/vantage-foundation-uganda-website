@@ -16,8 +16,8 @@ export async function PartnersSection() {
       <Container>
         <SectionHeader
           eyebrow="Partners"
-          title="Collaborators and supporters"
-          description="We work with partners who share our belief in community-led, sustainable impact."
+          title="Verified relationships"
+          description="Each relationship is described narrowly so a banking service, in-kind contribution or programme collaboration is never overstated."
         />
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -27,21 +27,36 @@ export async function PartnersSection() {
                 <div className="relative h-16 w-32">
                   <ImageOrPlaceholder
                     src={partner.logo}
-                    alt={partner.name}
+                    alt={partner.logoAlt ?? `${partner.name} logo`}
                     fill
                     preset="card"
                     containerClassName="h-full w-full"
                   />
                 </div>
               ) : (
-                <div className="flex h-16 items-center justify-center">
-                  <span className="text-lg font-semibold text-muted-foreground">{partner.name}</span>
+                <div className="flex min-h-16 items-center justify-center rounded-lg border border-border bg-surface px-5">
+                  <span className="text-lg font-semibold text-foreground">{partner.name}</span>
                 </div>
               )}
               {partner.logo && (
                 <h3 className="mt-4 text-lg font-semibold">{partner.name}</h3>
               )}
+              {partner.relationshipType && (
+                <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-primary">
+                  {partner.relationshipType}
+                </p>
+              )}
               <p className="mt-2 text-sm text-muted-foreground">{partner.description}</p>
+              {partner.url && (
+                <a
+                  href={partner.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-primary underline-offset-4 hover:underline"
+                >
+                  Visit official website
+                </a>
+              )}
             </Card>
           ))}
         </div>

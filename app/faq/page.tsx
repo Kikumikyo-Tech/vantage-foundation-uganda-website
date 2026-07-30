@@ -3,12 +3,13 @@ import { faq } from "@/content/faq";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { JsonLd, buildFaqJsonLd } from "@/components/shared/JsonLd";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPublicMetadata({
   title: "FAQ",
   description: "Frequently asked questions about Vantage Foundation Uganda, our work, donations and partnerships.",
-  alternates: { canonical: "/faq" },
-};
+  path: "/faq",
+});
 
 export default function FaqPage() {
   return (

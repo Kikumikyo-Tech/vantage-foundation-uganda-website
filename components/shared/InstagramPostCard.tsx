@@ -6,10 +6,9 @@ import { truncateCaption, getMediaTypeLabel } from "@/lib/instagram/scoring";
 
 interface InstagramPostCardProps {
   post: InstagramPost;
-  priority?: boolean;
 }
 
-export function InstagramPostCard({ post, priority = false }: InstagramPostCardProps) {
+export function InstagramPostCard({ post }: InstagramPostCardProps) {
   const displayUrl = post.thumbnailUrl || post.mediaUrl;
   const altText = truncateCaption(post.caption, 100) || `Instagram ${getMediaTypeLabel(post.mediaType)}`;
   const isVideo = post.mediaType === "VIDEO" || post.mediaType === "REEL";
@@ -38,7 +37,7 @@ export function InstagramPostCard({ post, priority = false }: InstagramPostCardP
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover transition-transform duration-300 group-hover:scale-105"
-            priority={priority}
+            loading="lazy"
             unoptimized
           />
         ) : (

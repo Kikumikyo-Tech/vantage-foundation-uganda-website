@@ -14,6 +14,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { programmeTokenForArea } from "@/lib/design-tokens";
 import { getProgrammeAdditionalPhotos } from "@/lib/media-public";
+import { createPublicMetadata } from "@/lib/metadata";
 
 // Lets an admin add photos to a programme via /admin/media without a code
 // deploy — refreshes periodically well within the presigned URL TTL.
@@ -28,16 +29,11 @@ export function generateMetadata({ params }: { params: Promise<{ slug: string }>
     const area = areasOfWork.find((a) => a.id === slug);
     if (!area) return { title: "Programme not found" };
     const name = area.programmeName ?? area.title;
-    return {
+    return createPublicMetadata({
       title: name,
       description: area.summary,
-      alternates: { canonical: `/programmes/${slug}` },
-      openGraph: {
-        title: name,
-        description: area.summary,
-        type: "website",
-      },
-    };
+      path: `/programmes/${slug}`,
+    });
   });
 }
 

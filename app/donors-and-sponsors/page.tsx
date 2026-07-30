@@ -9,12 +9,13 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
 import { ContactForm } from "@/components/shared/ContactForm";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Donors & Sponsors",
+export const metadata: Metadata = createPublicMetadata({
+  title: "Partners, Donors & Sponsors",
   description: `Recognizing the individuals, companies and organizations who support ${site.name}, with their consent.`,
-  alternates: { canonical: "/donors-and-sponsors" },
-};
+  path: "/donors-and-sponsors",
+});
 
 // Lets an admin recognise a new donor/sponsor via /admin/media without a
 // code deploy — refreshes periodically well within the presigned URL TTL.
@@ -41,8 +42,8 @@ export default async function DonorsAndSponsorsPage() {
         <Container>
           <SectionHeader
             level="h1"
-            title="Donors & Sponsors"
-            description="Recognizing the individuals, companies, institutions and organizations who make our work possible."
+            title="Partners, Donors & Sponsors"
+            description="Verified relationships and consent-based recognition of organisations and people supporting our work."
             light
           />
         </Container>
@@ -81,17 +82,38 @@ export default async function DonorsAndSponsorsPage() {
             <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {recognized.map((partner) => (
                 <Card key={partner.name} className="flex flex-col items-center p-6 text-center">
-                  <div className="relative h-16 w-32">
-                    <ImageOrPlaceholder
-                      src={partner.logo}
-                      alt={partner.name}
-                      fill
-                      preset="card"
-                      containerClassName="h-full w-full"
-                    />
+                  <div className="flex h-20 w-full items-center justify-center rounded-lg border border-border bg-white px-4">
+                    {partner.logo ? (
+                      <ImageOrPlaceholder
+                        src={partner.logo}
+                        alt={partner.logoAlt ?? `${partner.name} logo`}
+                        fill
+                        preset="card"
+                        containerClassName="h-14 w-36"
+                      />
+                    ) : (
+                      <span className="text-lg font-bold text-primary">
+                        {partner.name}
+                      </span>
+                    )}
                   </div>
                   <h3 className="mt-4 text-lg font-semibold">{partner.name}</h3>
+                  {partner.relationshipType && (
+                    <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-primary">
+                      {partner.relationshipType}
+                    </p>
+                  )}
                   <p className="mt-2 text-sm text-muted-foreground">{partner.description}</p>
+                  {partner.url && (
+                    <a
+                      href={partner.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 text-sm font-semibold text-primary underline-offset-4 hover:underline"
+                    >
+                      Visit official website
+                    </a>
+                  )}
                 </Card>
               ))}
             </div>

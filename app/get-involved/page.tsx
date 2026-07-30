@@ -12,12 +12,13 @@ import {
   Users,
   Briefcase,
 } from "lucide-react";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPublicMetadata({
   title: "Get Involved",
   description: "Donate, volunteer, partner, sponsor or collaborate with Vantage Foundation Uganda.",
-  alternates: { canonical: "/get-involved" },
-};
+  path: "/get-involved",
+});
 
 const pathways = [
   {

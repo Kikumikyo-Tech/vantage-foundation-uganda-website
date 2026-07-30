@@ -58,9 +58,9 @@ export async function InstagramSection() {
           role="list"
           aria-label="Popular Instagram posts"
         >
-          {feed.posts.map((post, index) => (
+          {feed.posts.map((post) => (
             <div key={post.id} role="listitem">
-              <InstagramPostCard post={post} priority={index < 3} />
+              <InstagramPostCard post={post} />
             </div>
           ))}
         </div>

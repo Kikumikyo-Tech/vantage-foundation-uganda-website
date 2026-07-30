@@ -41,7 +41,7 @@ export function Footer() {
         <div className="grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-4">
           {/* Organisation summary */}
           <div className="lg:col-span-1">
-            <Logo href="/" variant="horizontal" height={36} alt={site.name} />
+            <Logo href="/" variant="horizontal" height={56} alt={site.name} />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
               {site.legalName} is a youth-led nonprofit improving access to
               health, education, clean water and humanitarian support in

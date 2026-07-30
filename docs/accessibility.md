@@ -48,7 +48,7 @@ The site targets **WCAG 2.2 Level AA** compliance. This means:
 ### Images
 - All images use meaningful `alt` text describing the content
 - Decorative icons use `aria-hidden="true"`
-- Placeholder images show "Image coming soon" text
+- Missing media renders as a quiet neutral surface without an unverified publication promise
 - All images go through `ImageOrPlaceholder` component
 
 ### Color contrast
@@ -142,5 +142,5 @@ Any axe-core violation will fail the CI build.
 ## Known Limitations
 
 - **No video captions**: The site currently has no video content. If video is added, captions and transcripts must be provided.
-- **Color contrast on placeholder images**: The "Image coming soon" placeholder uses slate-500 on slate-100 (4.6:1, passes AA).
+- **Missing media**: a neutral non-text surface avoids broken requests and does not claim that an asset will be published.
 - **Third-party content**: Any embedded third-party content (maps, social widgets) may not meet WCAG AA. Review before adding.

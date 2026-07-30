@@ -6,13 +6,14 @@ import { getPublishedDbBlogPosts } from "@/lib/blog-public";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { BlogCard } from "@/components/shared/BlogCard";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPublicMetadata({
   title: "Blog",
   description:
     "Updates, research and reflections from Vantage Foundation Uganda's health, education and humanitarian programmes.",
-  alternates: { canonical: "/blog" },
-};
+  path: "/blog",
+});
 
 // Lets an admin publish a post via /admin/blog without a code deploy —
 // refreshes periodically well within the presigned hero-image URL TTL.

@@ -8,12 +8,13 @@ import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
 import { Card } from "@/components/ui/Card";
 import { TeamCard } from "@/components/shared/TeamCard";
 import { Button } from "@/components/ui/Button";
+import { createPublicMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPublicMetadata({
   title: "About Us",
   description: `Learn about ${site.name}'s mission, vision, values and youth-led approach to community development in Uganda.`,
-  alternates: { canonical: "/about-us" },
-};
+  path: "/about-us",
+});
 
 // Lets an admin update a team member's photo via /admin/media without a
 // code deploy — refreshes periodically well within the presigned URL TTL.

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -7,28 +7,42 @@ import { SkipToContent } from "@/components/shared/SkipToContent";
 import { JsonLd, buildNgoJsonLd, buildWebSiteJsonLd } from "@/components/shared/JsonLd";
 import { site } from "@/content/site";
 
-const inter = Inter({
+const sourceSans = Source_Sans_3({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-source-sans",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: site.name,
+    default: "Vantage Foundation Uganda | Community-led impact",
     template: `%s | ${site.name}`,
   },
   description: site.description,
+  applicationName: site.name,
+  creator: site.name,
+  publisher: site.legalName,
+  category: "nonprofit",
+  keywords: [
+    "Vantage Foundation Uganda",
+    "Uganda nonprofit",
+    "community health Uganda",
+    "financial literacy Uganda",
+    "humanitarian assistance Uganda",
+    "WASH Uganda",
+    "youth-led nonprofit",
+  ],
   openGraph: {
     title: site.name,
     description: site.description,
+    url: "/",
     type: "website",
     locale: "en_UG",
     siteName: site.name,
     images: [
       {
-        url: "/opengraph-image",
+        url: "/brand/social/vantage-foundation-uganda-og.jpg",
         width: 1200,
         height: 630,
         alt: site.name,
@@ -39,7 +53,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: site.name,
     description: site.description,
-    images: ["/opengraph-image"],
+    images: ["/brand/social/vantage-foundation-uganda-og.jpg"],
   },
   robots: {
     index: true,
@@ -78,13 +92,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+    <html lang="en" className={`${sourceSans.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <SkipToContent />
         <JsonLd data={ngoJsonLd} />
         <JsonLd data={websiteJsonLd} />
         <Header />
-        <main id="main" className="flex-1">
+        <main id="main" tabIndex={-1} className="flex-1">
           {children}
         </main>
         <Footer />

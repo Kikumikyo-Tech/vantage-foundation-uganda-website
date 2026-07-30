@@ -25,17 +25,17 @@ export const brandColors = {
 // primary (brandColors.deepTeal) stays available for large text/surfaces
 // (24px+, which only needs 3:1 contrast).
 export const semanticColors = {
-  background: "#ffffff",
+  background: "#fbfefd",
   foreground: "#050708",
   primary: "#006b70",
   primaryDark: "#00565a",
   primaryLight: "#ddf5f4",
   accent: "#006b70", // aliased to teal dark — no orange/yellow accents
-  muted: "#f7fafa",
+  muted: "#f4faf9",
   mutedForeground: "#475569",
   border: "#dce5e5",
-  surface: "#f7fafa",
-  surfaceStrong: "#eef4f4",
+  surface: "#f1f8f7",
+  surfaceStrong: "#e7f2f1",
 } as const;
 
 export const statusColors = {
@@ -122,7 +122,7 @@ export function programmeTokenForCategory(category: string): ProgrammeToken {
 }
 
 export const typography = {
-  fontFamily: "var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+  fontFamily: "var(--font-source-sans), 'Frutiger', 'Segoe UI', system-ui, -apple-system, sans-serif",
   scale: {
     display: { size: "3.5rem", lineHeight: 1.1, weight: 700, tracking: "-0.02em" },
     h1: { size: "2.5rem", lineHeight: 1.15, weight: 700, tracking: "-0.02em" },
