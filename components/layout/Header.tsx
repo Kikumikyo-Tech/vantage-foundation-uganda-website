@@ -247,6 +247,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-white/95 backdrop-blur">
+      <div className="h-1 w-full bg-gradient-to-r from-primary via-deep-teal to-primary" aria-hidden="true" />
       <Container>
         <div className="flex h-20 items-center justify-between">
           <Logo
