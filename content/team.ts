@@ -4,6 +4,13 @@ import { TeamMember } from "@/types";
 // (2026-07-27). Do not invent additional titles, qualifications, awards,
 // employment history or academic credentials — only the roles and bios below
 // are confirmed for publication.
+//
+// Kauthar's and Hillary's Girl Power USA history (added 2026-07-31) is
+// sourced from Girl Power USA's own published pages (girlpowerusa.org,
+// girlpowertalk.com), cross-checked against LinkedIn, plus direct
+// confirmation from Vantage management on the Senior Associate → Associate
+// Director progression and its end (stepped back for medical/surgical
+// training requirements). See each member's `citations` for sources.
 export const team: TeamMember[] = [
   {
     id: "nassazi-kauthar-wangi",
@@ -15,9 +22,16 @@ export const team: TeamMember[] = [
     shortBio:
       "Medical doctor and nonprofit leader providing strategic direction across Vantage Foundation Uganda's programmes, partnerships and community initiatives.",
     fullBio:
-      "Dr. Nassazi Kauthar Wangi is a medical doctor, researcher and nonprofit leader with a strong interest in mental health, neuroscience, psychology and community wellbeing. As Co-founder and Executive Director of Vantage Foundation Uganda, she provides strategic leadership and oversees the Foundation's programmes, partnerships and institutional development. Her work focuses particularly on adolescents, young people, women, health workers, people living with chronic illness and underserved communities.",
+      "Dr. Nassazi Kauthar Wangi is a medical doctor, researcher and nonprofit leader with a strong interest in mental health, neuroscience, psychology and community wellbeing. As Co-founder and Executive Director of Vantage Foundation Uganda, she provides strategic leadership and oversees the Foundation's programmes, partnerships and institutional development. Her work focuses particularly on adolescents, young people, women, health workers, people living with chronic illness and underserved communities. In 2021 she founded the SaveGirl Uganda initiative, which Girl Power USA — a US-based 501(c)(3) working across Africa and Asia — has supported ever since. Kauthar has served as a Senior Associate with Girl Power USA and a Young Leader with its sister organisation, Girl Power Talk.",
     image: "/images/team/nassazi-kauthar-wangi",
     imageAlt: "Portrait of Dr. Nassazi Kauthar Wangi",
+    linkedin: "https://www.linkedin.com/in/kautharwangi/",
+    citations: [
+      {
+        label: "Girl Power USA on its support for SaveGirl Uganda",
+        url: "https://girlpowerusa.org/impact/creating-doctors-in-uganda-uganda/",
+      },
+    ],
     displayOrder: 1,
     published: true,
   },
@@ -31,9 +45,20 @@ export const team: TeamMember[] = [
     shortBio:
       "Medical doctor and community health advocate leading programme delivery, operations and field implementation.",
     fullBio:
-      "Dr. Turyasingura Hillary A. is a medical doctor, community health advocate and development practitioner with experience in primary care, medical outreach, youth empowerment and nonprofit operations. As Co-founder and Operations Director of Vantage Foundation Uganda, he coordinates programme implementation, field operations, partnerships and organisational systems. His interests include preventive healthcare, maternal and child health, sexual and reproductive health, community medical camps and improving access to care in underserved settings.",
+      "Dr. Turyasingura Hillary A. is a medical doctor, community health advocate and development practitioner with experience in primary care, medical outreach, youth empowerment and nonprofit operations. As Co-founder and Operations Director of Vantage Foundation Uganda, he coordinates programme implementation, field operations, partnerships and organisational systems. His interests include preventive healthcare, maternal and child health, sexual and reproductive health, community medical camps and improving access to care in underserved settings. Before his medical and surgical training required his full focus, he served with Girl Power USA — a US-based 501(c)(3) working in Uganda — progressing through its associate programme from Senior Associate to Associate Director and leading its Uganda team on community-health, humanitarian and youth-led initiatives. This included burns-prevention education delivered in association with the Grossman Burn Foundation and Ugandan doctors, and healthcare outreach for children living on the streets of Jinja delivered with S.A.L.V.E. International on International Street Children's Day.",
     image: "/images/team/turyasingura-hillary-a",
     imageAlt: "Portrait of Dr. Turyasingura Hillary A.",
+    linkedin: "https://www.linkedin.com/in/turyasingura-hillary/",
+    citations: [
+      {
+        label: "Girl Power USA's burns-prevention work with the Grossman Burn Foundation",
+        url: "https://girlpowerusa.org/grossman-burn-foundation-in-uganda/",
+      },
+      {
+        label: "Girl Power USA on its healthcare partnership with Vantage Foundation and S.A.L.V.E. International",
+        url: "https://girlpowerusa.org/health-care-in-africa/",
+      },
+    ],
     displayOrder: 2,
     published: true,
   },
