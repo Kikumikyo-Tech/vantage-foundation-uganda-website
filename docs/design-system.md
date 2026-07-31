@@ -8,16 +8,25 @@ All design tokens are defined as CSS custom properties in `app/globals.css` and 
 
 ### Colors
 
+Brand colors are **teal, white and black**. `--primary` is sampled from the
+logo's mid-tone teal; dark sections use Tailwind's native `black`/`white`
+(no custom token needed — see below).
+
 | Token | Hex | Tailwind | Usage |
 |-------|-----|----------|-------|
 | `--background` | `#ffffff` | `bg-white` | Page background |
-| `--foreground` | `#0f172a` | `text-foreground` | Primary text (slate-900) |
-| `--primary` | `#0f766e` | `bg-primary`, `text-primary` | Brand color (teal-700) |
-| `--primary-dark` | `#115e59` | — | Hover states (teal-800) |
+| `--foreground` | `#000000` | `text-foreground` | Primary text (black) |
+| `--primary` | `#0d7280` | `bg-primary`, `text-primary` | Brand color (logo teal) |
+| `--primary-dark` | `#0a5964` | `bg-primary-dark` | Hover states |
+| `--primary-light` | `#2dd4d4` | `text-primary-light` | Links/accents **on black backgrounds only** — `primary` fails contrast on black |
 | `--accent` | `#f59e0b` | `bg-accent` | Highlights (amber-500) |
-| `--muted` | `#f8fafc` | `bg-muted` | Subtle backgrounds (slate-50) |
-| `--muted-foreground` | `#475569` | `text-muted-foreground` | Secondary text (slate-600) |
-| `--border` | `#e2e8f0` | `border-border` | Borders (slate-200) |
+| `--muted` | `#f5fbfb` | `bg-muted` | Subtle teal-tinted backgrounds |
+| `--muted-foreground` | `#3f5566` | `text-muted-foreground` | Secondary text |
+| `--border` | `#dceaec` | `border-border` | Borders (teal-tinted) |
+
+Dark sections (footer, "Join the movement" band) use Tailwind's built-in
+`bg-black` / `text-white` directly rather than a custom token, since pure
+black is already one of the three brand colors.
 
 ### Color Contrast
 
@@ -25,20 +34,31 @@ All combinations meet WCAG AA (4.5:1 for normal text):
 
 | Foreground | Background | Ratio | Level |
 |------------|------------|-------|-------|
-| #0f172a | #ffffff | 18.5:1 | AAA |
-| #475569 | #ffffff | 7.2:1 | AAA |
-| #475569 | #f8fafc | 6.8:1 | AAA |
-| #ffffff | #0f766e | 5.5:1 | AA |
-| #0f766e | #ffffff | 5.5:1 | AA |
+| #000000 | #ffffff | 21.0:1 | AAA |
+| #3f5566 | #ffffff | 7.8:1 | AAA |
+| #3f5566 | #f5fbfb | 7.4:1 | AAA |
+| #ffffff | #0d7280 | 5.6:1 | AA |
+| #0d7280 | #ffffff | 5.6:1 | AA |
+| #0d7280 | #f5fbfb | 5.4:1 | AA |
+| #ffffff | #000000 | 21.0:1 | AAA |
+| #2dd4d4 | #000000 | 11.5:1 | AAA |
+
+Note: `#0d7280` (`--primary`) on `#000000` (black) is only 3.7:1 — do not
+use `text-primary` for text on black backgrounds; use `text-primary-light`
+or `text-white` instead.
 
 ## Typography
 
 ### Font family
 
-The site uses **Inter** (via `next/font/google`) for all text:
+The site uses **Fira Sans** (via `next/font/google`) for all text:
 - Display: `swap` (prevents invisible text during load)
-- Variable font for optimal performance
+- Weights 400/500/600/700 loaded (static weights, not a variable font)
 - Defined in `app/layout.tsx`
+- Chosen as a free, open-source stand-in for Frutiger (a commercial
+  Monotype/Linotype typeface we can't legally bundle without a license) —
+  Fira Sans shares Frutiger's clean humanist proportions. If a licensed
+  Frutiger font file becomes available, swap it in via `next/font/local`.
 
 ### Font sizes
 

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
@@ -82,13 +83,19 @@ export function Header() {
             className="flex items-center gap-2 text-xl font-bold tracking-tight text-foreground"
             aria-label={site.name}
           >
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-white">
-              V
-            </span>
+            <Image
+              src="/images/brand/vantage-symbol.svg"
+              alt=""
+              width={36}
+              height={36}
+              className="h-9 w-9"
+              priority
+              unoptimized
+            />
             <span className="hidden sm:inline">Vantage Foundation</span>
           </Link>
 
-          <nav className="hidden items-center gap-6 md:flex" aria-label="Main navigation">
+          <nav className="hidden items-center gap-5 lg:flex" aria-label="Main navigation">
             {site.nav.map((item) => (
               <Link
                 key={item.href}
@@ -109,7 +116,7 @@ export function Header() {
 
           <button
             ref={triggerRef}
-            className="md:hidden"
+            className="lg:hidden"
             onClick={() => setOpen(true)}
             aria-label="Open menu"
             aria-expanded={open}
@@ -124,7 +131,7 @@ export function Header() {
         <div
           ref={menuRef}
           id="mobile-menu"
-          className="fixed inset-0 z-50 bg-white md:hidden"
+          className="fixed inset-0 z-50 bg-white lg:hidden"
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation"

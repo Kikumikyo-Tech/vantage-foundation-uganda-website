@@ -28,6 +28,16 @@ export function PartnersSection() {
               </div>
               <h3 className="mt-4 text-lg font-semibold">{partner.name}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{partner.description}</p>
+              {partner.url && (
+                <a
+                  href={partner.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 text-sm font-medium text-primary hover:underline"
+                >
+                  Visit {partner.name} ↗
+                </a>
+              )}
             </Card>
           ))}
         </div>

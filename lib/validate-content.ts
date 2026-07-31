@@ -178,12 +178,19 @@ const storySchema = z.object({
   published: z.boolean().optional(),
 });
 
+const teamMemberLink = z.object({
+  label: nonEmpty,
+  href: nonEmpty,
+  external: z.boolean().optional(),
+});
+
 const teamMemberSchema = z.object({
   name: nonEmpty,
   role: nonEmpty,
   bio: nonEmpty,
   photo: z.string().optional(),
   placeholder: z.boolean().optional(),
+  links: z.array(teamMemberLink).optional(),
 });
 
 const partnerSchema = z.object({

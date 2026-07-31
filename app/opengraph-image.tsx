@@ -1,3 +1,5 @@
+import { readFileSync } from "fs";
+import { join } from "path";
 import { ImageResponse } from "next/og";
 import { site } from "@/content/site";
 
@@ -8,12 +10,16 @@ export const size = {
 };
 export const contentType = "image/png";
 
+const iconBase64 = readFileSync(
+  join(process.cwd(), "public/images/brand/vantage-icon-512.png")
+).toString("base64");
+
 export default function OpenGraphImage() {
   return new ImageResponse(
     (
       <div
         style={{
-          background: "linear-gradient(135deg, #0d9488 0%, #0f766e 100%)",
+          background: "linear-gradient(135deg, #000000 0%, #0d7280 100%)",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -22,25 +28,16 @@ export default function OpenGraphImage() {
           justifyContent: "center",
           padding: 64,
           color: "white",
-          fontFamily: "Inter, system-ui, sans-serif",
+          fontFamily: "Fira Sans, system-ui, sans-serif",
         }}
       >
-        <div
-          style={{
-            width: 80,
-            height: 80,
-            borderRadius: 16,
-            background: "white",
-            color: "#0d9488",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: 48,
-            fontWeight: 700,
-          }}
-        >
-          V
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element -- next/og requires a plain <img>, not next/image */}
+        <img
+          src={`data:image/png;base64,${iconBase64}`}
+          width={112}
+          height={112}
+          alt=""
+        />
         <h1 style={{ fontSize: 64, fontWeight: 700, marginTop: 32, textAlign: "center" }}>
           {site.name}
         </h1>

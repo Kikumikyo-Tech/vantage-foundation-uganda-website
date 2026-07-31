@@ -99,7 +99,7 @@ export default function GetInvolvedPage() {
         </Container>
       </section>
 
-      <section className="bg-slate-50 py-16 md:py-24">
+      <section className="bg-muted py-16 md:py-24">
         <Container>
           <div className="mx-auto max-w-2xl">
             <SectionHeader

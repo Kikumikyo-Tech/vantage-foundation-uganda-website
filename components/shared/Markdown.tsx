@@ -36,8 +36,13 @@ export function Markdown({ children, className }: MarkdownProps) {
             return <li className="text-muted-foreground">{children}</li>;
           },
           a({ href, children }) {
+            const isExternal = /^https?:\/\//.test(href || "");
             return (
-              <a href={href} className="font-medium text-primary underline">
+              <a
+                href={href}
+                className="font-medium text-primary underline"
+                {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              >
                 {children}
               </a>
             );

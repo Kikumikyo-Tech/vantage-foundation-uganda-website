@@ -103,6 +103,30 @@ export function buildFaqJsonLd(
 }
 
 /**
+ * Builds a Person schema.org object for a team member / leadership profile.
+ */
+export function buildPersonJsonLd(args: {
+  name: string;
+  jobTitle: string;
+  worksFor: string;
+  description?: string;
+  sameAs?: string[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: args.name,
+    jobTitle: args.jobTitle,
+    worksFor: {
+      "@type": "Organization",
+      name: args.worksFor,
+    },
+    description: args.description,
+    sameAs: args.sameAs && args.sameAs.length > 0 ? args.sameAs : undefined,
+  };
+}
+
+/**
  * Builds an NGO schema.org object (richer than Organization).
  */
 export function buildNgoJsonLd(args: {

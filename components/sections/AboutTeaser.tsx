@@ -1,3 +1,4 @@
+import { imagePlacements } from "@/content/image-placements";
 import { Container } from "@/components/shared/Container";
 import { Button } from "@/components/ui/Button";
 import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
@@ -9,8 +10,8 @@ export function AboutTeaser() {
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
             <ImageOrPlaceholder
-              src="/images/photos/photo-062.webp"
-              alt="Vantage Foundation Uganda community work"
+              src={imagePlacements.homeAboutTeaser.src}
+              alt={imagePlacements.homeAboutTeaser.alt}
               fill
               preset="half"
               containerClassName="h-full w-full"

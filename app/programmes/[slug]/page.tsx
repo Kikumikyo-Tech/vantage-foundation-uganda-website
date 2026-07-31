@@ -145,7 +145,7 @@ export default async function ProgrammePage({
       </section>
 
       {relatedProjects.length > 0 && (
-        <section className="bg-slate-50 py-16 md:py-24">
+        <section className="bg-muted py-16 md:py-24">
           <Container>
             <SectionHeader
               title={`Projects in ${area.title}`}
@@ -176,7 +176,7 @@ export default async function ProgrammePage({
         </section>
       )}
 
-      <section className="bg-slate-50 py-16">
+      <section className="bg-muted py-16">
         <Container>
           <div className="flex flex-col items-center justify-between gap-4 rounded-xl bg-primary p-8 text-white md:flex-row">
             <div>

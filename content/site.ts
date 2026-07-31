@@ -41,6 +41,7 @@ export const site: SiteConfig = {
     { label: "Stories", href: "/stories" },
     { label: "Gallery", href: "/gallery" },
     { label: "Get Involved", href: "/get-involved" },
+    { label: "Our Donors", href: "/our-donors" },
     { label: "Contact", href: "/contact" },
   ],
   primaryCta: { label: "Donate", href: "/donate" },

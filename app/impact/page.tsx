@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { getPublishedImpactStats, outputs, outcomes, longTermGoals, regions, sdgs } from "@/content/impact";
+import { getPublishedImpactStats, outputs, outcomes, longTermGoals, sdgs } from "@/content/impact";
 import { getPublishedProjects } from "@/content/projects";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { StatCard } from "@/components/shared/StatCard";
 import { ProjectCard } from "@/components/shared/ProjectCard";
+import { DistrictsMap } from "@/components/shared/DistrictsMap";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 
@@ -85,43 +86,32 @@ export default function ImpactPage() {
         </Container>
       </section>
 
-      <section className="bg-slate-50 py-16 md:py-24">
+      <section className="bg-muted py-16 md:py-24">
         <Container>
-          <div className="grid gap-12 lg:grid-cols-2">
-            <div>
-              <h2 className="text-3xl font-bold">Geographic reach</h2>
-              <p className="mt-4 text-muted-foreground">
-                We identify districts and communities that are often overlooked by larger
-                international NGOs and magnify the reach of existing social safety nets.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-2">
-                {regions.map((region) => (
-                  <span
-                    key={region}
-                    className="rounded-full border border-border bg-white px-3 py-1 text-sm font-medium"
-                  >
-                    {region}
-                  </span>
-                ))}
-              </div>
-            </div>
+          <h2 className="text-3xl font-bold">Geographic reach</h2>
+          <p className="mt-4 max-w-2xl text-muted-foreground">
+            We identify districts and communities that are often overlooked by larger
+            international NGOs and magnify the reach of existing social safety nets.
+          </p>
+          <div className="mt-10">
+            <DistrictsMap />
+          </div>
 
-            <div>
-              <h2 className="text-3xl font-bold">Sustainable Development Goals</h2>
-              <p className="mt-4 text-muted-foreground">
-                Our programmes contribute to the following global goals.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                {sdgs.map((goal) => (
-                  <span
-                    key={goal}
-                    className="inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary text-lg font-bold text-white"
-                    title={`SDG ${goal}`}
-                  >
-                    {goal}
-                  </span>
-                ))}
-              </div>
+          <div className="mt-16">
+            <h2 className="text-3xl font-bold">Sustainable Development Goals</h2>
+            <p className="mt-4 text-muted-foreground">
+              Our programmes contribute to the following global goals.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              {sdgs.map((goal) => (
+                <span
+                  key={goal}
+                  className="inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary text-lg font-bold text-white"
+                  title={`SDG ${goal}`}
+                >
+                  {goal}
+                </span>
+              ))}
             </div>
           </div>
         </Container>
@@ -152,7 +142,7 @@ export default function ImpactPage() {
         </Container>
       </section>
 
-      <section className="bg-slate-50 py-16 md:py-24">
+      <section className="bg-muted py-16 md:py-24">
         <Container>
           <SectionHeader title="Projects behind the numbers" />
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">

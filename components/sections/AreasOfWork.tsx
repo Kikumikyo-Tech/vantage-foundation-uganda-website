@@ -8,7 +8,7 @@ import { ArrowRight } from "lucide-react";
 
 export function AreasOfWork() {
   return (
-    <section className="bg-slate-50 py-16 md:py-24 lg:py-32">
+    <section className="bg-muted py-16 md:py-24 lg:py-32">
       <Container>
         <SectionHeader
           eyebrow="Our Work"

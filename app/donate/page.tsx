@@ -42,7 +42,7 @@ export default function DonatePage() {
                 ))}
               </ul>
 
-              <div className="mt-10 rounded-xl bg-slate-50 p-6">
+              <div className="mt-10 rounded-xl bg-muted p-6">
                 <h3 className="text-lg font-semibold">Bank transfer</h3>
                 <dl className="mt-4 space-y-2 text-sm">
                   <div className="flex justify-between">

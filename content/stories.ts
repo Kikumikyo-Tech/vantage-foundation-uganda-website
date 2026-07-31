@@ -63,7 +63,7 @@ Period poverty is connected to low self-esteem, limited financial literacy, lack
     date: "March 2023",
     location: "Basajjabalaba High School, Bushenyi",
     category: "Event highlight",
-    heroImage: "/images/photos/photo-038.webp",
+    heroImage: "/images/projects/international-womens-day-mentorship-01.webp",
     relatedProjectSlugs: ["savegirl-uganda", "mental-health-financial-literacy-workshops"],
     body: `On International Women's Day 2023, the Vantage Foundation team joined students and staff at Basajjabalaba High School in Bushenyi for a day of conversation, celebration and empowerment.
 
@@ -77,12 +77,14 @@ The event focused on confidence, education and the power of young women to shape
       "Bringing financial literacy, habit building and career guidance to young people in Bushenyi.",
     author: "Vantage Foundation team",
     role: "Programme team",
-    date: "2023",
+    date: "2022-09-10",
     location: "Bushenyi, Uganda",
     category: "Event highlight",
-    heroImage: "/images/photos/photo-004.webp",
-    relatedProjectSlugs: ["advantage-book-club", "mental-health-financial-literacy-workshops"],
-    body: `Our youth conference in Bushenyi brought together young people for sessions on financial literacy, habit building and career education. The day was designed to fill gaps left by the formal school system, giving participants practical skills they can use immediately.
+    heroImage: "/images/projects/bushenyi-youth-conference-27.webp",
+    relatedProjectSlugs: ["advantage-book-club", "mental-health-financial-literacy-workshops", "savegirl-uganda"],
+    body: `On 10 September 2022, our SaveGirl Uganda team hosted a youth conference in Bushenyi bringing together young people for sessions on financial literacy, habit building and career education. The day was designed to fill gaps left by the formal school system, giving participants practical skills they can use immediately.
+
+The conference was held in official partnership with [Girl Power USA](https://girlpowerusa.org/girl-power-usa-and-save-girl-uganda-youth-conference/), a US-based 501(c)(3) nonprofit, which sponsored two guest speakers to fly in and address attendees: Chipiwa Mukono, Director of Finance and Investments at Girl Power Talk (Zimbabwe), and Marion Nekesa, Senior Writer at Girl Power Talk (Kenya). Vantage Foundation Uganda co-founders Kauthar Wangi and Hillary Turyasingura hosted and presented alongside them.
 
 From budgeting to goal-setting, the conversations were energetic and honest. Young people left with tools, contacts and a renewed sense of direction.`,
   },

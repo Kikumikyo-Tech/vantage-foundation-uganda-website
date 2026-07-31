@@ -1,11 +1,12 @@
 import { site } from "@/content/site";
+import { imagePlacements } from "@/content/image-placements";
 import { Container } from "@/components/shared/Container";
 import { Button } from "@/components/ui/Button";
 import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-white py-16 md:py-24 lg:py-32">
+    <section className="relative overflow-hidden bg-muted py-16 md:py-24 lg:py-32">
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="max-w-2xl">
@@ -35,8 +36,8 @@ export function Hero() {
           <div className="relative">
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-xl">
               <ImageOrPlaceholder
-                src="/images/photos/photo-006.webp"
-                alt="Young people and community members in Uganda"
+                src={imagePlacements.homeHero.src}
+                alt={imagePlacements.homeHero.alt}
                 fill
                 priority
                 preset="hero"

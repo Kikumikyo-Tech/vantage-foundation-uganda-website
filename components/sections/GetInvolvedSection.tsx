@@ -51,12 +51,13 @@ const pathways = [
 
 export function GetInvolvedSection() {
   return (
-    <section className="bg-slate-50 py-16 md:py-24 lg:py-32" id="get-involved">
+    <section className="bg-black py-16 md:py-24 lg:py-32" id="get-involved">
       <Container>
         <SectionHeader
           eyebrow="Get Involved"
           title="Join the movement"
           description="There are many ways to help create one more advantage for a young person, family or community."
+          light
         />
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

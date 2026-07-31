@@ -1,13 +1,14 @@
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { StatCard } from "@/components/shared/StatCard";
-import { getPublishedImpactStats, outputs, outcomes, longTermGoals, regions, sdgs } from "@/content/impact";
+import { getPublishedImpactStats, outputs, outcomes, longTermGoals, sdgs } from "@/content/impact";
+import { DistrictsMap } from "@/components/shared/DistrictsMap";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 
 export function ImpactSection() {
   return (
-    <section className="bg-slate-50 py-16 md:py-24 lg:py-32">
+    <section className="bg-muted py-16 md:py-24 lg:py-32">
       <Container>
         <SectionHeader
           eyebrow="Impact"
@@ -62,40 +63,31 @@ export function ImpactSection() {
           </Card>
         </div>
 
-        <div className="mt-16 grid gap-8 lg:grid-cols-2">
-          <div>
-            <h3 className="text-2xl font-bold">Geographic reach</h3>
-            <p className="mt-2 text-muted-foreground">
-              We identify districts and communities often overlooked by larger international NGOs.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              {regions.map((region) => (
-                <span
-                  key={region}
-                  className="rounded-full border border-border bg-white px-3 py-1 text-sm font-medium"
-                >
-                  {region}
-                </span>
-              ))}
-            </div>
+        <div className="mt-16">
+          <h3 className="text-2xl font-bold">Geographic reach</h3>
+          <p className="mt-2 text-muted-foreground">
+            We identify districts and communities often overlooked by larger international NGOs.
+          </p>
+          <div className="mt-8">
+            <DistrictsMap />
           </div>
+        </div>
 
-          <div>
-            <h3 className="text-2xl font-bold">Sustainable Development Goals</h3>
-            <p className="mt-2 text-muted-foreground">
-              Our work contributes to the following SDGs.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              {sdgs.map((goal) => (
-                <span
-                  key={goal}
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-sm font-bold text-white"
-                  title={`SDG ${goal}`}
-                >
-                  {goal}
-                </span>
-              ))}
-            </div>
+        <div className="mt-16">
+          <h3 className="text-2xl font-bold">Sustainable Development Goals</h3>
+          <p className="mt-2 text-muted-foreground">
+            Our work contributes to the following SDGs.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            {sdgs.map((goal) => (
+              <span
+                key={goal}
+                className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-sm font-bold text-white"
+                title={`SDG ${goal}`}
+              >
+                {goal}
+              </span>
+            ))}
           </div>
         </div>
 

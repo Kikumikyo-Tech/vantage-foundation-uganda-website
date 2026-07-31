@@ -174,12 +174,21 @@ export interface Story {
   published?: boolean;
 }
 
+export interface TeamMemberLink {
+  label: string;
+  href: string;
+  /** Set for links leaving the site (opens in a new tab with rel=noopener noreferrer). */
+  external?: boolean;
+}
+
 export interface TeamMember {
   name: string;
   role: string;
   bio: string;
   photo?: string;
   placeholder?: boolean;
+  /** Related internal pages (projects, stories) or external sources for claims in the bio. */
+  links?: TeamMemberLink[];
 }
 
 export interface Partner {
@@ -194,6 +203,18 @@ export interface ImpactStat {
   value: string;
   label: string;
   note?: string;
+}
+
+/**
+ * A district where Vantage Foundation Uganda has run programmes. Coordinates
+ * are real geographic latitude/longitude (WGS84), used to plot districts on
+ * the Uganda map in the impact section.
+ */
+export interface District {
+  name: string;
+  description: string;
+  lat: number;
+  lon: number;
 }
 
 export interface Report {

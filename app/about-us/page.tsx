@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { site } from "@/content/site";
 import { getPublishedTeam } from "@/content/team";
+import { imagePlacements } from "@/content/image-placements";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
 import { Card } from "@/components/ui/Card";
+import { JsonLd, buildPersonJsonLd } from "@/components/shared/JsonLd";
 
 export const metadata: Metadata = {
   title: "About Us",
-  description: `Learn about ${site.name}'s mission, vision, values and youth-led approach to community development in Uganda.`,
+  description: `Learn about ${site.name}'s mission, vision, and youth-led leadership team delivering health, education and humanitarian work in Uganda, including their experience with partner organisations such as Girl Power USA.`,
   alternates: { canonical: "/about-us" },
 };
 
@@ -45,8 +48,8 @@ export default function AboutPage() {
             </div>
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
               <ImageOrPlaceholder
-                src="/images/photos/photo-066.webp"
-                alt="Vantage Foundation Uganda community work"
+                src={imagePlacements.aboutUsStory.src}
+                alt={imagePlacements.aboutUsStory.alt}
                 fill
                 preset="half"
                 containerClassName="h-full w-full"
@@ -78,7 +81,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section className="bg-slate-50 py-16 md:py-24">
+      <section className="bg-muted py-16 md:py-24">
         <Container>
           <SectionHeader
             title="Who we serve"
@@ -111,27 +114,68 @@ export default function AboutPage() {
         <Container>
           <SectionHeader title="Meet the team" description="Youth-led and volunteer-driven." />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {getPublishedTeam().map((member) => (
-              <Card key={member.role} className="overflow-hidden p-6 text-center">
-                <div className="relative mx-auto h-24 w-24 overflow-hidden rounded-full">
-                  <ImageOrPlaceholder
-                    src={member.photo}
-                    alt={member.name}
-                    fill
-                    preset="team"
-                    containerClassName="h-full w-full"
-                  />
-                </div>
-                <h3 className="mt-4 text-lg font-semibold">{member.name}</h3>
-                <p className="text-sm text-primary">{member.role}</p>
-                <p className="mt-2 text-sm text-muted-foreground">{member.bio}</p>
-              </Card>
-            ))}
+            {getPublishedTeam().map((member) => {
+              const externalLinks = (member.links || []).filter((l) => l.external);
+              return (
+                <Card key={member.name} className="overflow-hidden p-6 text-center">
+                  {externalLinks.length > 0 && (
+                    <JsonLd
+                      data={buildPersonJsonLd({
+                        name: member.name,
+                        jobTitle: member.role,
+                        worksFor: site.name,
+                        description: member.bio,
+                        sameAs: externalLinks.map((l) => l.href),
+                      })}
+                    />
+                  )}
+                  <div className="relative mx-auto h-24 w-24 overflow-hidden rounded-full">
+                    <ImageOrPlaceholder
+                      src={member.photo}
+                      alt={member.name}
+                      fill
+                      preset="team"
+                      containerClassName="h-full w-full"
+                    />
+                  </div>
+                  <h3 className="mt-4 text-lg font-semibold">{member.name}</h3>
+                  <p className="text-sm text-primary">{member.role}</p>
+                  <p className="mt-2 text-sm text-muted-foreground">{member.bio}</p>
+                  {member.links && member.links.length > 0 && (
+                    <ul className="mt-3 space-y-1 text-left">
+                      {member.links.map((link) =>
+                        link.external ? (
+                          <li key={link.href}>
+                            <a
+                              href={link.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs font-medium text-primary hover:underline"
+                            >
+                              {link.label} ↗
+                            </a>
+                          </li>
+                        ) : (
+                          <li key={link.href}>
+                            <Link
+                              href={link.href}
+                              className="text-xs font-medium text-primary hover:underline"
+                            >
+                              {link.label} →
+                            </Link>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  )}
+                </Card>
+              );
+            })}
           </div>
         </Container>
       </section>
 
-      <section className="bg-slate-50 py-16 md:py-24">
+      <section className="bg-muted py-16 md:py-24">
         <Container>
           <SectionHeader
             title="Governance and accountability"
