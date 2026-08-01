@@ -12,6 +12,7 @@ import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { JsonLd, buildBreadcrumbJsonLd } from "@/components/shared/JsonLd";
 import { Button } from "@/components/ui/Button";
 import { ProjectCard } from "@/components/shared/ProjectCard";
+import { GalleryGrid } from "@/components/gallery/GalleryGrid";
 import { MapPin, Calendar, Users } from "lucide-react";
 import { Markdown } from "@/components/shared/Markdown";
 import { site } from "@/content/site";
@@ -164,6 +165,22 @@ export default async function ProjectPage({
                   </li>
                 ))}
               </ul>
+            </div>
+          )}
+
+          {project.gallery && project.gallery.length > 0 && (
+            <div className="mt-12">
+              <h2 className="text-2xl font-bold">Gallery</h2>
+              <div className="mt-6">
+                <GalleryGrid
+                  images={project.gallery.map((src, index) => ({
+                    id: `${project.slug}-${index}`,
+                    src,
+                    alt: `${project.title} — photo ${index + 1}`,
+                    consent: "verified" as const,
+                  }))}
+                />
+              </div>
             </div>
           )}
 

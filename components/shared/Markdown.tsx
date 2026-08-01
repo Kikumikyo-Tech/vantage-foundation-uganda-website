@@ -123,10 +123,12 @@ export function Markdown({
             );
           },
           a({ href, children }) {
+            const isExternal = /^https?:\/\//.test(href || "");
             return (
               <a
                 href={href}
                 className="rounded-sm font-medium text-primary underline decoration-primary/40 underline-offset-4 hover:decoration-primary"
+                {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               >
                 {children}
               </a>

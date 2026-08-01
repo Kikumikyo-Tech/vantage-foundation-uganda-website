@@ -122,6 +122,28 @@ export default async function TeamMemberPage({
                 {member.fullBio}
               </p>
 
+              {member.citations && member.citations.length > 0 && (
+                <div className="mt-4 max-w-2xl">
+                  <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    Sources
+                  </h2>
+                  <ul className="mt-2 space-y-1">
+                    {member.citations.map((c) => (
+                      <li key={c.url}>
+                        <a
+                          href={c.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5 shrink-0" /> {c.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               <div className="mt-10 rounded-xl bg-primary p-8 text-white">
                 <h2 className="text-xl font-bold">Support this work</h2>
                 <p className="mt-2 text-white/90">

@@ -218,6 +218,9 @@ const teamMemberSchema = z.object({
   imageAlt: nonEmpty,
   email: z.string().email().optional(),
   linkedin: z.string().url().optional(),
+  citations: z
+    .array(z.object({ label: nonEmpty, url: z.string().url() }))
+    .optional(),
   displayOrder: z.number(),
   published: z.boolean(),
 });
@@ -323,6 +326,21 @@ function checkCrossReferences(errors: ValidationError[]) {
     }
   }
 
+  // Reach districts: projectSlugs must reference existing projects.
+  for (const district of reachDistricts) {
+    if (district.projectSlugs) {
+      for (const projectSlug of district.projectSlugs) {
+        if (!projectSlugs.has(projectSlug)) {
+          errors.push({
+            file: "content/reach.ts",
+            path: `${district.name}.projectSlugs`,
+            message: `references unknown project slug "${projectSlug}"`,
+          });
+        }
+      }
+    }
+  }
+
   // No duplicate slugs.
   const allProjectSlugs = projects.map((p) => p.slug);
   const dupes = allProjectSlugs.filter(
@@ -409,6 +427,7 @@ export function validateAllContent(): ValidationError[] {
           name: nonEmpty,
           x: z.number().min(0).max(100),
           y: z.number().min(0).max(100),
+          projectSlugs: z.array(slug).optional(),
         })
       )
     )

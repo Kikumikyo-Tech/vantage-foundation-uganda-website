@@ -242,6 +242,8 @@ export interface TeamMember {
   imageAlt: string;
   email?: string;
   linkedin?: string;
+  /** Sources for claims in fullBio that go beyond Vantage's own records (e.g. an external partner org's own published page). */
+  citations?: { label: string; url: string }[];
   displayOrder: number;
   published: boolean;
 }

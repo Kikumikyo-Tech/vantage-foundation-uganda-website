@@ -88,3 +88,18 @@ test("primary mobile controls meet a 44px touch target", async ({ page }) => {
   const ctaBox = await primaryCta.boundingBox();
   expect(ctaBox?.height).toBeGreaterThanOrEqual(44);
 });
+
+test("Uganda reach map is tappable and shows project details on a mobile viewport", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+
+  const mapPin = page.getByRole("button", { name: "Kampala on the map: view details" });
+  await mapPin.scrollIntoViewIfNeeded();
+  await expect(mapPin).toHaveAttribute("aria-expanded", "false");
+
+  await mapPin.click();
+  await expect(mapPin).toHaveAttribute("aria-expanded", "true");
+  await expect(
+    page.getByRole("link", { name: /Mental Health & Financial Literacy Workshops/i })
+  ).toBeVisible();
+});
