@@ -70,10 +70,8 @@ export function UgandaReachMap() {
         <div className="mt-12 grid gap-8 lg:grid-cols-2 lg:items-start">
           <div
             className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-surface"
-            role="img"
-            aria-label={`Simplified map showing Vantage Foundation Uganda's approximate programme locations: ${reachDistricts
-              .map((d) => d.name)
-              .join(", ")}. Not to scale.`}
+            role="group"
+            aria-label="Simplified map of Uganda: select a marker for programme details. Not to scale."
           >
             <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full" aria-hidden="true">
               <path d={UGANDA_OUTLINE} className="fill-background stroke-border" strokeWidth={0.6} />
