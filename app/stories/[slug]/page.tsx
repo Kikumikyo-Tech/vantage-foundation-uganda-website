@@ -19,6 +19,21 @@ import { Markdown } from "@/components/shared/Markdown";
 import { site } from "@/content/site";
 import { createPublicMetadata } from "@/lib/metadata";
 
+/**
+ * Stories carry freeform dates ("2023", "March 2023") alongside full ISO
+ * values used for `publishedTime` and JSON-LD. Only reformat the ISO ones
+ * for display; anything else is already human-readable as written.
+ */
+function formatStoryDate(value: string): string {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
+  return new Date(`${value}T00:00:00Z`).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
 export async function generateStaticParams() {
   return getStorySlugs().map((slug) => ({ slug }));
 }
@@ -93,7 +108,9 @@ export default async function StoryPage({
             <div className="mt-4 flex flex-wrap gap-4 text-sm text-white/80">
               {story.author && <span>By {story.author}</span>}
               {story.role && <span>{story.role}</span>}
-              {story.date && <span>{story.date}</span>}
+              {story.date && (
+                <time dateTime={story.date}>{formatStoryDate(story.date)}</time>
+              )}
               {story.location && <span>{story.location}</span>}
             </div>
           </div>
@@ -111,20 +128,27 @@ export default async function StoryPage({
             ]}
           />
           {story.heroImage && (
-            <div className="relative aspect-[16/9] overflow-hidden rounded-2xl">
-              <ImageOrPlaceholder
-                src={story.heroImage}
-                alt={story.title}
-                fill
-                preload
-                preset="detailHero"
-                containerClassName="h-full w-full"
-              />
-            </div>
+            <figure>
+              <div className="relative aspect-[16/9] overflow-hidden rounded-2xl">
+                <ImageOrPlaceholder
+                  src={story.heroImage}
+                  alt={story.heroImageAlt || story.title}
+                  fill
+                  preload
+                  preset="detailHero"
+                  containerClassName="h-full w-full"
+                />
+              </div>
+              {story.heroImageCredit && (
+                <figcaption className="mt-3 text-sm text-muted-foreground">
+                  {story.heroImageCredit}
+                </figcaption>
+              )}
+            </figure>
           )}
 
           <article className="mx-auto mt-12 max-w-3xl">
-            <Markdown>{story.body}</Markdown>
+            <Markdown variant="article">{story.body}</Markdown>
           </article>
 
           {relatedStories.length > 0 && (

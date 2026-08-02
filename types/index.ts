@@ -173,6 +173,14 @@ export interface Story {
   location?: string;
   category: string;
   heroImage?: string;
+  /** Alt text for the hero image. Falls back to the story title when omitted. */
+  heroImageAlt?: string;
+  /**
+   * Visible credit/caption rendered beneath the hero image. Use this to
+   * disclose provenance where the image is not documentary Vantage
+   * photography (illustration, licensed stock, partner-supplied).
+   */
+  heroImageCredit?: string;
   relatedProjectSlugs?: string[];
   body: string;
   // --- Phase 4 extensions (all optional for backward compatibility) ---
