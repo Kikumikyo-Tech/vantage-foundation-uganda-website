@@ -82,7 +82,8 @@ export const mediaAssets: MediaAsset[] = [
     consentNotes: "Cleared for publication by Vantage Foundation Uganda management, 2026-07-26.",
     published: true,
     // Dimensions: 1536x1024 (landscape)
-    // Original: 16BBEBCF-17DC-44D0-8227-732626D2BAF9.jpg (544KB → WebP 180KB, 67% smaller)
+    // Original: "Community Giving Day Celebration.png" (2783KB lossless master → WebP 286KB, 90% smaller)
+    // Re-encoded 2026-08-02 from the lossless master, replacing the earlier JPG-derived version.
     // AVIF also available: /images/photos/photo-006.avif
   },
   {

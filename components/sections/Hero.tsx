@@ -60,7 +60,7 @@ export function Hero() {
                 alt="Vantage Foundation Uganda volunteers and community members gather around donated supplies during an outreach event"
                 fill
                 preload
-                preset="hero"
+                preset="splitHero"
                 containerClassName="h-full w-full"
               />
             </div>
