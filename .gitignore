@@ -68,3 +68,11 @@ npm-install*.log
 # These PDFs are ~15 MB total and bloat the git history.
 # Coordinate a history rewrite (git filter-repo) with management to fully remove.
 reference/*.pdf
+
+# OpenNext
+.open-next
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
