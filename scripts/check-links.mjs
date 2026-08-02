@@ -1,6 +1,6 @@
 /**
  * Broken link checker: scans all internal links in the codebase and
- * verifies they point to valid routes.
+ * verifies they point to valid routes or real files in public/.
  *
  * Run: npm run check-links
  */
@@ -9,38 +9,84 @@ import { join } from "node:path";
 
 const ROOT = process.cwd();
 const APP_DIR = join(ROOT, "app");
+const PUBLIC_DIR = join(ROOT, "public");
 
-// Collect all valid routes from the app directory.
+const IGNORED_SCAN_DIRS = new Set([
+  "node_modules",
+  ".next",
+  ".git",
+  "tests",
+  "test-results",
+  "playwright-report",
+  "coverage",
+]);
+
+const PAGE_FILE = /^page\.(tsx|ts|jsx|js)$/;
+const ROUTE_FILE = /^route\.(tsx|ts|js)$/;
+
+/**
+ * Collect routes from the app directory.
+ *
+ * `basePath` must accumulate down the tree — an earlier version passed only
+ * the current segment, so nested routes such as app/about-us/team registered
+ * as "/team" and every real link to them was reported broken.
+ */
 async function collectRoutes(dir, basePath = "") {
   const entries = await readdir(dir, { withFileTypes: true });
   const routes = [];
 
   for (const entry of entries) {
     const fullPath = join(dir, entry.name);
-    const routePath = basePath + "/" + entry.name;
 
     if (entry.isDirectory()) {
-      // Skip special directories
-      if (entry.name.startsWith("_") || entry.name === "api") continue;
-      // Dynamic route [slug]
-      if (entry.name.startsWith("[") && entry.name.endsWith("]")) {
-        routes.push({ route: basePath + "/*", dynamic: true });
-      } else {
-        routes.push({ route: "/" + entry.name, dynamic: false });
-        routes.push(...(await collectRoutes(fullPath, "/" + entry.name)));
-      }
-    } else if (entry.name === "page.tsx" || entry.name === "page.ts") {
-      routes.push({ route: basePath || "/", dynamic: false });
-    } else if (entry.name === "route.ts" || entry.name === "route.tsx") {
-      // API or special routes (rss.xml, etc.)
-      routes.push({ route: basePath, dynamic: false });
+      // Private folders (_components) are never routable.
+      if (entry.name.startsWith("_")) continue;
+
+      const isGroup = entry.name.startsWith("(") && entry.name.endsWith(")");
+      const isDynamic = entry.name.startsWith("[") && entry.name.endsWith("]");
+
+      // Route groups contribute no path segment; dynamic segments match
+      // anything below their parent.
+      const nextBase = isGroup
+        ? basePath
+        : isDynamic
+          ? `${basePath}/*`
+          : `${basePath}/${entry.name}`;
+
+      routes.push(...(await collectRoutes(fullPath, nextBase)));
+    } else if (PAGE_FILE.test(entry.name) || ROUTE_FILE.test(entry.name)) {
+      // Only a page/route file makes a path routable — a bare directory
+      // does not.
+      routes.push(basePath || "/");
     }
   }
 
   return routes;
 }
 
-// Extract internal links from source files.
+/** Every file actually served from public/, as an absolute URL path. */
+async function collectPublicFiles(dir, basePath = "") {
+  let entries;
+  try {
+    entries = await readdir(dir, { withFileTypes: true });
+  } catch {
+    return [];
+  }
+
+  const files = [];
+  for (const entry of entries) {
+    const fullPath = join(dir, entry.name);
+    if (entry.isDirectory()) {
+      files.push(
+        ...(await collectPublicFiles(fullPath, `${basePath}/${entry.name}`))
+      );
+    } else {
+      files.push(`${basePath}/${entry.name}`);
+    }
+  }
+  return files;
+}
+
 const LINK_PATTERNS = [
   /href=["'`]([^"'`]+)["'`]/g,
   /<Link\s+href=["'`]([^"'`]+)["'`]/g,
@@ -54,7 +100,7 @@ async function scanLinks(dir) {
   for (const entry of entries) {
     const fullPath = join(dir, entry.name);
     if (entry.isDirectory()) {
-      if (entry.name === "node_modules" || entry.name === ".next" || entry.name === ".git") continue;
+      if (IGNORED_SCAN_DIRS.has(entry.name)) continue;
       links.push(...(await scanLinks(fullPath)));
     } else if (entry.name.endsWith(".tsx") || entry.name.endsWith(".ts")) {
       const content = await readFile(fullPath, "utf8");
@@ -62,10 +108,10 @@ async function scanLinks(dir) {
         let match;
         while ((match = pattern.exec(content)) !== null) {
           const url = match[1];
-          // Only internal links (starting with /)
-          if (url.startsWith("/") && !url.startsWith("//")) {
-            links.push({ url, file: fullPath });
-          }
+          if (!url.startsWith("/") || url.startsWith("//")) continue;
+          // Interpolated hrefs (`/team/${slug}`) resolve at runtime.
+          if (url.includes("${")) continue;
+          links.push({ url, file: fullPath });
         }
       }
     }
@@ -76,38 +122,36 @@ async function scanLinks(dir) {
 
 async function main() {
   console.log("Collecting routes...");
-  const routes = await collectRoutes(APP_DIR);
-  const routePaths = routes.map((r) => r.route);
+  const routePaths = await collectRoutes(APP_DIR);
+  const publicFiles = new Set(await collectPublicFiles(PUBLIC_DIR));
 
-  console.log(`Found ${routes.length} routes.\n`);
+  console.log(
+    `Found ${routePaths.length} routes and ${publicFiles.size} public files.\n`
+  );
 
   console.log("Scanning for internal links...");
   const links = await scanLinks(ROOT);
 
-  // Deduplicate links
   const uniqueLinks = [...new Map(links.map((l) => [l.url, l])).values()];
   console.log(`Found ${uniqueLinks.length} unique internal links.\n`);
 
-  // Check each link against routes
   const broken = [];
   for (const link of uniqueLinks) {
-    const url = link.url.split("?")[0].split("#")[0]; // Strip query and hash
+    const url = link.url.split("?")[0].split("#")[0];
     if (url === "/" || url === "") continue;
 
-    // Check if it matches a static route or a dynamic route pattern
+    if (publicFiles.has(url)) continue;
+
     const matched = routePaths.some((route) => {
       if (route === url) return true;
-      // Dynamic route: /projects/* matches /projects/anything
       if (route.endsWith("/*")) {
         const prefix = route.slice(0, -2);
-        if (url.startsWith(prefix + "/")) return true;
+        if (url.startsWith(`${prefix}/`)) return true;
       }
       return false;
     });
 
-    if (!matched) {
-      broken.push(link);
-    }
+    if (!matched) broken.push(link);
   }
 
   if (broken.length === 0) {
@@ -117,12 +161,15 @@ async function main() {
 
   console.log(`⚠ Found ${broken.length} potentially broken link(s):\n`);
   for (const link of broken) {
-    const relativePath = link.file.replace(ROOT + "\\", "").replace(/\\/g, "/");
+    const relativePath = link.file
+      .replace(ROOT, "")
+      .replace(/^[\\/]/, "")
+      .replace(/\\/g, "/");
     console.log(`  ${link.url} (in ${relativePath})`);
   }
 
   console.log(`\nNote: Some links may be valid if they're generated dynamically.`);
-  process.exit(0); // Exit 0 — informational only
+  process.exit(0); // Informational only.
 }
 
 main().catch((err) => {

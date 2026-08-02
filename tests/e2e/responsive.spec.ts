@@ -99,7 +99,17 @@ test("Uganda reach map is tappable and shows project details on a mobile viewpor
 
   await mapPin.click();
   await expect(mapPin).toHaveAttribute("aria-expanded", "true");
+
+  // Scope to the panel this pin controls. Several districts run the same
+  // project, so an unscoped link lookup matches more than one entry in the
+  // district list and trips strict mode.
+  const panelId = await mapPin.getAttribute("aria-controls");
+  expect(panelId).toBeTruthy();
   await expect(
-    page.getByRole("link", { name: /Mental Health & Financial Literacy Workshops/i })
+    page
+      .locator(`[id="${panelId}"]`)
+      .getByRole("link", {
+        name: /Mental Health & Financial Literacy Workshops/i,
+      })
   ).toBeVisible();
 });
