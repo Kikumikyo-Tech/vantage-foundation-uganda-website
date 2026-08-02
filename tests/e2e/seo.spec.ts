@@ -143,21 +143,26 @@ test.describe("SEO — structured data", () => {
   test("blog article has complete BlogPosting metadata and JSON-LD", async ({
     page,
   }) => {
-    const path = "/blog/what-we-mean-when-we-say-advantage";
+    // Posts are admin-published into `blog_posts`; the static manifest is
+    // normally empty, so there is no slug to pin to. Resolve one from the
+    // listing and skip when the blog has none.
+    await page.goto("/blog");
+    const links = page.locator('main a[href^="/blog/"]');
+    test.skip(
+      (await links.count()) === 0,
+      "No published blog post to exercise BlogPosting metadata."
+    );
+
+    const path = (await links.first().getAttribute("href")) as string;
     await page.goto(path);
 
-    await expect(page).toHaveTitle(/What We Mean When We Say "Advantage"/);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       "href",
-      `https://www.vantagefoundationuganda.com${path}`
+      `${canonicalOrigin}${path}`
     );
     await expect(page.locator('meta[property="og:type"]')).toHaveAttribute(
       "content",
       "article"
-    );
-    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
-      "content",
-      /what-we-mean-advantage-hero\.webp/
     );
     await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
       "content",
@@ -171,26 +176,24 @@ test.describe("SEO — structured data", () => {
       .map((schema) => JSON.parse(schema))
       .find((schema) => schema["@type"] === "BlogPosting");
 
+    expect(blogPosting).toBeTruthy();
+
+    const headline = (
+      await page.locator("main article h1").first().textContent()
+    )?.trim();
+    expect(blogPosting.headline).toBe(headline);
+    expect(blogPosting.datePublished).toMatch(/^\d{4}-\d{2}-\d{2}/);
+    expect(blogPosting.image).toBeTruthy();
     expect(blogPosting).toMatchObject({
-      headline: 'What We Mean When We Say "Advantage"',
-      datePublished: "2026-07-29",
-      dateModified: "2026-07-29",
-      author: {
-        "@type": "Person",
-        name: "Hillary Turyasingura",
-      },
       publisher: {
         "@type": "Organization",
         name: "Vantage Foundation Uganda",
       },
       mainEntityOfPage: {
         "@type": "WebPage",
-        "@id": `https://www.vantagefoundationuganda.com${path}`,
+        "@id": `${canonicalOrigin}${path}`,
       },
     });
-    expect(blogPosting.image).toContain(
-      "/images/blog/what-we-mean-advantage-hero.webp"
-    );
   });
 
   test("FAQ page has FAQPage JSON-LD", async ({ page }) => {
