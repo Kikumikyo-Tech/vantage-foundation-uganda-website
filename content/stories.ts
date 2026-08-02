@@ -93,12 +93,14 @@ There is also a slower, quieter cost: the export of talent. Uganda has long prod
 
 ## What needs to change
 
-The interns and their associations have not asked for the impossible. They have asked that:
+The interns and their associations have not asked for the impossible. What follows is what they have asked for, and what we believe the country owes them:
 
+- **Interns be paid.** Not as a concession to be negotiated down, and not as a line that yields whenever the budget tightens. A qualified doctor holding a ward through the night is doing work the country depends on, and work a country depends on is work it pays for. Every ask below assumes this one.
+- **The trade-off be refused.** The ministry says the money freed by scrapping allowances will fund specialist training and stronger supervision. Supervision does need funding — this article has argued exactly that. But paying for it by defunding the people being supervised is not a reform; it moves the cost onto the least powerful person on the ward and calls the transfer an improvement. Both are obligations of the same employer. Neither is payment for the other.
 - **Contracts be honoured.** Whatever the new policy determines about the future, the arrears accrued under the old compact remain a debt already incurred. The government should comply with the Public Service Standing Orders and clear what interns have earned — in full, as a floor rather than a negotiable extra.
-- **Reform be consultative.** Any restructuring of medical training should be developed with the Uganda Medical Association, the Federation of Uganda Medical Interns, and training institutions — not announced unilaterally.
 - **Interns be treated equally.** Government-sponsored and privately-sponsored interns do identical work and should receive identical support.
-- **The promised savings be accounted for.** The ministry says the money freed by scrapping allowances will fund specialist training and stronger supervision at internship centres. That is the right destination — and it is exactly what this article has argued the system needs. It should therefore be auditable: published figures, a timeline, and evidence that supervision on the wards has actually improved. A reform justified by where the savings go must be judged on whether they arrive.
+- **Conditions be fixed alongside pay, not instead of it.** Welfare, working hours, working conditions and genuine mentorship. A 36- to 48-hour shift without rest is a patient-safety hazard before it is a labour grievance, and an intern left alone on a ward is not being trained — they are being used to fill a gap the system has not staffed.
+- **Reform be consultative.** Any restructuring of medical training should be developed with the Uganda Medical Association, the Federation of Uganda Medical Interns, and training institutions — not announced unilaterally.
 
 None of these asks is extravagant. Each of them is the minimum a country owes the people it asks to keep its citizens alive.
 
