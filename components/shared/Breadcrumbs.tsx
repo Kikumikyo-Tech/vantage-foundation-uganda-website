@@ -9,13 +9,20 @@ export interface BreadcrumbItem {
 interface BreadcrumbsProps {
   items: BreadcrumbItem[];
   className?: string;
+  /**
+   * Ellipsise the current-page crumb when it cannot fit. Defaults to true:
+   * the last crumb is the variable-length one (a member name, project or
+   * story title) and, left unconstrained, it overflows the viewport on
+   * narrow screens. Pass `false` only where the final label is known-short
+   * and must always render in full.
+   */
   truncateCurrent?: boolean;
 }
 
 export function Breadcrumbs({
   items,
   className,
-  truncateCurrent = false,
+  truncateCurrent = true,
 }: BreadcrumbsProps) {
   return (
     <nav
