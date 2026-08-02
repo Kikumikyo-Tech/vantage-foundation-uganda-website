@@ -140,7 +140,7 @@ context required for responsible use:
 
 | Figure | Programme and geography | Period | Method shown to visitors |
 | --- | --- | --- | --- |
-| `10,000+` | Kasaale WASH work | Project completed in 2022 | Community catchment estimate |
+| `10,000+` | Kasaale WASH work | Borehole completed 16 May 2025; continuation phase underway | Community catchment estimate |
 | `About 500` | SaveGirl Uganda | Cumulative reach since 2021 | Participant count maintained by the programme team |
 | `4 orphanages` | Humanitarian Assistance | Programme activity since 2022 | Institutions receiving at least one recorded relief delivery |
 

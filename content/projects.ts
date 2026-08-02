@@ -6,26 +6,33 @@ export const projects: Project[] = [
     slug: "kasaale-deep-borehole",
     title: "Kasaale Deep Borehole Project",
     category: "Water & Sanitation",
-    status: "Completed",
-    location: "Kasaale, Uganda",
-    date: "2022",
+    status: "Active",
+    location: "Kasaale, Magada Sub-county, Namutumba District, Uganda",
+    date: "Completed 16 May 2025 — continuation phase underway",
+    startDate: "2022-01-01",
+    endDate: "2025-05-16",
     summary:
-      "A deep water well providing clean, reliable water to over 10,000 people in a rural community.",
+      "A deep water well completed on 16 May 2025, now serving over 10,000 people in Magada Sub-county, Namutumba District. A continuation phase will motorise the well and build a community hall where youth can learn, share and grow.",
     objective:
-      "Improve access to safe drinking water, reduce water-borne disease and free families — especially women and girls — from long-distance water collection.",
+      "Improve access to safe drinking water, reduce water-borne disease, free families — especially women and girls — from long-distance water collection, and establish a community hub for youth learning and development.",
     activities: [
       "Community needs assessment and site selection",
       "Drilling of a deep borehole with hand pump",
       "Hygiene and sanitation orientation for community water users",
       "Water point committee formation for maintenance",
+      "Motorisation of the well to reticulate water closer to households and reduce time spent collecting water",
+      "Construction of a community hall for youth learning, sharing and growth (continuation phase)",
     ],
     outcomes: [
-      "Clean water currently serving over 10,000 people",
+      "Clean water serving over 10,000 community members since May 2025",
       "Reduced water-related illness in the community",
       "More time for school and livelihood activities",
+      "Planned: shorter collection times and wider reach through motorised water supply",
+      "Planned: a dedicated community hall where youth can learn, share and grow",
     ],
     beneficiaries: "Over 10,000 community members",
     partners: ["Local community leaders", "WASH technical team"],
+    fundingStatus: "Continuation phase (motorisation + community hall) — fundraising open",
     heroImage: "/images/projects/kasaale-borehole-project-01.webp",
     gallery: [
       "/images/projects/kasaale-borehole-project-02.webp",
@@ -46,9 +53,22 @@ export const projects: Project[] = [
       "/images/projects/kasaale-borehole-project-17.webp",
       "/images/projects/kasaale-borehole-project-18.webp",
     ],
-    body: `The Kasaale Deep Borehole Project is one of our flagship Water, Sanitation and Hygiene (WASH) interventions. Constructed in partnership with the local community, the deep borehole now provides a reliable source of clean water to over 10,000 people.
+    cta: {
+      label: "Donate to the Kasaale water well community project",
+      href: "/donate?campaign=kasaale-water-well",
+    },
+    body: `The Kasaale Deep Borehole Project is one of our flagship Water, Sanitation and Hygiene (WASH) interventions. Constructed in partnership with the local community in Kasaale, Magada Sub-county, Namutumba District, the deep borehole was completed on 16 May 2025 and now provides a reliable source of clean water to over 10,000 people.
 
-Access to clean water means children spend more time in school, families save time and money, and the burden of waterborne disease is reduced. The community has been supported with hygiene education and a water-user committee to keep the borehole functional for years to come.`,
+Access to clean water means children spend more time in school, families save time and money, and the burden of waterborne disease is reduced. The community has been supported with hygiene education and a water-user committee to keep the borehole functional for years to come.
+
+**Continuation phase — motorisation and a community hall**
+
+The borehole is the first step, not the last. The continuation phase has two goals:
+
+1. **Motorise the well** so that water is reticulated closer to households, reducing the time families — and women and girls in particular — spend collecting water each day.
+2. **Build a community hall** where youth can come to learn, share and grow: a space for mentorship, life-skills sessions, reading circles and community gatherings that turn a water point into a hub of opportunity.
+
+This next phase is what turns a completed borehole into a lasting centre of community development. [Donate to the Kasaale water well community project](/donate?campaign=kasaale-water-well) and help us build it.`,
   },
   {
     id: "savegirl-uganda",
