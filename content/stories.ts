@@ -146,16 +146,68 @@ That is a debt the nation cannot keep deferring.
     title: "What are we without our dreams?",
     excerpt:
       "A reflection from one of the young people who has journeyed with Vantage Foundation on what it means to hold onto hope.",
-    author: "Kauthar Wangi",
+    author: "Dr Nassazi Kauthar Wangi",
     role: "Youth participant",
     date: "2023",
     location: "Uganda",
     category: "Youth voice",
-    heroImage: "/images/photos/photo-071.webp",
+    heroImage: "/images/photos/photo-058.webp",
+    heroImageAlt:
+      "A young woman in a \"Vantage Foundation, Write My Own Story\" t-shirt sits and smiles outdoors near a borehole pump.",
     relatedProjectSlugs: ["savegirl-uganda", "advantage-book-club"],
-    body: `"What are we without our dreams?" This question sits at the heart of Vantage Foundation's work. For many young people in underserved communities, dreams are often buried under the weight of poverty, lack of opportunity and limited support systems.
+    body: `We come into this world and we are given many things. A name. A nationality. A tribe. A religion. A language. A family. A place to call home.
 
-Vantage Foundation has become a space where those dreams are named, nurtured and given a path forward. Through mentorship, reading, health education and community, young people are reminded that their aspirations matter — and that they are not alone in pursuing them.`,
+Most of these things are chosen for us before we are old enough to understand what they mean. They become part of our identity, and society often uses them to explain who we are.
+
+But somewhere beneath all these labels, there is something much more personal.
+
+Our dreams.
+
+There is something strange and beautiful about dreaming. We do not always choose what moves us. We simply discover it.
+
+One person sees a sick patient and feels a deep desire to heal. Another looks at numbers and sees possibilities. Someone else finds meaning in teaching children, building houses, growing food, painting, singing, designing, writing or starting a business.
+
+Why does one thing make one person's heart come alive while another person feels nothing for it?
+
+Perhaps we will never fully know.
+
+Human beings need meaning, purpose and hope. We need something that makes tomorrow worth reaching for. A dream can become that thing.
+
+And dreams seem to care very little about where we come from.
+
+A child in a wealthy home can dream. So can a child in a village without electricity.
+
+A young person in a refugee settlement can dream. So can someone growing up in the middle of a large city.
+
+Dreams do not first ask about our income, gender, race, religion or social class before appearing inside us.
+
+This is what makes them powerful.
+
+Perhaps dreams are among the few things that truly feel like our own.
+
+And yet, there is an uncomfortable truth: while everyone can dream, not everyone has the same opportunity to pursue their dreams.
+
+Talent can exist without opportunity. Intelligence can exist without education. Ambition can exist without money.
+
+A brilliant young person can be born anywhere. But where they are born can determine whether the world ever gets to see that brilliance.
+
+That raises an important question for all of us:
+
+**How many dreams have we lost, not because people were incapable, but because they were never given a chance?**
+
+Perhaps development is not only about giving people things. Perhaps it is also about removing the barriers between people and who they could become.
+
+Give a child education. Give a young woman a safe space. Give a family access to healthcare. Give a young person knowledge, mentorship and opportunity.
+
+Sometimes, what you are really giving them is permission to imagine a different future.
+
+Our names tell people what to call us. Our nationalities tell them where we come from. Our communities tell part of our story.
+
+But our dreams whisper something different.
+
+They tell us where we hope to go.
+
+And perhaps, somewhere between who we are and who we dream of becoming, we find the deepest part of ourselves.`,
   },
   {
     id: "the-meaning-of-advantage",
