@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { verifySessionToken, sessionCookieName } from "@/lib/session";
-import { validateCsrf } from "@/lib/csrf";
+import { verifySessionToken, sessionCookieName, BOOTSTRAP_ACTOR_ID } from "@/lib/session";
+import { validateCsrf, validateCsrfHeader, CSRF_HEADER_NAME } from "@/lib/csrf";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
 import { logWarn, logInfo, logError } from "@/lib/logger";
+import { appendAuditLog } from "@/lib/db/audit";
 import {
   createBlogPost,
   getBlogPosts,
@@ -35,9 +36,10 @@ const CONSENT_VALUES = ["none", "verified", "pending", "group-consent"] as const
 
 async function guard(
   request: Request
-): Promise<{ ok: true; ip: string } | { ok: false; response: NextResponse }> {
+): Promise<{ ok: true; ip: string; actorId: string } | { ok: false; response: NextResponse }> {
   const cookieStore = await cookies();
-  if (!verifySessionToken(cookieStore.get(sessionCookieName)?.value)) {
+  const session = verifySessionToken(cookieStore.get(sessionCookieName)?.value);
+  if (!session) {
     logWarn("blog_api_unauthorized", {});
     return { ok: false, response: NextResponse.json({ error: "unauthorized" }, { status: 401 }) };
   }
@@ -46,13 +48,14 @@ async function guard(
     logWarn("blog_api_rate_limited", { ip });
     return { ok: false, response: NextResponse.json({ error: "rate-limited" }, { status: 429 }) };
   }
-  return { ok: true, ip };
+  return { ok: true, ip, actorId: session.actorId };
 }
 
 async function readBody(request: Request, cookieStore: Awaited<ReturnType<typeof cookies>>) {
   const contentType = request.headers.get("content-type") ?? "";
   if (contentType.includes("application/json")) {
-    return { body: await request.json(), csrfOk: true as const };
+    const csrfOk = validateCsrfHeader(cookieStore, request.headers.get(CSRF_HEADER_NAME));
+    return { body: await request.json(), csrfOk };
   }
   const formData = await request.formData();
   const csrfOk = validateCsrf(cookieStore, formData);
@@ -119,7 +122,7 @@ const createSchema = z.object({
 export async function POST(request: Request) {
   const guardResult = await guard(request);
   if (!guardResult.ok) return guardResult.response;
-  const { ip } = guardResult;
+  const { ip, actorId } = guardResult;
 
   const cookieStore = await cookies();
   const { body, csrfOk } = await readBody(request, cookieStore);
@@ -169,6 +172,15 @@ export async function POST(request: Request) {
       published: input.published,
     });
     logInfo("blog_created", { id: row.id, slug: row.slug, ip });
+    await appendAuditLog({
+      actorId,
+      actorKind: actorId === BOOTSTRAP_ACTOR_ID ? "bootstrap" : "admin",
+      action: "blog.created",
+      resourceType: "blog_post",
+      resourceId: row.id,
+      after: { slug: row.slug, title: row.title, category: row.category, published: row.published },
+      ip,
+    });
     return NextResponse.json({ item: row }, { status: 201 });
   } catch (err) {
     logError("blog_create_failed", {
@@ -203,7 +215,7 @@ const updateSchema = z.object({
 export async function PATCH(request: Request) {
   const guardResult = await guard(request);
   if (!guardResult.ok) return guardResult.response;
-  const { ip } = guardResult;
+  const { ip, actorId } = guardResult;
 
   const cookieStore = await cookies();
   const { body, csrfOk } = await readBody(request, cookieStore);
@@ -230,11 +242,22 @@ export async function PATCH(request: Request) {
   }
 
   try {
+    const before = await getBlogPostById(id);
     const row = await updateBlogPost(id, update as Parameters<typeof updateBlogPost>[1]);
     if (!row) {
       return NextResponse.json({ error: "not-found" }, { status: 404 });
     }
     logInfo("blog_updated", { id, ip });
+    await appendAuditLog({
+      actorId,
+      actorKind: actorId === BOOTSTRAP_ACTOR_ID ? "bootstrap" : "admin",
+      action: "blog.updated",
+      resourceType: "blog_post",
+      resourceId: id,
+      before: before ? { title: before.title, published: before.published, category: before.category } : null,
+      after: { title: row.title, published: row.published, category: row.category },
+      ip,
+    });
     return NextResponse.json({ item: row });
   } catch (err) {
     logError("blog_update_failed", {
@@ -257,7 +280,7 @@ const deleteSchema = z.object({
 export async function DELETE(request: Request) {
   const guardResult = await guard(request);
   if (!guardResult.ok) return guardResult.response;
-  const { ip } = guardResult;
+  const { ip, actorId } = guardResult;
 
   const cookieStore = await cookies();
   const { body, csrfOk } = await readBody(request, cookieStore);
@@ -288,5 +311,14 @@ export async function DELETE(request: Request) {
   }
   await softDeleteBlogPost(id);
   logInfo("blog_deleted", { id, slug: row.slug, ip });
+  await appendAuditLog({
+    actorId,
+    actorKind: actorId === BOOTSTRAP_ACTOR_ID ? "bootstrap" : "admin",
+    action: "blog.deleted",
+    resourceType: "blog_post",
+    resourceId: id,
+    before: { slug: row.slug, title: row.title, published: row.published },
+    ip,
+  });
   return NextResponse.json({ ok: true });
 }

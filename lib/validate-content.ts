@@ -157,6 +157,13 @@ const projectSchema = z.object({
   seo: seoMeta,
   published: z.boolean().optional(),
   consentClassification,
+  // Taxonomy extensions (all optional for backward compatibility)
+  primaryProgramme: z.enum(["health", "education", "humanitarian", "water"]).optional(),
+  secondaryProgrammes: z.array(z.enum(["health", "education", "humanitarian", "water"])).optional(),
+  themes: z.array(nonEmpty).optional(),
+  beneficiaryGroups: z.array(nonEmpty).optional(),
+  sdgs: z.array(z.number().int().min(1).max(17)).optional(),
+  flagship: z.boolean().optional(),
 });
 
 const storySchema = z.object({

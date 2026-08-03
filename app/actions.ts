@@ -7,6 +7,7 @@ import { site } from "@/content/site";
 import { createDonation } from "@/lib/db";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
 import { logInfo, logWarn, logError } from "@/lib/logger";
+import { sanitiseValue, escapeHtml } from "@/lib/sanitise";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -31,7 +32,10 @@ const donorSchema = z.object({
   name: z.string().min(2, "Name is required"),
   email: z.string().email("Please enter a valid email"),
   phone: z.string().optional(),
-  amount: z.coerce.number().positive("Please select or enter a valid amount"),
+  amount: z.coerce
+    .number()
+    .positive("Please select or enter a valid amount")
+    .max(1_000_000_000, "Amount is too large"),
   frequency: z.enum(["one-time", "monthly"]),
   campaign: z.string().min(1, "Please select a campaign"),
   transactionReference: z.string().optional(),
@@ -116,15 +120,7 @@ function getValidatedFromAddress(): string {
   return from;
 }
 
-// --- Email sanitization ---
-// Strip control characters and limit length to prevent email header injection.
-function sanitiseValue(value: unknown): string {
-  if (value == null) return "";
-  return String(value)
-    .replace(/[\r\n\t]/g, " ") // strip line breaks and tabs
-    .replace(/\x00-\x1f/g, " ") // strip control chars
-    .substring(0, 1000); // limit length
-}
+// sanitiseValue and escapeHtml are imported from @/lib/sanitise (tested).
 
 async function sendEmail(
   subject: string,
@@ -174,6 +170,7 @@ function formatBody(data: Record<string, unknown>): string {
 
 // --- HTML email template ---
 function emailTemplate(title: string, rows: { label: string; value: string }[]): string {
+  const safeTitle = escapeHtml(title);
   const tableRows = rows
     .map(
       (r) =>
@@ -182,13 +179,13 @@ function emailTemplate(title: string, rows: { label: string; value: string }[]):
     .join("");
   return `<!DOCTYPE html>
 <html lang="en">
-<head><meta charset="utf-8"><title>${title}</title></head>
+<head><meta charset="utf-8"><title>${safeTitle}</title></head>
 <body style="margin:0;padding:0;background:#f7fafa;font-family:Arial,Helvetica,sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="padding:24px 0;">
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #dce5e5;">
         <tr><td style="background:#008f95;padding:20px 24px;">
-          <h1 style="margin:0;color:#ffffff;font-size:18px;font-weight:600;">${title}</h1>
+          <h1 style="margin:0;color:#ffffff;font-size:18px;font-weight:600;">${safeTitle}</h1>
         </td></tr>
         <tr><td style="padding:24px;">
           <p style="margin:0 0 16px;color:#475569;">A new submission was received on the Vantage Foundation Uganda website.</p>
@@ -220,8 +217,8 @@ function buildEmailRows(data: Record<string, unknown>): { label: string; value: 
   return Object.entries(data)
     .filter(([key]) => !["website", "company_url", "form_loaded_at", "submissionId"].includes(key))
     .map(([key, value]) => ({
-      label: labelMap[key] || key,
-      value: sanitiseValue(value),
+      label: escapeHtml(labelMap[key] || key),
+      value: escapeHtml(sanitiseValue(value)),
     }));
 }
 
@@ -419,12 +416,18 @@ export async function submitDonor(
     const html = emailTemplate("Donation intent", rows);
     const emailSent = await sendEmail("Donation intent", body, html);
 
-    logInfo("donation_fallback_email", { email_sent: emailSent });
+    // Distinct alertable event: the donation was NOT recorded in the DB.
+    // Alerting on this event (via Sentry, Vercel log alerts, etc.) ensures
+    // the team knows a record may have been lost to email-only fallback.
+    logError("donation_db_failed_email_fallback", {
+      email_sent: emailSent,
+      campaign: parsed.data.campaign,
+    });
 
     return {
       success: emailSent,
       message: emailSent
-        ? "Thank you. We received your donation details and will follow up with payment instructions."
+        ? "We received your donation details but could not save them to our system. A Vantage administrator has been notified by email and will follow up with payment instructions."
         : "We could not save your donation details. Please use the payment instructions on this page or contact us directly.",
     };
   }

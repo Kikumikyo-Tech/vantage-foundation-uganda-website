@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getPublishedStories } from "@/content/stories";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
-import { StoryCard } from "@/components/shared/StoryCard";
+import { StoryList } from "@/components/stories/StoryList";
+import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
+import { Badge } from "@/components/ui/Badge";
 import { createPublicMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = createPublicMetadata({
@@ -13,6 +16,12 @@ export const metadata: Metadata = createPublicMetadata({
 });
 
 export default function StoriesPage() {
+  const stories = getPublishedStories();
+  // Featured: the first story (or a specific one if we add a `featured` flag later)
+  const [featured, ...rest] = stories;
+  // Derive categories from the published stories, sorted alphabetically.
+  const categories = [...new Set(stories.map((s) => s.category))].sort();
+
   return (
     <>
       <section className="bg-primary py-16 text-white md:py-24">
@@ -26,13 +35,63 @@ export default function StoriesPage() {
         </Container>
       </section>
 
-      <section className="py-16 md:py-24">
+      {/* Featured story */}
+      {featured && (
+        <section className="py-12 md:py-16">
+          <Container>
+            <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+              <div className="relative aspect-[16/10] overflow-hidden rounded-2xl shadow-lg">
+                <ImageOrPlaceholder
+                  src={featured.heroImage}
+                  alt={featured.title}
+                  fill
+                  preset="half"
+                  priority
+                  containerClassName="h-full w-full"
+                />
+              </div>
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+                  Featured story
+                </p>
+                <div className="mt-3">
+                  <Badge variant="accent">{featured.category}</Badge>
+                </div>
+                <h2 className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">
+                  <Link
+                    href={`/stories/${featured.slug}`}
+                    className="hover:text-primary"
+                  >
+                    {featured.title}
+                  </Link>
+                </h2>
+                <p className="mt-4 text-muted-foreground">{featured.excerpt}</p>
+                <div className="mt-4 flex items-center gap-3 text-sm text-muted-foreground">
+                  {featured.author && <span>{featured.author}</span>}
+                  {featured.author && featured.date && <span>&middot;</span>}
+                  <span>{featured.date}</span>
+                </div>
+                <Link
+                  href={`/stories/${featured.slug}`}
+                  className="mt-6 inline-flex text-sm font-semibold text-primary underline-offset-4 hover:underline"
+                >
+                  Read the story &rarr;
+                </Link>
+              </div>
+            </div>
+          </Container>
+        </section>
+      )}
+
+      {/* All stories with search and filter */}
+      <section className="py-12 md:py-16">
         <Container>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {getPublishedStories().map((story) => (
-              <StoryCard key={story.slug} story={story} />
-            ))}
-          </div>
+          <SectionHeader
+            align="left"
+            title="All stories"
+            description={`${stories.length} ${stories.length === 1 ? "story" : "stories"} from our community`}
+          />
+          <StoryList stories={rest} categories={categories} />
         </Container>
       </section>
     </>

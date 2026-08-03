@@ -8,7 +8,15 @@ interface StoryCardProps {
   story: Story;
 }
 
+/** Estimates reading time in minutes from body text (200 wpm). */
+function estimateReadingTime(body: string): number {
+  const words = body.trim().split(/\s+/).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
 export function StoryCard({ story }: StoryCardProps) {
+  const readingTime = estimateReadingTime(story.body);
+
   return (
     <Card className="flex flex-col overflow-hidden">
       <div className="relative aspect-[16/10] overflow-hidden">
@@ -33,12 +41,17 @@ export function StoryCard({ story }: StoryCardProps) {
           <span>{story.author}</span>
           <span>{story.date}</span>
         </div>
-        <Link
-          href={`/stories/${story.slug}`}
-          className="mt-4 inline-flex text-sm font-semibold text-primary hover:underline"
-        >
-          Read the story
-        </Link>
+        <div className="mt-4 flex items-center justify-between">
+          <Link
+            href={`/stories/${story.slug}`}
+            className="inline-flex text-sm font-semibold text-primary hover:underline"
+          >
+            Read the story
+          </Link>
+          <span className="text-xs text-muted-foreground">
+            {readingTime} min read
+          </span>
+        </div>
       </div>
     </Card>
   );
