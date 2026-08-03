@@ -34,6 +34,12 @@ export const areasOfWork: AreaOfWork[] = [
       "Ongoing mentorship via the KikumiKyo platform",
     ],
     icon: "graduation-cap",
+    externalPlatformLink: {
+      label: "Explore the KikumiKyo Academy online",
+      href: "https://kikumikyo.com/learn",
+      description:
+        "Browse free, Uganda-relevant financial education articles on saving, budgeting, SACCOs, loans and digital money safety — the online learning companion to this programme.",
+    },
   },
   {
     id: "humanitarian",

@@ -362,6 +362,13 @@ export interface AreaOfWork {
   items: string[];
   icon: string;
   image?: string;
+  /** Optional external platform link shown as a callout on the programme page
+   *  (e.g. KikumiKyo Academy's online learning hub). */
+  externalPlatformLink?: {
+    label: string;
+    href: string;
+    description: string;
+  };
 }
 
 /**
