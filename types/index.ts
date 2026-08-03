@@ -70,6 +70,37 @@ export type ProjectCategory =
   | "Water & Sanitation"
   | "Youth Leadership";
 
+/**
+ * The four primary programmes. A project's `category` (above) maps 1:1 to one
+ * of these for backward compatibility, but `primaryProgramme` / `secondaryProgrammes`
+ * are the canonical, multi-programme-aware taxonomy going forward.
+ */
+export type ProgrammeId = "health" | "education" | "humanitarian" | "water";
+
+/**
+ * Cross-cutting themes a project can address. A project selects one or more
+ * themes so it can surface on every relevant programme/theme page without
+ * duplicating its source data. Themes are intentionally distinct from
+ * programmes (the "what we do" pillars) and from content types (story/blog).
+ */
+export type ProjectTheme =
+  | "Maternal & Child Health"
+  | "Sexual & Reproductive Health"
+  | "Mental Health"
+  | "Preventive Healthcare"
+  | "Financial Literacy"
+  | "Youth Empowerment"
+  | "Menstrual Health"
+  | "Education"
+  | "Water"
+  | "Sanitation"
+  | "Humanitarian Relief"
+  | "Food Security"
+  | "Disability Inclusion"
+  | "Leadership"
+  | "Community Development"
+  | "Mentorship";
+
 export type ProjectStatus = "Active" | "Completed" | "Planned";
 
 /**
@@ -160,6 +191,39 @@ export interface Project {
    * featuring identifiable people until consent is verified.
    */
   consentClassification?: ConsentClassification;
+  // --- Taxonomy extensions (all optional for backward compatibility) ---
+  /**
+   * Canonical primary programme id. When omitted, derived from `category`
+   * via programmeIdForCategory. Set explicitly when a project's primary
+   * programme differs from its legacy `category` mapping.
+   */
+  primaryProgramme?: ProgrammeId;
+  /**
+   * Secondary programmes this project also contributes to. A project
+   * surfaces on every programme page whose id is in
+   * {primaryProgramme, ...secondaryProgrammes}.
+   */
+  secondaryProgrammes?: ProgrammeId[];
+  /**
+   * Cross-cutting themes addressed by this project (e.g. "Menstrual Health",
+   * "Financial Literacy"). Used for theme-based filtering and surfacing
+   * projects on relevant programme pages without duplicating source data.
+   */
+  themes?: ProjectTheme[];
+  /**
+   * Beneficiary groups this project serves (e.g. "Young women", "Orphans").
+   * Free-form strings for now; may be enumerated later.
+   */
+  beneficiaryGroups?: string[];
+  /**
+   * UN Sustainable Development Goals this project contributes to (numbers 1-17).
+   */
+  sdgs?: number[];
+  /**
+   * Whether this project is a flagship/editorial feature. Flagship projects
+   * get prominent treatment on the homepage and programme pages.
+   */
+  flagship?: boolean;
 }
 
 export interface Story {

@@ -1,10 +1,11 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { reachDistricts, type ReachDistrict } from "@/content/reach";
 import { getProjectBySlug } from "@/content/projects";
+import { programmeIdForCategory } from "@/lib/design-tokens";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Badge } from "@/components/ui/Badge";
@@ -42,17 +43,56 @@ function districtStatus(district: ReachDistrict): DistrictStatus {
   return "completed";
 }
 
+/**
+ * Returns the set of programme ids a district's projects belong to
+ * (considering both primaryProgramme and secondaryProgrammes), so the
+ * filter can surface a district under every relevant programme.
+ */
+function districtProgrammes(district: ReachDistrict): string[] {
+  const projects = (district.projectSlugs ?? [])
+    .map((slug) => getProjectBySlug(slug))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p));
+  const programmes = new Set<string>();
+  for (const p of projects) {
+    const primary = p.primaryProgramme ?? programmeIdForCategory(p.category);
+    programmes.add(primary);
+    for (const sec of p.secondaryProgrammes ?? []) programmes.add(sec);
+  }
+  return [...programmes];
+}
+
+const PROGRAMME_FILTERS: { id: string; label: string }[] = [
+  { id: "all", label: "All" },
+  { id: "health", label: "Health" },
+  { id: "education", label: "Education" },
+  { id: "humanitarian", label: "Humanitarian" },
+  { id: "water", label: "WASH" },
+];
+
 export function UgandaReachMap() {
   const [selected, setSelected] = useState<string | null>(null);
+  const [filter, setFilter] = useState<string>("all");
   const idBase = useId();
 
-  const districtsWithMeta = reachDistricts.map((d) => ({
-    district: d,
-    status: districtStatus(d),
-    projects: (d.projectSlugs ?? [])
-      .map((slug) => getProjectBySlug(slug))
-      .filter((p): p is NonNullable<typeof p> => Boolean(p)),
-  }));
+  const districtsWithMeta = useMemo(
+    () =>
+      reachDistricts.map((d) => ({
+        district: d,
+        status: districtStatus(d),
+        projects: (d.projectSlugs ?? [])
+          .map((slug) => getProjectBySlug(slug))
+          .filter((p): p is NonNullable<typeof p> => Boolean(p)),
+        programmes: districtProgrammes(d),
+      })),
+    [],
+  );
+
+  // When a filter is active, only show districts that have at least one
+  // project in the selected programme. "all" shows every district.
+  const visibleDistricts =
+    filter === "all"
+      ? districtsWithMeta
+      : districtsWithMeta.filter((d) => d.programmes.includes(filter));
 
   function toggle(name: string) {
     setSelected((current) => (current === name ? null : name));
@@ -67,7 +107,31 @@ export function UgandaReachMap() {
           description="From urban centres to rural communities, we work where need meets opportunity. Select a district for details."
         />
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-2 lg:items-start">
+        {/* Programme filter */}
+        <div className="mt-8 flex flex-wrap items-center gap-2">
+          <span className="text-sm font-medium text-muted-foreground">Filter:</span>
+          {PROGRAMME_FILTERS.map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              onClick={() => {
+                setFilter(f.id);
+                setSelected(null);
+              }}
+              aria-pressed={filter === f.id}
+              className={cn(
+                "rounded-full border px-3 py-1 text-sm font-medium transition-colors",
+                filter === f.id
+                  ? "border-primary bg-primary text-white"
+                  : "border-border bg-white text-foreground hover:border-primary/50",
+              )}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-8 grid gap-8 lg:grid-cols-2 lg:items-start">
           <div
             className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-surface"
             role="group"
@@ -77,7 +141,7 @@ export function UgandaReachMap() {
               <path d={UGANDA_OUTLINE} className="fill-background stroke-border" strokeWidth={0.6} />
             </svg>
 
-            {districtsWithMeta.map(({ district, status }) => {
+            {visibleDistricts.map(({ district, status }) => {
               const isSelected = selected === district.name;
               return (
                 <button
@@ -123,8 +187,14 @@ export function UgandaReachMap() {
             <h3 className="text-sm font-semibold uppercase tracking-wider text-primary">
               Districts we&rsquo;ve reached
             </h3>
+            {visibleDistricts.length === 0 ? (
+              <p className="mt-4 rounded-xl border border-border p-4 text-sm text-muted-foreground">
+                No districts with linked projects in this programme yet. Select
+                &ldquo;All&rdquo; to see everywhere we work.
+              </p>
+            ) : (
             <ul className="mt-4 space-y-2">
-              {districtsWithMeta.map(({ district, status, projects }) => {
+              {visibleDistricts.map(({ district, status, projects }) => {
                 const isSelected = selected === district.name;
                 return (
                   <li
@@ -175,6 +245,7 @@ export function UgandaReachMap() {
                 );
               })}
             </ul>
+            )}
             <p className="mt-6 text-sm text-muted-foreground">
               Markers show approximate programme locations, not exact GPS
               coordinates.

@@ -17,8 +17,16 @@ CREATE TABLE IF NOT EXISTS donations (
   admin_notes TEXT,
   verified_at TIMESTAMP WITH TIME ZONE,
   deleted_at TIMESTAMP WITH TIME ZONE,
-  CONSTRAINT status_values CHECK (status IN ('pending', 'verified', 'rejected'))
+  CONSTRAINT status_values CHECK (status IN ('pending', 'verified', 'rejected')),
+  CONSTRAINT currency_values CHECK (currency IN ('UGX', 'USD', 'EUR', 'GBP', 'KES'))
 );
+
+-- Partial unique index on transaction_reference: non-null references must be
+-- unique so duplicate bank-statement references cannot be submitted. NULL
+-- references (donor didn't supply one) are allowed multiple times.
+CREATE UNIQUE INDEX IF NOT EXISTS idx_donations_transaction_reference_unique
+  ON donations (transaction_reference)
+  WHERE transaction_reference IS NOT NULL;
 
 -- Migration: add deleted_at column to pre-existing tables (safe to re-run).
 -- Runs AFTER CREATE TABLE so fresh installs already have the column,
@@ -137,3 +145,54 @@ CREATE INDEX IF NOT EXISTS idx_blog_posts_category ON blog_posts(category);
 CREATE INDEX IF NOT EXISTS idx_blog_posts_published ON blog_posts(published);
 CREATE INDEX IF NOT EXISTS idx_blog_posts_published_at ON blog_posts(published_at DESC);
 CREATE INDEX IF NOT EXISTS idx_blog_posts_deleted_at ON blog_posts(deleted_at);
+
+-- ---------------------------------------------------------------------------
+-- admins: named admin accounts that replace the single shared ADMIN_SECRET
+-- model for daily logins. Passwords are hashed with scrypt (see
+-- lib/password.ts) and never stored in plaintext. A disabled admin
+-- (disabled_at IS NOT NULL) cannot log in but the row is retained for audit
+-- history. The first admin is created via the ADMIN_SECRET bootstrap fallback
+-- in the login route (only when zero active admins exist).
+-- ---------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS admins (
+  id SERIAL PRIMARY KEY,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  username TEXT NOT NULL UNIQUE,
+  password_hash TEXT NOT NULL,
+  disabled_at TIMESTAMP WITH TIME ZONE
+);
+
+CREATE INDEX IF NOT EXISTS idx_admins_username ON admins(username);
+CREATE INDEX IF NOT EXISTS idx_admins_disabled_at ON admins(disabled_at);
+
+-- ---------------------------------------------------------------------------
+-- audit_log: immutable, append-only record of admin actions. Every
+-- state-changing admin operation (donation verification, media CRUD, blog
+-- CRUD, admin create/disable) writes exactly one row with a before/after
+-- JSON snapshot. There is no UPDATE or DELETE path — the table is an
+-- immutable record of who did what and when.
+--
+-- actor_id is either a numeric admin id (matching admins.id) or the literal
+-- "bootstrap" for actions taken via the ADMIN_SECRET fallback. actor_kind
+-- distinguishes the source: "admin", "bootstrap", or "system".
+-- ---------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS audit_log (
+  id SERIAL PRIMARY KEY,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  actor_id TEXT NOT NULL,
+  actor_kind TEXT NOT NULL DEFAULT 'admin',
+  action TEXT NOT NULL,
+  resource_type TEXT NOT NULL,
+  resource_id TEXT,
+  before JSONB,
+  after JSONB,
+  ip TEXT,
+  CONSTRAINT audit_actor_kind_values CHECK (actor_kind IN ('admin', 'bootstrap', 'system'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_audit_log_created_at ON audit_log(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_audit_log_action ON audit_log(action);
+CREATE INDEX IF NOT EXISTS idx_audit_log_resource_type ON audit_log(resource_type);
+CREATE INDEX IF NOT EXISTS idx_audit_log_actor_id ON audit_log(actor_id);

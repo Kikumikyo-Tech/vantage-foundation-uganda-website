@@ -15,6 +15,8 @@ import { Button } from "@/components/ui/Button";
 import { programmeTokenForArea } from "@/lib/design-tokens";
 import { getProgrammeAdditionalPhotos } from "@/lib/media-public";
 import { createPublicMetadata } from "@/lib/metadata";
+import { JsonLd, buildBreadcrumbJsonLd } from "@/components/shared/JsonLd";
+import { site } from "@/content/site";
 
 // Lets an admin add photos to a programme via /admin/media without a code
 // deploy — refreshes periodically well within the presigned URL TTL.
@@ -60,6 +62,16 @@ export default async function ProgrammePage({
 
   return (
     <>
+      <JsonLd
+        data={buildBreadcrumbJsonLd(
+          [
+            { label: "Home", url: "/" },
+            { label: "Our Work", url: "/our-work" },
+            { label: area.programmeName ?? area.title, url: `/programmes/${area.id}` },
+          ],
+          site.url,
+        )}
+      />
       <section className="py-16 text-white md:py-24" style={{ backgroundColor: prog.safeHex }}>
         <Container>
           <SectionHeader
@@ -208,7 +220,8 @@ export default async function ProgrammePage({
                 Explore our other programmes
               </h2>
               <p className="mt-1 text-white/90">
-                We work across five interconnected areas of development.
+                We work across four interconnected programmes, with youth
+                leadership running through all of them.
               </p>
             </div>
             <Button href="/our-work" variant="outline" className="border-white text-white hover:bg-white/10">

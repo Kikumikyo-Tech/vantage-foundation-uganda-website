@@ -34,6 +34,11 @@ export const projects: Project[] = [
     partners: ["Local community leaders", "WASH technical team"],
     fundingStatus: "Continuation phase (motorisation + community hall) — fundraising open",
     heroImage: "/images/projects/kasaale-borehole-project-01.webp",
+    primaryProgramme: "water",
+    themes: ["Water", "Sanitation", "Youth Empowerment", "Community Development"],
+    beneficiaryGroups: ["Community members in Kasaale", "Women and girls", "Youth"],
+    sdgs: [3, 6, 10],
+    flagship: true,
     gallery: [
       "/images/projects/kasaale-borehole-project-02.webp",
       "/images/projects/kasaale-borehole-project-03.webp",
@@ -96,6 +101,12 @@ This next phase is what turns a completed borehole into a lasting centre of comm
     beneficiaries: "About 500 young women and men",
     partners: ["Volunteer mentors", "Community organisations", "Girl Power USA"],
     heroImage: "/images/projects/savegirl-uganda-menstrual-hygiene-campaign-01.webp",
+    primaryProgramme: "education",
+    secondaryProgrammes: ["health"],
+    themes: ["Menstrual Health", "Youth Empowerment", "Financial Literacy", "Mentorship", "Sexual & Reproductive Health"],
+    beneficiaryGroups: ["Young women", "Young men", "Rural youth"],
+    sdgs: [3, 4, 5, 10],
+    flagship: true,
     gallery: [
       "/images/projects/savegirl-uganda-menstrual-hygiene-campaign-02.webp",
       "/images/projects/savegirl-uganda-menstrual-hygiene-campaign-03.webp",
@@ -135,6 +146,11 @@ Since 2021, SaveGirl Uganda has been supported by [Girl Power USA](https://girlp
     beneficiaries: "Women and girls reached through SaveGirl Uganda",
     partners: ["The Cup Foundation", "Lunette"],
     heroImage: "/images/projects/menstrual-cup-project-01.webp",
+    primaryProgramme: "health",
+    secondaryProgrammes: ["education"],
+    themes: ["Menstrual Health", "Sexual & Reproductive Health", "Youth Empowerment"],
+    beneficiaryGroups: ["Women and girls"],
+    sdgs: [3, 5, 10],
     gallery: [
       "/images/projects/menstrual-cup-project-02.webp",
       "/images/projects/menstrual-cup-project-03.webp",
@@ -172,6 +188,10 @@ The menstrual cup is a relatively uncommon product despite its profound benefits
     beneficiaries: "Youth participants across Uganda",
     partners: ["Volunteer facilitators", "Book donors"],
     heroImage: "/images/projects/advantage-book-club-mentorship-01.webp",
+    primaryProgramme: "education",
+    themes: ["Education", "Youth Empowerment", "Leadership", "Mentorship"],
+    beneficiaryGroups: ["Youth", "Students"],
+    sdgs: [4, 10],
     gallery: [
       "/images/projects/advantage-book-club-mentorship-02.webp",
       "/images/projects/advantage-book-club-mentorship-03.webp",
@@ -210,6 +230,10 @@ This opens doors for young people who would otherwise not have access to this ge
     beneficiaries: "Rural communities with limited health access",
     partners: ["Local health workers", "Volunteer clinicians"],
     heroImage: "/images/projects/medical-camp-01.webp",
+    primaryProgramme: "health",
+    themes: ["Preventive Healthcare", "Maternal & Child Health", "Community Development"],
+    beneficiaryGroups: ["Rural communities", "Women and children"],
+    sdgs: [3, 10],
     gallery: [
       "/images/projects/medical-camp-02.webp",
       "/images/projects/medical-camp-03.webp",
@@ -246,6 +270,11 @@ The camps are run with volunteer clinicians and local health workers, ensuring t
     beneficiaries: "Students and youth in schools and communities",
     partners: ["Schools", "Volunteer facilitators"],
     heroImage: "/images/projects/bushenyi-youth-conference-01.webp",
+    primaryProgramme: "health",
+    secondaryProgrammes: ["education"],
+    themes: ["Mental Health", "Financial Literacy", "Sexual & Reproductive Health", "Youth Empowerment", "Mentorship"],
+    beneficiaryGroups: ["Students", "Youth"],
+    sdgs: [3, 4, 10],
     gallery: [
       "/images/projects/bushenyi-youth-conference-02.webp",
       "/images/projects/bushenyi-youth-conference-03.webp",
@@ -303,6 +332,10 @@ By combining mental wellness, financial skills and reproductive health, we help 
     beneficiaries: "Children in orphanages and young women on Kalangala Island",
     partners: ["Local orphanages", "Community volunteers", "S.A.L.V.E. International"],
     heroImage: "/images/projects/home-of-hope-orphanage-humanitarian-aid-supply-01.webp",
+    primaryProgramme: "humanitarian",
+    themes: ["Humanitarian Relief", "Food Security", "Disability Inclusion", "Community Development"],
+    beneficiaryGroups: ["Orphans", "Vulnerable children", "Young women", "Isolated communities"],
+    sdgs: [2, 10, 17],
     gallery: [
       "/images/projects/home-of-hope-orphanage-humanitarian-aid-supply-02.webp",
       "/images/projects/home-of-hope-orphanage-humanitarian-aid-supply-03.webp",
@@ -361,4 +394,53 @@ export function getProjectsByCategory(category: string): Project[] {
 export function getPublishedProjects(): Project[] {
   const isDev = process.env.NODE_ENV === "development";
   return projects.filter((p) => isDev || p.published !== false);
+}
+
+/**
+ * Returns published projects that belong to a programme, considering both
+ * the primary programme and any secondary programmes. This is the
+ * taxonomy-aware replacement for getProjectsByCategory — a project surfaces
+ * on every programme page whose id is in {primaryProgramme, ...secondaryProgrammes}.
+ * Falls back to the legacy category mapping when primaryProgramme is unset.
+ */
+export function getProjectsByProgramme(programmeId: string): Project[] {
+  return getPublishedProjects().filter((p) => {
+    const primary = p.primaryProgramme ?? legacyCategoryToProgrammeId(p.category);
+    const allProgrammes = [primary, ...(p.secondaryProgrammes ?? [])];
+    return allProgrammes.includes(programmeId as never);
+  });
+}
+
+/**
+ * Returns published projects that address a given theme. A project surfaces
+ * on every theme it addresses, so e.g. SaveGirl Uganda appears under both
+ * "Menstrual Health" and "Financial Literacy" without duplicating its source data.
+ */
+export function getProjectsByTheme(theme: string): Project[] {
+  return getPublishedProjects().filter((p) => (p.themes ?? []).includes(theme as never));
+}
+
+/** Returns the flagship project (or the first one flagged as flagship). */
+export function getFlagshipProject(): Project | undefined {
+  return getPublishedProjects().find((p) => p.flagship) ?? getPublishedProjects()[0];
+}
+
+/** All themes used by at least one published project, sorted alphabetically. */
+export function getAllThemes(): string[] {
+  const themes = new Set<string>();
+  for (const p of getPublishedProjects()) {
+    for (const t of p.themes ?? []) themes.add(t);
+  }
+  return [...themes].sort();
+}
+
+function legacyCategoryToProgrammeId(category: string): string {
+  const map: Record<string, string> = {
+    Health: "health",
+    Education: "education",
+    "Water & Sanitation": "water",
+    "Humanitarian Aid": "humanitarian",
+    "Youth Leadership": "education",
+  };
+  return map[category] ?? "health";
 }
