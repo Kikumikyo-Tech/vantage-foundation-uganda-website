@@ -161,6 +161,25 @@ export default async function ProgrammePage({
                   </Button>
                 </div>
               </Card>
+
+              {area.externalPlatformLink && (
+                <Card className="mt-6 p-6">
+                  <h2 className="text-lg font-semibold">
+                    {area.externalPlatformLink.label}
+                  </h2>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {area.externalPlatformLink.description}
+                  </p>
+                  <Button
+                    href={area.externalPlatformLink.href}
+                    variant="outline"
+                    className="mt-4 w-full"
+                    size="sm"
+                  >
+                    Visit the learning platform
+                  </Button>
+                </Card>
+              )}
             </div>
           </div>
         </Container>
