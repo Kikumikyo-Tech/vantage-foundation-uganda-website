@@ -40,7 +40,7 @@ export async function PartnersSection() {
           description="Each relationship is described narrowly so a banking service, in-kind contribution or programme collaboration is never overstated."
         />
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {partners.map((partner) => (
             <PartnerCard key={partner.name} partner={partner} />
           ))}

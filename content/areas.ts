@@ -17,6 +17,9 @@ export const areasOfWork: AreaOfWork[] = [
       "Referrals to professional care",
     ],
     icon: "heart-pulse",
+    image: "/images/photos/photo-001.webp",
+    imageAlt:
+      "Two staff members hand drink bottles to a child at a wooden table stacked with bottled drinks, inside a community building with posters on the wall.",
   },
   {
     id: "education",
@@ -34,6 +37,9 @@ export const areasOfWork: AreaOfWork[] = [
       "Ongoing mentorship via the KikumiKyo platform",
     ],
     icon: "graduation-cap",
+    image: "/images/photos/photo-004.webp",
+    imageAlt:
+      "Four young adults smile together at an indoor event in front of a \"Financial Literacy & Career Education\" conference banner.",
     externalPlatformLink: {
       label: "Explore the KikumiKyo Academy online",
       href: "https://kikumikyo.com/learn",
@@ -56,6 +62,9 @@ export const areasOfWork: AreaOfWork[] = [
       "Community relief initiatives",
     ],
     icon: "hand-heart",
+    image: "/images/photos/photo-003.webp",
+    imageAlt:
+      "Volunteers and community members unload supplies from a pickup truck loaded with boxes of food and hygiene products outside two houses.",
   },
   {
     id: "water",
@@ -72,6 +81,9 @@ export const areasOfWork: AreaOfWork[] = [
       "WASH in schools",
     ],
     icon: "droplets",
+    image: "/images/photos/photo-012.webp",
+    imageAlt:
+      "A group of men and boys gather around a newly installed hand-pump borehole with a concrete apron and drainage channel in a rural setting.",
   },
 ];
 
