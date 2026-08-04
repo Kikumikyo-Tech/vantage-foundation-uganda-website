@@ -17,9 +17,9 @@ export const areasOfWork: AreaOfWork[] = [
       "Referrals to professional care",
     ],
     icon: "heart-pulse",
-    image: "/images/photos/photo-001.webp",
+    image: "/images/photos/community-health-camp-checkup.webp",
     imageAlt:
-      "Two staff members hand drink bottles to a child at a wooden table stacked with bottled drinks, inside a community building with posters on the wall.",
+      "A community health camp checkup in Uganda.",
   },
   {
     id: "education",
@@ -37,9 +37,9 @@ export const areasOfWork: AreaOfWork[] = [
       "Ongoing mentorship via the KikumiKyo platform",
     ],
     icon: "graduation-cap",
-    image: "/images/photos/photo-004.webp",
+    image: "/images/photos/photo-011.webp",
     imageAlt:
-      "Four young adults smile together at an indoor event in front of a \"Financial Literacy & Career Education\" conference banner.",
+      "A young woman in a yellow t-shirt and headscarf speaks into a microphone at an indoor conference, with a \"Financial Literacy & Career Education\" banner in the background.",
     externalPlatformLink: {
       label: "Explore the KikumiKyo Academy online",
       href: "https://kikumikyo.com/learn",
