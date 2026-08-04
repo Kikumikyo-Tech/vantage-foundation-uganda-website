@@ -118,7 +118,7 @@ export default async function ProjectPage({
           <div className="relative aspect-[16/9] overflow-hidden rounded-2xl">
             <ImageOrPlaceholder
               src={project.heroImage}
-              alt={project.title}
+              alt={project.heroImageAlt || project.title}
               fill
               preload
               preset="detailHero"

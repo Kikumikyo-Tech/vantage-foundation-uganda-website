@@ -154,6 +154,7 @@ That is a debt the nation cannot keep deferring.
     heroImage: "/images/photos/photo-058.webp",
     heroImageAlt:
       "A young woman in a \"Vantage Foundation, Write My Own Story\" t-shirt sits and smiles outdoors near a borehole pump.",
+    consentClassification: "verified",
     relatedProjectSlugs: ["savegirl-uganda", "advantage-book-club"],
     body: `We come into this world and we are given many things. A name. A nationality. A tribe. A religion. A language. A family. A place to call home.
 
@@ -221,6 +222,8 @@ And perhaps, somewhere between who we are and who we dream of becoming, we find 
     location: "Uganda",
     category: "Leadership reflection",
     heroImage: "/images/blog/what-we-mean-advantage-hero.webp",
+    heroImageAlt:
+      "Hillary Turyasingura stands on a green hillside overlooking a broad mountain valley beneath a blue, cloud-filled sky.",
     relatedProjectSlugs: ["savegirl-uganda"],
     consentClassification: "verified",
     body: `There is a word in our name that people often misread before they have spent any real time with us: *Vantage*. It can sound like it belongs to a different world — the world of first-class lounges, corner offices and cars that turn heads on the way into them. That is not the world we mean. It is worth saying plainly what we do mean, because the difference shapes everything we do.
@@ -281,6 +284,9 @@ That is the belief this foundation is built on. Not status. Not visibility. Just
     location: "Rural Uganda",
     category: "Programme update",
     heroImage: "/images/photos/photo-016.webp",
+    heroImageAlt:
+      "A facilitator in a pink \"SaveGirl Uganda\" shirt teaches at a classroom chalkboard while students listen.",
+    consentClassification: "verified",
     relatedProjectSlugs: ["savegirl-uganda", "menstrual-cups-project"],
     body: `SaveGirl Uganda began as a simple idea: crowdfund money to buy sanitary pads for young women in rural areas who could not afford them. The response was immediate and generous. But as we met the young women we were serving, we realised that pads alone would not remove the barriers they faced.
 
@@ -298,6 +304,9 @@ Period poverty is connected to low self-esteem, limited financial literacy, lack
     location: "Basajjabalaba High School, Bushenyi",
     category: "Event highlight",
     heroImage: "/images/photos/photo-038.webp",
+    heroImageAlt:
+      "Students and teachers gather in a school hall for a Women's Day celebration, with panelists seated at a front table beneath chalkboard notes.",
+    consentClassification: "verified",
     relatedProjectSlugs: ["savegirl-uganda", "mental-health-financial-literacy-workshops"],
     body: `On International Women's Day 2023, the Vantage Foundation team joined students and staff at Basajjabalaba High School in Bushenyi for a day of conversation, celebration and empowerment.
 
@@ -315,6 +324,9 @@ The event focused on confidence, education and the power of young women to shape
     location: "Bushenyi, Uganda",
     category: "Event highlight",
     heroImage: "/images/projects/bushenyi-youth-conference-27.webp",
+    heroImageAlt:
+      "Young people in matching branded t-shirts gather at the Bushenyi youth conference on financial literacy and career education.",
+    consentClassification: "verified",
     relatedProjectSlugs: ["advantage-book-club", "mental-health-financial-literacy-workshops", "savegirl-uganda"],
     body: `On 10 September 2022, our SaveGirl Uganda team hosted a youth conference in Bushenyi bringing together young people for sessions on financial literacy, habit building and career education. The day was designed to fill gaps left by the formal school system, giving participants practical skills they can use immediately.
 
@@ -334,6 +346,9 @@ From budgeting to goal-setting, the conversations were energetic and honest. You
     location: "Kampala, Uganda",
     category: "Event highlight",
     heroImage: "/images/photos/photo-073.webp",
+    heroImageAlt:
+      "A large classroom of secondary school students in uniforms and headscarves sits at wooden desks during an assembly.",
+    consentClassification: "verified",
     relatedProjectSlugs: ["mental-health-financial-literacy-workshops"],
     body: `At a high school in Kampala, our team led a mentorship session focused on mental health. The conversation covered stress, coping skills, seeking help and supporting friends.
 
