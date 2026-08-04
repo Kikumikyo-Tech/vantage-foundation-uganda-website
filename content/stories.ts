@@ -354,6 +354,38 @@ From budgeting to goal-setting, the conversations were energetic and honest. You
 
 For many students, it was the first time mental health had been discussed openly in school. The session created a safe space for questions and reflection, and several students signed up for follow-up activities.`,
   },
+  {
+    id: "the-greatest-impact-serving-others",
+    slug: "the-greatest-impact-serving-others",
+    title: "The greatest impact is found in serving others",
+    excerpt:
+      "A young medical doctor and volunteer reflects on the impact of service, the power of compassion, and why volunteering is about more than giving.",
+    author: "Oliyer Abwooli Kabagenyi",
+    role: "Medical doctor and volunteer",
+    date: "2026",
+    location: "Uganda",
+    category: "Volunteer voice",
+    heroImage: "/images/projects/medical-camp-01.webp",
+    heroImageAlt:
+      "Volunteer clinicians and community members gather at a rural medical camp providing basic health screenings and consultations.",
+    consentClassification: "verified",
+    relatedProjectSlugs: ["savegirl-uganda", "rural-medical-camps"],
+    body: `Volunteering has always been about the impact for me. It has always been about people. Every act of kindness, every conversation, and every opportunity to serve reminds me that we all have the ability to make someone's life a little better. I always wanted to be part of the positive change. That belief is what inspired me to join Vantage Foundation Uganda as a volunteer in 2021, and it continues to motivate me today.
+
+Growing up and later pursuing a career in medicine, I came to appreciate how much a person's life can change when someone chooses to care. Sometimes people need financial support, but many times they simply need someone who believes in them, listens to them, and reminds them that their dreams are valid. Volunteering allows me to be that person for someone else.
+
+One of the most memorable experiences in my journey with Vantage Foundation was being part of the team that organized the Save Girl Conference in Bushenyi. Seeing young girls gather with hope, eager to learn and be encouraged, was incredibly fulfilling. It reminded me that empowering one girl has the potential to transform an entire family and, ultimately, a community. Knowing that I contributed, even in a small way, to creating that opportunity reinforced why I value service so deeply.
+
+What I treasure most about volunteering is not only the opportunity to give but also the meaningful connections that are created along the way. I have met passionate individuals who selflessly dedicate their time and talents to improving the lives of others. These relationships have inspired me, challenged me to grow, and reminded me that positive change is possible when people unite around a shared purpose.
+
+Charity, to me, is an expression of compassion. It is about recognizing the dignity and potential in every individual and choosing to act with generosity, even when no reward is expected. I believe that genuine service creates a ripple effect. A single act of kindness can inspire another, and over time, those small acts become lasting change.
+
+As a young medical doctor, volunteering has also shaped the kind of professional I aspire to be. It has taught me empathy, humility, teamwork, and the importance of serving communities beyond the walls of a hospital. These lessons continue to influence both my personal life and my career.
+
+Looking ahead, I hope Vantage Foundation Uganda continues to expand its impact by empowering young people with practical skills that enable them to create opportunities for themselves and for others. Beyond inspiring volunteerism, I would love to see more initiatives focused on entrepreneurship, innovation, leadership, and mentorship — programmes that equip young people to become job creators rather than job seekers. When young people are empowered to identify problems, develop solutions, and build sustainable livelihoods, they not only transform their own lives but also uplift their communities.
+
+Looking back on my journey since 2021 fills me with gratitude. I feel proud of myself for having made the decision. Vantage Foundation Uganda has given me more than a platform to serve — it has given me a family of changemakers, opportunities to grow, and experiences that have strengthened my commitment to making a difference. As long as I am able, I will continue to volunteer because I believe that the greatest impact we can make is found in serving others with compassion, purpose, and love.`,
+  },
 ];
 
 export function getStoryBySlug(slug: string): Story | undefined {
