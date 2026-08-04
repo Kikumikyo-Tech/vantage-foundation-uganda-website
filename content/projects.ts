@@ -20,15 +20,11 @@ export const projects: Project[] = [
       "Drilling of a deep borehole with hand pump",
       "Hygiene and sanitation orientation for community water users",
       "Water point committee formation for maintenance",
-      "Motorisation of the well to reticulate water closer to households and reduce time spent collecting water",
-      "Construction of a community hall for youth learning, sharing and growth (continuation phase)",
     ],
     outcomes: [
       "Clean water serving over 10,000 community members since May 2025",
       "Reduced water-related illness in the community",
       "More time for school and livelihood activities",
-      "Planned: shorter collection times and wider reach through motorised water supply",
-      "Planned: a dedicated community hall where youth can learn, share and grow",
     ],
     beneficiaries: "Over 10,000 community members",
     partners: ["Local community leaders", "WASH technical team"],
@@ -68,14 +64,19 @@ export const projects: Project[] = [
 
 Access to clean water means children spend more time in school, families save time and money, and the burden of waterborne disease is reduced. The community has been supported with hygiene education and a water-user committee to keep the borehole functional for years to come.
 
-**Continuation phase — motorisation and a community hall**
+## Next phase
 
-The borehole is the first step, not the last. The continuation phase has two goals:
+The borehole is the first step, not the last. The continuation phase is fundraising and has two goals:
 
 1. **Motorise the well** so that water is reticulated closer to households, reducing the time families — and women and girls in particular — spend collecting water each day.
 2. **Build a community hall** where youth can come to learn, share and grow: a space for mentorship, life-skills sessions, reading circles and community gatherings that turn a water point into a hub of opportunity.
 
-This next phase is what turns a completed borehole into a lasting centre of community development. [Donate to the Kasaale water well community project](/donate?campaign=kasaale-water-well) and help us build it.`,
+Once this phase is delivered, the expected impact is:
+
+- Shorter collection times and wider reach through a motorised water supply.
+- A dedicated community hall where youth can learn, share and grow.
+
+[Donate to the Kasaale water well community project](/donate?campaign=kasaale-water-well) and help us build it.`,
   },
   {
     id: "savegirl-uganda",
