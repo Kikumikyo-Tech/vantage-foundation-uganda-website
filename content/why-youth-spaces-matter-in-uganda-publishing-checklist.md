@@ -16,7 +16,7 @@
 - [ ] Use the slug: `/why-youth-spaces-matter-in-uganda`.
 - [ ] Use the meta description provided in the article file; keep it near 155 characters in the CMS preview.
 - [ ] Keep the primary keyword in the title, introduction, one subheading or nearby paragraph, and conclusion without keyword stuffing.
-- [ ] Add a canonical URL: `https://[APPROVED_DOMAIN]/blog/why-youth-spaces-matter-in-uganda`.
+- [ ] Add a canonical URL: `https://[APPROVED_DOMAIN]/stories/why-youth-spaces-matter-in-uganda`.
 - [ ] Set Open Graph and X/Twitter title and description.
 - [ ] Add a relevant, consent-cleared hero image with descriptive alt text.
 - [ ] Set an estimated reading time of 7–8 minutes.

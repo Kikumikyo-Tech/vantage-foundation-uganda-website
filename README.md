@@ -100,7 +100,7 @@ vantage-website/
 ├── content/                # All editable content (TypeScript modules)
 │   ├── site.ts             # Site config (name, contact, nav)
 │   ├── projects.ts         # Project entries
-│   ├── stories.ts          # Story entries
+│   ├── stories.ts          # Stories & Insights entries
 │   ├── team.ts             # Team members
 │   ├── partners.ts         # Partners
 │   ├── impact.ts           # Impact statistics
@@ -129,7 +129,7 @@ vantage-website/
 
 ## Content Workflow
 
-All content lives in `content/` as TypeScript modules. To update content:
+All content lives in `content/` as TypeScript modules. Stories & Insights are maintained in `content/stories.ts`. To update content:
 
 1. Edit the relevant file in `content/`
 2. Run `npm run validate-content` to verify
@@ -157,7 +157,6 @@ See `docs/deployment.md` for detailed database setup instructions.
 - **Features:**
   - View donations, verify/reject donation status (`/admin/donations`)
   - Upload and manage media in Cloudflare R2 (`/admin/media`) — photos, documents, logos. New uploads default to `pending` consent and `unpublished`; set both before publishing.
-  - Write, edit and publish blog posts (`/admin/blog`), each with an optional hero image uploaded the same way. New posts default to a draft.
 - **Security:** Signed session tokens (HMAC), CSRF protection, rate limiting, lockout after 5 failed attempts
 
 ## Testing

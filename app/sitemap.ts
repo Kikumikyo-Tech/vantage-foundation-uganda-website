@@ -4,8 +4,6 @@ import { getProjectSlugs } from "@/content/projects";
 import { getStorySlugs } from "@/content/stories";
 import { areasOfWork } from "@/content/areas";
 import { getTeamSlugs } from "@/content/team";
-import { getBlogSlugs } from "@/content/blog";
-import { getDbBlogSlugs } from "@/lib/blog-public";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = site.url;
@@ -18,7 +16,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/projects",
     "/impact",
     "/stories",
-    "/blog",
     "/gallery",
     "/get-involved",
     "/donors-and-sponsors",
@@ -67,20 +64,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  const dbBlogSlugs = await getDbBlogSlugs();
-  const blogRoutes = [...dbBlogSlugs, ...getBlogSlugs()].map((slug) => ({
-    url: `${baseUrl}/blog/${slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
-  }));
-
   return [
     ...routes,
     ...programmeRoutes,
     ...projectRoutes,
     ...storyRoutes,
     ...teamRoutes,
-    ...blogRoutes,
   ];
 }

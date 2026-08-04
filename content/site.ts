@@ -66,7 +66,7 @@ export const site: SiteConfig = {
       ],
     },
     {
-      label: "Stories",
+      label: "Stories & Insights",
       href: "/stories",
     },
     {

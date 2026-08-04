@@ -10,9 +10,9 @@ import { createPublicMetadata } from "@/lib/metadata";
 import { formatContentDate } from "@/lib/content-date";
 
 export const metadata: Metadata = createPublicMetadata({
-  title: "Stories",
+  title: "Stories & Insights",
   description:
-    "Read community stories, project updates and reflections from Vantage Foundation Uganda.",
+    "Read community stories, programme updates, research and reflections from Vantage Foundation Uganda.",
   path: "/stories",
 });
 
@@ -29,8 +29,8 @@ export default function StoriesPage() {
         <Container>
           <SectionHeader
             level="h1"
-            title="Stories"
-            description="Community voices, project updates and moments of impact."
+            title="Stories & Insights"
+            description="Community voices, programme updates, research and reflections from our work."
             light
           />
         </Container>
@@ -89,8 +89,8 @@ export default function StoriesPage() {
         <Container>
           <SectionHeader
             align="left"
-            title="All stories"
-            description={`${stories.length} ${stories.length === 1 ? "story" : "stories"} from our community`}
+            title="All stories & insights"
+            description={`${stories.length} ${stories.length === 1 ? "story or insight" : "stories and insights"} from our community`}
           />
           <StoryList stories={rest} categories={categories} />
         </Container>

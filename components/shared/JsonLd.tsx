@@ -52,7 +52,7 @@ export function buildArticleJsonLd(args: {
   dateModified?: string;
   author?: string;
   image?: string;
-  type?: "Article" | "BlogPosting";
+  type?: "Article";
 }) {
   const pageUrl = toAbsoluteUrl(args.baseUrl, args.url);
 

@@ -100,52 +100,6 @@ CREATE INDEX IF NOT EXISTS idx_media_objects_published ON media_objects(publishe
 CREATE INDEX IF NOT EXISTS idx_media_objects_created_at ON media_objects(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_media_objects_deleted_at ON media_objects(deleted_at);
 
--- Self-service blog, managed via /admin/blog. Mirrors the BlogPost type in
--- types/index.ts and the content/blog.ts static manifest's shape — the
--- public /blog routes merge rows from here with that (normally empty)
--- static file.
-CREATE TABLE IF NOT EXISTS blog_posts (
-  id SERIAL PRIMARY KEY,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  slug TEXT NOT NULL UNIQUE,
-  title TEXT NOT NULL,
-  category TEXT NOT NULL,
-  summary TEXT NOT NULL,
-  -- Markdown body, rendered the same way as content/stories.ts entries.
-  body TEXT NOT NULL,
-  author TEXT,
-  published_at DATE NOT NULL DEFAULT CURRENT_DATE,
-  reading_time_minutes INTEGER,
-  -- R2 object key (see lib/storage/vantage-objects.ts, "blog" folder) —
-  -- never a signed URL. Resolved to a presigned GET URL at render time,
-  -- same pattern as media_objects.object_key.
-  hero_image_key TEXT,
-  hero_image_alt TEXT,
-  -- Consent classification for the hero image, mirroring media_objects.
-  consent_classification TEXT NOT NULL DEFAULT 'none',
-  -- Optional per-post SEO title/description overrides.
-  seo_title TEXT,
-  seo_description TEXT,
-  -- Whether the post is published (visible on the public site). Defaults to
-  -- false so a new post is a draft until an editor explicitly publishes it.
-  published BOOLEAN NOT NULL DEFAULT false,
-  -- Soft-delete timestamp. Soft-deleted rows are excluded from list queries
-  -- but retained for audit.
-  deleted_at TIMESTAMP WITH TIME ZONE,
-  CONSTRAINT blog_category_values CHECK (category IN (
-    'Health', 'Education', 'Humanitarian Action', 'Community Stories',
-    'Foundation News', 'Research & Learning', 'Accountability'
-  )),
-  CONSTRAINT blog_consent_values CHECK (consent_classification IN ('none', 'verified', 'pending', 'group-consent'))
-);
-
-CREATE INDEX IF NOT EXISTS idx_blog_posts_slug ON blog_posts(slug);
-CREATE INDEX IF NOT EXISTS idx_blog_posts_category ON blog_posts(category);
-CREATE INDEX IF NOT EXISTS idx_blog_posts_published ON blog_posts(published);
-CREATE INDEX IF NOT EXISTS idx_blog_posts_published_at ON blog_posts(published_at DESC);
-CREATE INDEX IF NOT EXISTS idx_blog_posts_deleted_at ON blog_posts(deleted_at);
-
 -- ---------------------------------------------------------------------------
 -- admins: named admin accounts that replace the single shared ADMIN_SECRET
 -- model for daily logins. Passwords are hashed with scrypt (see
@@ -168,8 +122,8 @@ CREATE INDEX IF NOT EXISTS idx_admins_disabled_at ON admins(disabled_at);
 
 -- ---------------------------------------------------------------------------
 -- audit_log: immutable, append-only record of admin actions. Every
--- state-changing admin operation (donation verification, media CRUD, blog
--- CRUD, admin create/disable) writes exactly one row with a before/after
+-- state-changing admin operation (donation verification, media CRUD, admin
+-- create/disable) writes exactly one row with a before/after
 -- JSON snapshot. There is no UPDATE or DELETE path — the table is an
 -- immutable record of who did what and when.
 --

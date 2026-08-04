@@ -25,7 +25,6 @@ import { reports } from "../content/reports";
 import { faq } from "../content/faq";
 import { mediaAssets } from "../content/media";
 import { reachDistricts } from "../content/reach";
-import { blogPosts } from "../content/blog";
 
 // ---------------------------------------------------------------------------
 // Shared building blocks
@@ -181,32 +180,6 @@ const storySchema = z.object({
   body: nonEmpty,
   // Phase 4 extensions
   tags: z.array(nonEmpty).optional(),
-  consentClassification,
-  seo: seoMeta,
-  published: z.boolean().optional(),
-});
-
-const blogPostSchema = z.object({
-  id: nonEmpty,
-  slug,
-  title: nonEmpty,
-  category: z.enum([
-    "Health",
-    "Education",
-    "Humanitarian Action",
-    "Community Stories",
-    "Foundation News",
-    "Research & Learning",
-    "Accountability",
-  ]),
-  summary: nonEmpty,
-  body: nonEmpty,
-  author: z.string().optional(),
-  publishedAt: dateish,
-  readingTimeMinutes: z.number().positive().optional(),
-  heroImage: z.string().optional(),
-  heroImageAlt: z.string().optional(),
-  relatedSlugs: z.array(slug).optional(),
   consentClassification,
   seo: seoMeta,
   published: z.boolean().optional(),
@@ -410,7 +383,6 @@ export function validateAllContent(): ValidationError[] {
     )
   );
   errors.push(...validateModule("content/team.ts", team, z.array(teamMemberSchema)));
-  errors.push(...validateModule("content/blog.ts", blogPosts, z.array(blogPostSchema)));
   errors.push(
     ...validateModule("content/partners.ts", partners, z.array(partnerSchema))
   );

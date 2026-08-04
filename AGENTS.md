@@ -22,7 +22,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - `content/` — all editable content (site config, projects, stories, team, partners, impact, FAQ, reports, donation)
 - `lib/` — utilities and content helpers
 - `lib/storage/` — Cloudflare R2 client and object-key conventions (server-only)
-- `lib/db/` — Neon PostgreSQL queries (`index.ts` = donations, `media.ts` = media objects, `blog.ts` = blog posts, `admins.ts` = named admin accounts, `audit.ts` = immutable audit log, `schema.sql` = table definitions)
+- `lib/db/` — Neon PostgreSQL queries (`index.ts` = donations, `media.ts` = media objects, `admins.ts` = named admin accounts, `audit.ts` = immutable audit log, `schema.sql` = table definitions)
 - `public/images/` — real images go here; placeholder filenames are handled by `ImageOrPlaceholder`
 - `types/` — shared TypeScript interfaces
 
@@ -40,16 +40,15 @@ Copy `.env.example` to `.env.local` and set:
 
 ## Database setup
 1. Create a Neon PostgreSQL database.
-2. Run `node scripts/setup-db.mjs` (or paste `lib/db/schema.sql` in the Neon SQL editor) to create the `donations`, `media_objects`, `blog_posts`, `admins`, and `audit_log` tables. The script is idempotent — safe to re-run after schema updates.
+2. Run `node scripts/setup-db.mjs` (or paste `lib/db/schema.sql` in the Neon SQL editor) to create the `donations`, `media_objects`, `admins`, and `audit_log` tables. The script is idempotent — safe to re-run after schema updates.
 3. Never commit `.env.local` or any real credentials.
 
 ## Admin dashboard
 - `/admin/login` — sign in with a named admin username + password, or leave username blank and use `ADMIN_SECRET` (bootstrap mode, only when zero named admins exist). The first admin is created via bootstrap; subsequent logins should use named accounts.
 - `/admin/donations` — view and verify/reject donor submissions. Donations are stored with status `pending` and are only marked `verified` after an administrator confirms the transfer against the official bank statement. Every status change is written to the immutable `audit_log` with the actor identity, before/after state, and IP.
 - `/admin/media` — upload and manage photos, documents, and logos stored in Cloudflare R2. New uploads default to `pending` consent and `unpublished`; set both before publishing. The browser uploads directly to R2 via a presigned PUT URL (issued by `/api/admin/media/presign`), then the server confirms the object via HEAD and records it in the `media_objects` table. R2 object keys are stored (never signed URLs) so the DB stays stable; presigned GET URLs are minted at render time. Create/update/delete actions are written to `audit_log`.
-- `/admin/blog` — write, edit and publish blog posts (stored in `blog_posts`), each optionally with a hero image uploaded the same way media is (folder `blog`, presigned PUT, HEAD-confirmed before saving). New posts default to a draft; publishing is a separate explicit toggle. `/blog` and `/blog/[slug]` merge published rows here with the (normally empty) static `content/blog.ts` manifest. Create/update/delete actions are written to `audit_log`.
 - `/admin/admins` — create and disable named admin accounts. Passwords are hashed with scrypt (`lib/password.ts`). Disabled admins cannot log in but are retained for audit history. Admins cannot disable their own account.
-- `/admin/audit` — read-only view of the immutable `audit_log` table. Every state-changing admin action (donation verification, media/blog CRUD, admin create/disable) is recorded with the actor identity, before/after JSON snapshot, and IP address.
+- `/admin/audit` — read-only view of the immutable `audit_log` table. Every state-changing admin action (donation verification, media CRUD, admin create/disable) is recorded with the actor identity, before/after JSON snapshot, and IP address.
 
 ## Donor PII retention
 Donor personal data (name, email, phone, message) is stored in the `donations` table. Retention and erasure:

@@ -23,9 +23,6 @@ function actionLabel(action: string): string {
     "media.created": "Created media",
     "media.updated": "Updated media",
     "media.deleted": "Deleted media",
-    "blog.created": "Created blog post",
-    "blog.updated": "Updated blog post",
-    "blog.deleted": "Deleted blog post",
     "admin.created": "Created admin",
     "admin.disabled": "Disabled admin",
   };
@@ -96,7 +93,7 @@ export default async function AdminAuditPage({
             <h1 className="text-2xl font-bold">Audit log</h1>
             <p className="text-sm text-muted-foreground">
               Immutable record of admin actions. Every state change (donation
-              verification, media upload/edit/delete, blog create/edit/delete)
+              verification and media upload/edit/delete)
               is logged with the actor, before/after state, and IP address.
             </p>
           </div>
@@ -112,12 +109,6 @@ export default async function AdminAuditPage({
               className="rounded-lg border border-border bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               Media library
-            </a>
-            <a
-              href="/admin/blog"
-              className="rounded-lg border border-border bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            >
-              Blog
             </a>
             <a
               href="/admin/admins"
@@ -149,7 +140,7 @@ export default async function AdminAuditPage({
           >
             All
           </a>
-          {["donation", "media", "blog_post"].map((rt) => (
+          {["donation", "media"].map((rt) => (
             <a
               key={rt}
               href={`/admin/audit?resourceType=${rt}`}
@@ -159,7 +150,7 @@ export default async function AdminAuditPage({
                   : "border-border bg-white hover:bg-slate-50"
               }`}
             >
-              {rt === "blog_post" ? "Blog" : rt.charAt(0).toUpperCase() + rt.slice(1)}
+              {rt.charAt(0).toUpperCase() + rt.slice(1)}
             </a>
           ))}
         </div>
@@ -249,7 +240,7 @@ export default async function AdminAuditPage({
         {entries.length === 0 && !dbError && (
           <div className="mt-8 rounded-lg bg-slate-50 p-8 text-center text-sm text-muted-foreground">
             No audit log entries yet. Actions will appear here once admins
-            start verifying donations, uploading media, or editing blog posts.
+            start verifying donations or uploading media.
           </div>
         )}
       </Container>

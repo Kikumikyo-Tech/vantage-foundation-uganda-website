@@ -66,7 +66,7 @@ export default async function StoryPage({
         data={buildBreadcrumbJsonLd(
           [
             { label: "Home", url: "/" },
-            { label: "Stories", url: "/stories" },
+            { label: "Stories & Insights", url: "/stories" },
             { label: story.title, url: `/stories/${slug}` },
           ],
           site.url
@@ -109,7 +109,7 @@ export default async function StoryPage({
             className="mb-8"
             items={[
               { label: "Home", href: "/" },
-              { label: "Stories", href: "/stories" },
+              { label: "Stories & Insights", href: "/stories" },
               { label: story.title },
             ]}
           />
@@ -139,7 +139,7 @@ export default async function StoryPage({
 
           {relatedStories.length > 0 && (
             <div className="mt-16">
-              <h2 className="text-2xl font-bold">More stories</h2>
+              <h2 className="text-2xl font-bold">More stories & insights</h2>
               <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {relatedStories.map((s) => (
                   <StoryCard key={s.slug} story={s} />
