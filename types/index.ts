@@ -154,6 +154,8 @@ export interface Project {
   date: string;
   summary: string;
   heroImage?: string;
+  /** Alt text for the hero image. Falls back to the project title when omitted. */
+  heroImageAlt?: string;
   objective?: string;
   activities?: string[];
   outcomes?: string[];

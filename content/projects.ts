@@ -34,6 +34,8 @@ export const projects: Project[] = [
     partners: ["Local community leaders", "WASH technical team"],
     fundingStatus: "Continuation phase (motorisation + community hall) — fundraising open",
     heroImage: "/images/projects/kasaale-borehole-project-01.webp",
+    heroImageAlt:
+      "A newly drilled borehole with a hand pump stands in a rural clearing, surrounded by community members and onlookers.",
     primaryProgramme: "water",
     themes: ["Water", "Sanitation", "Youth Empowerment", "Community Development"],
     beneficiaryGroups: ["Community members in Kasaale", "Women and girls", "Youth"],
@@ -101,6 +103,8 @@ This next phase is what turns a completed borehole into a lasting centre of comm
     beneficiaries: "About 500 young women and men",
     partners: ["Volunteer mentors", "Community organisations", "Girl Power USA"],
     heroImage: "/images/projects/savegirl-uganda-menstrual-hygiene-campaign-01.webp",
+    heroImageAlt:
+      "Young women in matching \"SaveGirl Uganda\" t-shirts and white headscarves gather during a mentorship and menstrual health education session.",
     primaryProgramme: "education",
     secondaryProgrammes: ["health"],
     themes: ["Menstrual Health", "Youth Empowerment", "Financial Literacy", "Mentorship", "Sexual & Reproductive Health"],
@@ -146,6 +150,8 @@ Since 2021, SaveGirl Uganda has been supported by [Girl Power USA](https://girlp
     beneficiaries: "Women and girls reached through SaveGirl Uganda",
     partners: ["The Cup Foundation", "Lunette"],
     heroImage: "/images/projects/menstrual-cup-project-01.webp",
+    heroImageAlt:
+      "A facilitator demonstrates a Lunette menstrual cup to a group of young women during a hands-on training session.",
     primaryProgramme: "health",
     secondaryProgrammes: ["education"],
     themes: ["Menstrual Health", "Sexual & Reproductive Health", "Youth Empowerment"],
@@ -188,6 +194,8 @@ The menstrual cup is a relatively uncommon product despite its profound benefits
     beneficiaries: "Youth participants across Uganda",
     partners: ["Volunteer facilitators", "Book donors"],
     heroImage: "/images/projects/advantage-book-club-mentorship-01.webp",
+    heroImageAlt:
+      "Young people sit together with books and notebooks during an Advantage Book Club reading and discussion session.",
     primaryProgramme: "education",
     themes: ["Education", "Youth Empowerment", "Leadership", "Mentorship"],
     beneficiaryGroups: ["Youth", "Students"],
@@ -230,6 +238,8 @@ This opens doors for young people who would otherwise not have access to this ge
     beneficiaries: "Rural communities with limited health access",
     partners: ["Local health workers", "Volunteer clinicians"],
     heroImage: "/images/projects/medical-camp-01.webp",
+    heroImageAlt:
+      "Volunteer clinicians and community members gather at a rural medical camp providing basic health screenings and consultations.",
     primaryProgramme: "health",
     themes: ["Preventive Healthcare", "Maternal & Child Health", "Community Development"],
     beneficiaryGroups: ["Rural communities", "Women and children"],
@@ -270,6 +280,8 @@ The camps are run with volunteer clinicians and local health workers, ensuring t
     beneficiaries: "Students and youth in schools and communities",
     partners: ["Schools", "Volunteer facilitators"],
     heroImage: "/images/projects/bushenyi-youth-conference-01.webp",
+    heroImageAlt:
+      "Young people in matching branded t-shirts attend a financial literacy and career education conference in Bushenyi.",
     primaryProgramme: "health",
     secondaryProgrammes: ["education"],
     themes: ["Mental Health", "Financial Literacy", "Sexual & Reproductive Health", "Youth Empowerment", "Mentorship"],
@@ -332,6 +344,8 @@ By combining mental wellness, financial skills and reproductive health, we help 
     beneficiaries: "Children in orphanages and young women on Kalangala Island",
     partners: ["Local orphanages", "Community volunteers", "S.A.L.V.E. International"],
     heroImage: "/images/projects/home-of-hope-orphanage-humanitarian-aid-supply-01.webp",
+    heroImageAlt:
+      "Volunteers deliver donated food, clothing and essential supplies to children at an orphanage in Uganda.",
     primaryProgramme: "humanitarian",
     themes: ["Humanitarian Relief", "Food Security", "Disability Inclusion", "Community Development"],
     beneficiaryGroups: ["Orphans", "Vulnerable children", "Young women", "Isolated communities"],
