@@ -365,9 +365,9 @@ For many students, it was the first time mental health had been discussed openly
     date: "2026",
     location: "Uganda",
     category: "Volunteer voice",
-    heroImage: "/images/projects/medical-camp-02.webp",
+    heroImage: "/images/photos/community-health-camp-checkup.webp",
     heroImageAlt:
-      "A volunteer clinician conducts a health check-up on a community member at a rural medical camp.",
+      "A volunteer medical professional conducts a health check-up on a community member at a rural health camp.",
     consentClassification: "verified",
     relatedProjectSlugs: ["savegirl-uganda", "rural-medical-camps"],
     body: `Volunteering has always been about the impact for me. It has always been about people. Every act of kindness, every conversation, and every opportunity to serve reminds me that we all have the ability to make someone's life a little better. I always wanted to be part of the positive change. That belief is what inspired me to join Vantage Foundation Uganda as a volunteer in 2021, and it continues to motivate me today.
