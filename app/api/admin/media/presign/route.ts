@@ -25,7 +25,7 @@ const presignSchema = z.object({
     "documents",
     "logos",
     "resources",
-    "blog",
+    "stories",
   ]),
   slug: z.string().max(100).optional(),
   csrf_token: z.string().optional(),

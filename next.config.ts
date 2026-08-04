@@ -94,6 +94,14 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "*.r2.cloudflarestorage.com" },
     ],
   },
+  // Keep legacy blog URLs discoverable after consolidating editorial content
+  // into the Stories & Insights hub.
+  async redirects() {
+    return [
+      { source: "/blog", destination: "/stories", permanent: true },
+      { source: "/blog/:path*", destination: "/stories/:path*", permanent: true },
+    ];
+  },
   // Disabling the X-Powered-By header avoids advertising the framework.
   poweredByHeader: false,
   async headers() {

@@ -23,7 +23,7 @@ These budgets are designed for real-world mobile UX, not just Lighthouse scores.
 | Homepage (`/`) | < 120 KB | Header + Hero + TrustStrip + ImpactSection + AreasOfWork + FlagshipProject are server-rendered. UgandaReachMap is deferred via `LazySection`. |
 | Project detail (`/projects/[slug]`) | < 100 KB | SSG. GalleryGrid deferred via `LazySection`. |
 | Stories hub (`/stories`) | < 110 KB | StoryList (search/filter) is client-side. |
-| Blog list (`/blog`) | < 90 KB | Server-rendered. |
+| Stories & Insights list (`/stories`) | < 90 KB | Server-rendered. |
 | Donate (`/donate`) | < 110 KB | DonationForm + CopyBankDetails are client-side. |
 | All other routes | < 90 KB | Mostly server-rendered with minimal client JS. |
 
@@ -41,11 +41,11 @@ These budgets are designed for real-world mobile UX, not just Lighthouse scores.
 | `StoryList` | `/stories` | Search/filter — essential for UX |
 | `UgandaReachMap` | `/` | Interactive map — **deferred via `LazySection`** |
 | `GalleryGrid` | `/projects/[slug]`, `/gallery` | Lightbox — **deferred via `LazySection`** on project pages |
-| `ArticleShare` | `/blog/[slug]` | Share buttons — tiny |
+| `ArticleShare` | `/stories/[slug]` | Share buttons — tiny |
 
 ### Admin-only components (excluded from public bundles)
 
-- `AdminsManager`, `BlogManager`, `MediaManager` — only loaded on `/admin/*` routes.
+- `AdminsManager`, `MediaManager` — only loaded on `/admin/*` routes.
 
 ---
 
@@ -95,7 +95,7 @@ Wraps below-the-fold client components to defer their JS execution until the use
 Route-specific loading skeletons for client-side navigation on slow connections:
 - `/projects/[slug]/loading.tsx` — project detail skeleton
 - `/stories/[slug]/loading.tsx` — story detail skeleton
-- `/blog/[slug]/loading.tsx` — blog post skeleton
+- `/stories/[slug]/loading.tsx` — story detail skeleton
 - `/loading.tsx` — global fallback skeleton
 
 ---

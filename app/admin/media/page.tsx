@@ -67,10 +67,10 @@ export default async function AdminMediaPage({
           </div>
           <nav className="flex gap-2" aria-label="Admin navigation">
             <a
-              href="/admin/blog"
+              href="/admin/stories"
               className="rounded-lg border border-border bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
-              Blog
+              Stories & Insights
             </a>
             <a
               href="/admin/donations"
