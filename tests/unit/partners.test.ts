@@ -2,8 +2,8 @@ import { describe, it, expect, vi } from "vitest";
 import { partners, getPublishedPartners } from "@/content/partners";
 
 describe("partners data", () => {
-  it("has exactly 5 confirmed partners", () => {
-    expect(partners).toHaveLength(5);
+  it("has exactly 4 confirmed partners", () => {
+    expect(partners).toHaveLength(4);
   });
 
   it("contains only named, described, verified relationships", () => {

@@ -11,13 +11,6 @@ export const partners: Partner[] = [
     logoAlt: "The Cup Foundation / Lunette logo",
   },
   {
-    name: "Housing Finance Bank",
-    relationshipType: "Banking service provider",
-    description:
-      "Holds Vantage Foundation Uganda Limited's donation account. This banking relationship is not presented as programme sponsorship.",
-    url: "https://www.housingfinance.co.ug/",
-  },
-  {
     name: "Girl Power USA",
     relationshipType: "Programme collaborator",
     description:
