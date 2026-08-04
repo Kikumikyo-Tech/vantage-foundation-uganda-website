@@ -33,7 +33,7 @@ const publicRoutes = [
 test.describe("Accessibility — document structure", () => {
   for (const path of publicRoutes) {
     test(`${path} has one visible h1 and a main landmark`, async ({ page }) => {
-      await page.goto(path);
+      await page.goto(path, { waitUntil: "domcontentloaded" });
       await expect(page.locator("main")).toBeVisible();
       await expect(page.locator("h1")).toHaveCount(1);
       await expect(page.locator("h1")).toBeVisible();
@@ -92,7 +92,7 @@ test.describe("Accessibility — axe-core automated checks", () => {
 
   for (const path of pages) {
     test(`${path} has no axe-core violations`, async ({ page }) => {
-      await page.goto(path);
+      await page.goto(path, { waitUntil: "domcontentloaded" });
       const results = await new AxeBuilder({ page })
         .withTags([
           "wcag2a",
