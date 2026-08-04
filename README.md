@@ -2,7 +2,7 @@
 
 The official website for Vantage Foundation Uganda — a youth-led nonprofit improving lives through health, education, and humanitarian action in underserved communities across Uganda.
 
-**Live site:** https://vantage-foundation-uganda-website.vercel.app
+**Live site:** https://www.vantagefoundationuganda.com
 
 ## Tech Stack
 
