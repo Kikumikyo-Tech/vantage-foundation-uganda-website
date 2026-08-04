@@ -1,27 +1,10 @@
-import { BlogPost } from "@/types";
+# Why Youth Spaces Matter in Uganda
 
-export const blogPosts: BlogPost[] = [
-  {
-    id: "why-youth-spaces-matter-in-uganda",
-    slug: "why-youth-spaces-matter-in-uganda",
-    title: "Why Youth Spaces Matter in Uganda",
-    category: "Research & Learning",
-    summary:
-      "Creating safe, inclusive environments where young people can learn, connect, lead and turn potential into opportunity.",
-    author: "Vantage Foundation team",
-    publishedAt: "2026-08-04",
-    readingTimeMinutes: 8,
-    heroImage: "/images/photos/photo-073.webp",
-    heroImageAlt:
-      "A large classroom of secondary school students in uniforms and headscarves sits at wooden desks during a mentorship session in Kampala.",
-    consentClassification: "verified",
-    seo: {
-      title: "Why Youth Spaces Matter in Uganda | Vantage Foundation Uganda",
-      description:
-        "Uganda has one of the world’s youngest populations. Discover why safe, inclusive youth spaces support leadership, employment, wellbeing and innovation.",
-      ogImage: "/images/photos/photo-073.webp",
-    },
-    body: `Uganda is a young country—and that may be one of the most important facts about its future.
+**SEO title:** Why Youth Spaces Matter in Uganda | Vantage Foundation Uganda  
+**Slug:** `/why-youth-spaces-matter-in-uganda`  
+**Meta description:** Uganda has one of the world’s youngest populations. Discover why safe, inclusive youth spaces support leadership, employment, wellbeing and innovation.
+
+Uganda is a young country—and that may be one of the most important facts about its future.
 
 The **2024 National Population and Housing Census recorded Uganda’s population at 45,905,417**. Almost half of the population—**22.75 million people—are below the age of 18**. The census also counted approximately **10.77 million young people aged 18 to 30**, representing about **23.5% of the population**.
 
@@ -45,11 +28,14 @@ Youth spaces can contribute by bringing several forms of support together around
 
 Uganda’s young people are entering adulthood in an economy that cannot easily absorb everyone seeking meaningful work.
 
-According to [Uganda Bureau of Statistics data](https://www.ubos.org/uganda-profile/), **50.9% of people aged 18 to 30 were not in employment, education or training**, representing approximately **5.25 million people**. Among people aged 15 to 24, the proportion was **42.6%**.
+According to Uganda Bureau of Statistics data:
 
-Youth unemployment among people aged 15 to 24 was **17.9%**. Unemployment was higher among young women, at **21.0%**, compared with **15.2% among young men**.
+- **50.9% of people aged 18 to 30 were not in employment, education or training**, representing approximately **5.25 million people**.
+- Among people aged 15 to 24, the proportion was **42.6%**.
+- Youth unemployment among people aged 15 to 24 was **17.9%**.
+- Unemployment was higher among young women, at **21.0%**, compared with **15.2% among young men**.
 
-The [World Bank estimates](https://www.worldbank.org/en/news/press-release/2026/06/04/world-bank-group-launches-ten-year-strategy-to-drive-jobs-and-prosperity-in-uganda) that **600,000 to 700,000 young people enter Uganda’s labour market each year**.
+The World Bank estimates that **600,000 to 700,000 young people enter Uganda’s labour market each year**.
 
 These figures make one thing clear: young people need more than encouragement. They need infrastructure for opportunity.
 
@@ -61,10 +47,15 @@ A strong youth space might provide:
 
 - Leadership and life-skills development
 - Career guidance and mentorship
-- Entrepreneurship support and financial literacy
-- Digital-skills training and access to computers
-- Health information, referrals and psychosocial support
-- Peer networks, creative activities and volunteer opportunities
+- Entrepreneurship support
+- Digital-skills training
+- Financial literacy
+- Access to computers and the internet
+- Health information and referrals
+- Mental-health and psychosocial support
+- Sexual and reproductive health information
+- Peer networks and creative activities
+- Volunteer opportunities
 - Support for youth-led initiatives
 
 A room becomes a youth space when young people feel that they belong there, that their ideas matter and that they have opportunities to grow.
@@ -75,7 +66,7 @@ The employment challenge facing Uganda cannot be solved through job advertisemen
 
 This transforms the space from a community centre into an **opportunity hub**.
 
-Financial knowledge is also an important part of youth development. Through financial-literacy initiatives connected to [KikumiKyo Academy](/programmes/education), young people can develop practical knowledge about saving, financial planning, responsible borrowing, investment and entrepreneurship.
+Financial knowledge is also an important part of youth development. Through financial-literacy initiatives connected to **KikumiKyo Academy**, young people can develop practical knowledge about saving, financial planning, responsible borrowing, investment and entrepreneurship.
 
 ## Leadership requires somewhere to practise
 
@@ -87,8 +78,6 @@ The question is not only, “How many young people attended?” We should also a
 
 That is the difference between basic participation and meaningful **youth empowerment in Uganda**.
 
-![A facilitator leads a classroom activity with young people during a Vantage Foundation session in Uganda.](/images/photos/photo-016.webp)
-
 ## Young women need more than inclusion on paper
 
 Young women do not always experience the same opportunities as young men. Creating a youth space does not automatically make it inclusive. Inclusion must be designed.
@@ -97,15 +86,13 @@ A space that genuinely works for young women should consider physical and emotio
 
 Most importantly, young women must not simply be present. They must have **voice, influence and leadership**.
 
-![Students and teachers gather for a Women’s Day celebration at Basajjabalaba High School in Bushenyi.](/images/photos/photo-038.webp)
-
 ## Health and opportunity are connected
-
-[UNICEF Uganda identifies](https://www.unicef.org/uganda/what-we-do/adolescent-development) poverty, HIV, early marriage, teenage pregnancy, gender-based violence and limited participation in secondary education among the challenges facing adolescents.
 
 Youth spaces can become trusted entry points for health education and referrals, connecting young people to sexual and reproductive health services, mental-health support, HIV information, counselling and gender-based violence services.
 
-At **Vantage Foundation Uganda**, this approach complements the work of [Vantage Care](/programmes/health), which focuses on improving access to health services and information through community-centred medical outreach.
+At **Vantage Foundation Uganda**, this approach complements the work of **Vantage Care**, which focuses on improving access to health services and information through community-centred medical outreach.
+
+Health creates opportunity, and opportunity can also improve health. Youth development works best when these realities are treated as connected.
 
 ## Digital access is part of opportunity
 
@@ -126,8 +113,6 @@ Youth-led solutions should be seen as a resource for communities—not merely as
 Attendance matters, but it is only a starting point. Organisations should also ask whether young people are safer, whether young women are leading, whether vulnerable young people can participate, whether participants are gaining useful skills and whether youth-led projects are emerging.
 
 Most importantly: **Are young people leaving with more agency than when they arrived?**
-
-![Young people take part in a financial literacy and career education conference in Bushenyi.](/images/projects/bushenyi-youth-conference-27.webp)
 
 ## The Vantage Foundation Uganda perspective
 
@@ -155,29 +140,4 @@ At Vantage Foundation Uganda, we believe that when young people are given the ri
 - [UBOS Uganda profile and labour-market indicators](https://www.ubos.org/uganda-profile/)
 - [UNFPA Uganda: Census 2024 and Uganda’s youthful population](https://uganda.unfpa.org/en/news/census-2024-preliminary-results-released-uganda-remains-young-population)
 - [UNICEF Uganda: Adolescent development](https://www.unicef.org/uganda/what-we-do/adolescent-development)
-- [World Bank: Uganda Country Partnership Framework 2026–2035](https://www.worldbank.org/en/news/press-release/2026/06/04/world-bank-group-launches-ten-year-strategy-to-drive-jobs-and-prosperity-in-uganda)`,
-  },
-];
-
-export function getBlogPostBySlug(slug: string): BlogPost | undefined {
-  return blogPosts.find((p) => p.slug === slug);
-}
-
-export function getBlogSlugs(): string[] {
-  return getPublishedBlogPosts().map((p) => p.slug);
-}
-
-/**
- * Returns published posts, newest first. In development, unpublished
- * drafts are included too so they can be previewed.
- */
-export function getPublishedBlogPosts(): BlogPost[] {
-  const isDev = process.env.NODE_ENV === "development";
-  return blogPosts
-    .filter((p) => isDev || p.published !== false)
-    .sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
-}
-
-export function getBlogPostsByCategory(category: string): BlogPost[] {
-  return getPublishedBlogPosts().filter((p) => p.category === category);
-}
+- [World Bank: Uganda Country Partnership Framework 2026–2035](https://www.worldbank.org/en/news/press-release/2026/06/04/world-bank-group-launches-ten-year-strategy-to-drive-jobs-and-prosperity-in-uganda)
