@@ -18,21 +18,7 @@ import { StoryCard } from "@/components/shared/StoryCard";
 import { Markdown } from "@/components/shared/Markdown";
 import { site } from "@/content/site";
 import { createPublicMetadata } from "@/lib/metadata";
-
-/**
- * Stories carry freeform dates ("2023", "March 2023") alongside full ISO
- * values used for `publishedTime` and JSON-LD. Only reformat the ISO ones
- * for display; anything else is already human-readable as written.
- */
-function formatStoryDate(value: string): string {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
-  return new Date(`${value}T00:00:00Z`).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-}
+import { formatContentDate } from "@/lib/content-date";
 
 export async function generateStaticParams() {
   return getStorySlugs().map((slug) => ({ slug }));
@@ -109,7 +95,7 @@ export default async function StoryPage({
               {story.author && <span>By {story.author}</span>}
               {story.role && <span>{story.role}</span>}
               {story.date && (
-                <time dateTime={story.date}>{formatStoryDate(story.date)}</time>
+                <time dateTime={story.date}>{formatContentDate(story.date)}</time>
               )}
               {story.location && <span>{story.location}</span>}
             </div>

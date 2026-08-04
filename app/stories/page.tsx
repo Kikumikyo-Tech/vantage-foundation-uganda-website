@@ -7,6 +7,7 @@ import { StoryList } from "@/components/stories/StoryList";
 import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
 import { Badge } from "@/components/ui/Badge";
 import { createPublicMetadata } from "@/lib/metadata";
+import { formatContentDate } from "@/lib/content-date";
 
 export const metadata: Metadata = createPublicMetadata({
   title: "Stories",
@@ -69,7 +70,7 @@ export default function StoriesPage() {
                 <div className="mt-4 flex items-center gap-3 text-sm text-muted-foreground">
                   {featured.author && <span>{featured.author}</span>}
                   {featured.author && featured.date && <span>&middot;</span>}
-                  <span>{featured.date}</span>
+                  <span>{formatContentDate(featured.date)}</span>
                 </div>
                 <Link
                   href={`/stories/${featured.slug}`}
