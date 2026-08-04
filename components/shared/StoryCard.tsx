@@ -3,6 +3,7 @@ import { Story } from "@/types";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { ImageOrPlaceholder } from "./ImageOrPlaceholder";
+import { formatContentDate } from "@/lib/content-date";
 
 interface StoryCardProps {
   story: Story;
@@ -39,7 +40,7 @@ export function StoryCard({ story }: StoryCardProps) {
         </p>
         <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
           <span>{story.author}</span>
-          <span>{story.date}</span>
+          <span>{formatContentDate(story.date)}</span>
         </div>
         <div className="mt-4 flex items-center justify-between">
           <Link

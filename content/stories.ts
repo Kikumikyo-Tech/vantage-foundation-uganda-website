@@ -148,7 +148,7 @@ That is a debt the nation cannot keep deferring.
       "A reflection from one of the young people who has journeyed with Vantage Foundation on what it means to hold onto hope.",
     author: "Dr Nassazi Kauthar Wangi",
     role: "Youth participant",
-    date: "2023",
+    date: "2023-06-01",
     location: "Uganda",
     category: "Youth voice",
     heroImage: "/images/photos/photo-058.webp",
@@ -218,7 +218,7 @@ And perhaps, somewhere between who we are and who we dream of becoming, we find 
       "Hillary Turyasingura on why true advantage is not about luxury, but about lifting others up.",
     author: "Hillary Turyasingura",
     role: "Founding team",
-    date: "2023",
+    date: "2023-03-01",
     location: "Uganda",
     category: "Leadership reflection",
     heroImage: "/images/blog/what-we-mean-advantage-hero.webp",
@@ -280,7 +280,7 @@ That is the belief this foundation is built on. Not status. Not visibility. Just
       "How SaveGirl Uganda grew from a crowdfunding campaign for sanitary pads into a holistic mentorship movement.",
     author: "Vantage Foundation team",
     role: "Programme team",
-    date: "2023",
+    date: "2023-06-01",
     location: "Rural Uganda",
     category: "Programme update",
     heroImage: "/images/photos/photo-016.webp",
@@ -300,7 +300,7 @@ Period poverty is connected to low self-esteem, limited financial literacy, lack
       "A day of conversation, celebration and empowerment at Basajjabalaba High School.",
     author: "Vantage Foundation team",
     role: "Programme team",
-    date: "March 2023",
+    date: "2023-03-08",
     location: "Basajjabalaba High School, Bushenyi",
     category: "Event highlight",
     heroImage: "/images/photos/photo-038.webp",
@@ -342,7 +342,7 @@ From budgeting to goal-setting, the conversations were energetic and honest. You
       "A high-school mentorship session that opened up safe conversations about mental health.",
     author: "Vantage Foundation team",
     role: "Programme team",
-    date: "2023",
+    date: "2023-09-01",
     location: "Kampala, Uganda",
     category: "Event highlight",
     heroImage: "/images/photos/photo-073.webp",
@@ -362,7 +362,7 @@ For many students, it was the first time mental health had been discussed openly
       "A young medical doctor and volunteer reflects on the impact of service, the power of compassion, and why volunteering is about more than giving.",
     author: "Oliyer Abwooli Kabagenyi",
     role: "Medical doctor and volunteer",
-    date: "2026",
+    date: "2026-08-04",
     location: "Uganda",
     category: "Volunteer voice",
     heroImage: "/images/photos/community-health-camp-checkup.webp",
@@ -403,5 +403,7 @@ export function getStorySlugs(): string[] {
  */
 export function getPublishedStories(): Story[] {
   const isDev = process.env.NODE_ENV === "development";
-  return stories.filter((s) => isDev || s.published !== false);
+  return stories
+    .filter((s) => isDev || s.published !== false)
+    .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 }
