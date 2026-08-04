@@ -29,6 +29,13 @@ export const partners: Partner[] = [
       "UK- and Uganda-registered charity (\"Support And Love Via Education\") based in Jinja, supporting street-connected children through outreach, halfway homes and family resettlement. Vantage Foundation has donated food and essential supplies to children in their care.",
     url: "https://salveinternational.org/",
   },
+  {
+    name: "KikumiKyo",
+    relationshipType: "Programme and technology partner",
+    description:
+      "Fintech company partnering with Vantage Foundation on KikumiKyo Academy, a financial literacy and economic empowerment programme for young people.",
+    url: "https://kikumikyo.com/",
+  },
 ];
 
 export function getPublishedPartners(): Partner[] {
