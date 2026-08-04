@@ -432,8 +432,10 @@ export function validateAllContent(): ValidationError[] {
       z.array(
         z.object({
           name: nonEmpty,
-          x: z.number().min(0).max(100),
-          y: z.number().min(0).max(100),
+          district: nonEmpty,
+          latitude: z.number().min(-2).max(5),
+          longitude: z.number().min(29).max(36),
+          description: z.string().optional(),
           projectSlugs: z.array(slug).optional(),
         })
       )
