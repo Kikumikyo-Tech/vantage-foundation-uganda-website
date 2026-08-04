@@ -101,6 +101,44 @@ CREATE INDEX IF NOT EXISTS idx_media_objects_created_at ON media_objects(created
 CREATE INDEX IF NOT EXISTS idx_media_objects_deleted_at ON media_objects(deleted_at);
 
 -- ---------------------------------------------------------------------------
+-- stories: admin-published Stories & Insights content. Static stories in
+-- content/stories.ts and rows here share the same public Story shape.
+-- ---------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS stories (
+  id SERIAL PRIMARY KEY,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  slug TEXT NOT NULL UNIQUE,
+  title TEXT NOT NULL,
+  excerpt TEXT NOT NULL,
+  author TEXT,
+  role TEXT,
+  published_date DATE NOT NULL DEFAULT CURRENT_DATE,
+  location TEXT,
+  category TEXT NOT NULL,
+  body TEXT NOT NULL,
+  hero_image_key TEXT,
+  hero_image_alt TEXT,
+  hero_image_credit TEXT,
+  related_project_slugs TEXT[] NOT NULL DEFAULT '{}',
+  tags TEXT[] NOT NULL DEFAULT '{}',
+  consent_classification TEXT NOT NULL DEFAULT 'none',
+  seo_title TEXT,
+  seo_description TEXT,
+  seo_og_image TEXT,
+  published BOOLEAN NOT NULL DEFAULT false,
+  deleted_at TIMESTAMP WITH TIME ZONE,
+  CONSTRAINT story_consent_values CHECK (consent_classification IN ('none', 'verified', 'pending', 'group-consent'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_stories_slug ON stories(slug);
+CREATE INDEX IF NOT EXISTS idx_stories_category ON stories(category);
+CREATE INDEX IF NOT EXISTS idx_stories_published ON stories(published);
+CREATE INDEX IF NOT EXISTS idx_stories_published_date ON stories(published_date DESC);
+CREATE INDEX IF NOT EXISTS idx_stories_deleted_at ON stories(deleted_at);
+
+-- ---------------------------------------------------------------------------
 -- admins: named admin accounts that replace the single shared ADMIN_SECRET
 -- model for daily logins. Passwords are hashed with scrypt (see
 -- lib/password.ts) and never stored in plaintext. A disabled admin

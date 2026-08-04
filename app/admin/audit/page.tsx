@@ -23,6 +23,9 @@ function actionLabel(action: string): string {
     "media.created": "Created media",
     "media.updated": "Updated media",
     "media.deleted": "Deleted media",
+    "story.created": "Created story",
+    "story.updated": "Updated story",
+    "story.deleted": "Deleted story",
     "admin.created": "Created admin",
     "admin.disabled": "Disabled admin",
   };
@@ -99,6 +102,12 @@ export default async function AdminAuditPage({
           </div>
           <nav className="flex gap-2" aria-label="Admin navigation">
             <a
+              href="/admin/stories"
+              className="rounded-lg border border-border bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            >
+              Stories & Insights
+            </a>
+            <a
               href="/admin/donations"
               className="rounded-lg border border-border bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
@@ -140,7 +149,7 @@ export default async function AdminAuditPage({
           >
             All
           </a>
-          {["donation", "media"].map((rt) => (
+          {["donation", "media", "story"].map((rt) => (
             <a
               key={rt}
               href={`/admin/audit?resourceType=${rt}`}

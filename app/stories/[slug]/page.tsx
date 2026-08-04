@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import {
-  getStoryBySlug,
-  getStorySlugs,
-  getPublishedStories,
-} from "@/content/stories";
+  getAllStorySlugsWithDb,
+  getPublishedStoriesWithDb,
+  getStoryWithDb,
+} from "@/lib/stories-public";
 import { Container } from "@/components/shared/Container";
 import { Badge } from "@/components/ui/Badge";
 import { ImageOrPlaceholder } from "@/components/shared/ImageOrPlaceholder";
@@ -21,8 +21,10 @@ import { createPublicMetadata } from "@/lib/metadata";
 import { formatContentDate } from "@/lib/content-date";
 
 export async function generateStaticParams() {
-  return getStorySlugs().map((slug) => ({ slug }));
+  return (await getAllStorySlugsWithDb()).map((slug) => ({ slug }));
 }
+
+export const revalidate = 3600;
 
 export async function generateMetadata({
   params,
@@ -30,7 +32,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const story = getStoryBySlug(slug);
+  const story = await getStoryWithDb(slug);
   if (!story) return {};
   return createPublicMetadata({
     title: story.seo?.title || story.title,
@@ -49,14 +51,14 @@ export default async function StoryPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const story = getStoryBySlug(slug);
+  const story = await getStoryWithDb(slug);
 
   // In production, unpublished stories should 404.
   if (!story || (process.env.NODE_ENV === "production" && story.published === false)) {
     notFound();
   }
 
-  const relatedStories = getPublishedStories()
+  const relatedStories = (await getPublishedStoriesWithDb())
     .filter((s) => s.slug !== story.slug && s.category === story.category)
     .slice(0, 3);
 

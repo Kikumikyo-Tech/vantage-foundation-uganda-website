@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getPublishedStories } from "@/content/stories";
+import { getPublishedStoriesWithDb } from "@/lib/stories-public";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { StoryList } from "@/components/stories/StoryList";
@@ -16,8 +16,10 @@ export const metadata: Metadata = createPublicMetadata({
   path: "/stories",
 });
 
-export default function StoriesPage() {
-  const stories = getPublishedStories();
+export const revalidate = 3600;
+
+export default async function StoriesPage() {
+  const stories = await getPublishedStoriesWithDb();
   // Featured: the first story (or a specific one if we add a `featured` flag later)
   const [featured, ...rest] = stories;
   // Derive categories from the published stories, sorted alphabetically.

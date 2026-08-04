@@ -1,6 +1,6 @@
 # Vantage Foundation Uganda — Content Guide
 
-All editable website content lives in this `content/` folder as TypeScript modules.
+All editable website content lives in this `content/` folder as TypeScript modules. Published Stories & Insights may also be managed through `/admin/stories`.
 
 ## Files
 

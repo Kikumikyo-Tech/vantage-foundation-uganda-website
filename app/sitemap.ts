@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { site } from "@/content/site";
 import { getProjectSlugs } from "@/content/projects";
 import { getStorySlugs } from "@/content/stories";
+import { getDbStorySlugs } from "@/lib/stories-public";
 import { areasOfWork } from "@/content/areas";
 import { getTeamSlugs } from "@/content/team";
 
@@ -50,7 +51,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  const storyRoutes = getStorySlugs().map((slug) => ({
+  const storySlugs = [...new Set([...getStorySlugs(), ...(await getDbStorySlugs())])];
+  const storyRoutes = storySlugs.map((slug) => ({
     url: `${baseUrl}/stories/${slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,

@@ -157,6 +157,7 @@ See `docs/deployment.md` for detailed database setup instructions.
 - **Features:**
   - View donations, verify/reject donation status (`/admin/donations`)
   - Upload and manage media in Cloudflare R2 (`/admin/media`) — photos, documents, logos. New uploads default to `pending` consent and `unpublished`; set both before publishing.
+  - Write, edit and publish Stories & Insights entries (`/admin/stories`). New entries default to drafts.
 - **Security:** Signed session tokens (HMAC), CSRF protection, rate limiting, lockout after 5 failed attempts
 
 ## Testing
