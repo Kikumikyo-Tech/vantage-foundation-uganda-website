@@ -188,3 +188,139 @@ CREATE INDEX IF NOT EXISTS idx_audit_log_created_at ON audit_log(created_at DESC
 CREATE INDEX IF NOT EXISTS idx_audit_log_action ON audit_log(action);
 CREATE INDEX IF NOT EXISTS idx_audit_log_resource_type ON audit_log(resource_type);
 CREATE INDEX IF NOT EXISTS idx_audit_log_actor_id ON audit_log(actor_id);
+
+-- ===========================================================================
+-- Content Analytics — first-party, privacy-safe article performance tracking.
+--
+-- Design principles (see docs/content-analytics.md):
+--   * Aggregate, don't surveil. No names, emails, IPs, or identifiable
+--     browsing profiles are stored. The only per-reader identifier is a
+--     one-way HMAC hash of an anonymous random cookie (vantage_reader),
+--     which exists solely for unique-reader deduplication and scroll-milestone
+--     de-duplication within a day. It cannot be reversed to a person.
+--   * Prefer aggregated daily rollups over millions of raw events. The
+--     article_analytics_daily table is the fast-query surface for the admin
+--     dashboard; article_reader_sessions is the per-reader-per-day dedup
+--     layer that feeds it.
+--   * Drafts and unpublished stories are excluded from public-performance
+--     totals (the ingestion API rejects events for unpublished articles).
+--   * Deleted/unpublished content does not corrupt historical reporting:
+--     analytics rows reference article_id but aggregation joins to stories
+--     with a LEFT JOIN so historical data survives even if a story is later
+--     soft-deleted (the admin UI labels orphaned rows as "removed article").
+-- ===========================================================================
+
+-- Per-reader, per-article, per-day dedup + scroll-milestone tracking.
+-- One row per anonymous reader per article per calendar day. The reader_hash
+-- is an HMAC-SHA256 of the vantage_reader cookie value keyed with ADMIN_SECRET
+-- — it is a pseudonymous dedup key, NOT personally identifiable information.
+CREATE TABLE IF NOT EXISTS article_reader_sessions (
+  article_id INTEGER NOT NULL,
+  reader_hash TEXT NOT NULL,
+  day DATE NOT NULL DEFAULT CURRENT_DATE,
+  source_group TEXT NOT NULL DEFAULT 'direct',
+  reached_25 BOOLEAN NOT NULL DEFAULT false,
+  reached_50 BOOLEAN NOT NULL DEFAULT false,
+  reached_75 BOOLEAN NOT NULL DEFAULT false,
+  reached_90 BOOLEAN NOT NULL DEFAULT false,
+  completed BOOLEAN NOT NULL DEFAULT false,
+  engagement_seconds INTEGER NOT NULL DEFAULT 0,
+  first_seen_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  last_seen_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (article_id, reader_hash, day)
+);
+
+CREATE INDEX IF NOT EXISTS idx_article_reader_sessions_day ON article_reader_sessions(day DESC);
+CREATE INDEX IF NOT EXISTS idx_article_reader_sessions_article_day ON article_reader_sessions(article_id, day DESC);
+CREATE INDEX IF NOT EXISTS idx_article_reader_sessions_source ON article_reader_sessions(source_group);
+
+-- Aggregated daily rollup per article, per traffic-source group. This is the
+-- primary fast-query table for the admin analytics dashboard. Upserted on each
+-- inbound analytics event so opening the dashboard never scans raw events.
+CREATE TABLE IF NOT EXISTS article_analytics_daily (
+  article_id INTEGER NOT NULL,
+  day DATE NOT NULL DEFAULT CURRENT_DATE,
+  source_group TEXT NOT NULL DEFAULT 'direct',
+  views INTEGER NOT NULL DEFAULT 0,
+  unique_readers INTEGER NOT NULL DEFAULT 0,
+  scroll_25 INTEGER NOT NULL DEFAULT 0,
+  scroll_50 INTEGER NOT NULL DEFAULT 0,
+  scroll_75 INTEGER NOT NULL DEFAULT 0,
+  scroll_90 INTEGER NOT NULL DEFAULT 0,
+  completions INTEGER NOT NULL DEFAULT 0,
+  shares INTEGER NOT NULL DEFAULT 0,
+  cta_clicks INTEGER NOT NULL DEFAULT 0,
+  organic_impressions INTEGER NOT NULL DEFAULT 0,
+  organic_clicks INTEGER NOT NULL DEFAULT 0,
+  engagement_seconds_total INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (article_id, day, source_group)
+);
+
+CREATE INDEX IF NOT EXISTS idx_article_analytics_daily_day ON article_analytics_daily(day DESC);
+CREATE INDEX IF NOT EXISTS idx_article_analytics_daily_article_day ON article_analytics_daily(article_id, day DESC);
+CREATE INDEX IF NOT EXISTS idx_article_analytics_daily_source ON article_analytics_daily(source_group);
+
+-- Detailed share events (low volume) for the per-platform share breakdown.
+-- reader_hash is stored for unique-sharer deduplication but never displayed.
+CREATE TABLE IF NOT EXISTS article_share_events (
+  id SERIAL PRIMARY KEY,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  article_id INTEGER NOT NULL,
+  platform TEXT NOT NULL,
+  reader_hash TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_article_share_events_article ON article_share_events(article_id);
+CREATE INDEX IF NOT EXISTS idx_article_share_events_created_at ON article_share_events(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_article_share_events_platform ON article_share_events(platform);
+CREATE INDEX IF NOT EXISTS idx_article_share_events_article_created ON article_share_events(article_id, created_at DESC);
+
+-- Detailed CTA / impact events for the per-cta-type breakdown. Captures
+-- meaningful actions originating from articles (donate, volunteer, partner,
+-- newsletter, etc.) so articles can be judged by impact, not just page views.
+CREATE TABLE IF NOT EXISTS article_cta_events (
+  id SERIAL PRIMARY KEY,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  article_id INTEGER NOT NULL,
+  cta_type TEXT NOT NULL,
+  destination TEXT,
+  position TEXT,
+  reader_hash TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_article_cta_events_article ON article_cta_events(article_id);
+CREATE INDEX IF NOT EXISTS idx_article_cta_events_created_at ON article_cta_events(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_article_cta_events_cta_type ON article_cta_events(cta_type);
+CREATE INDEX IF NOT EXISTS idx_article_cta_events_article_created ON article_cta_events(article_id, created_at DESC);
+
+-- Cached Google Search Console query-level data per article. Populated by a
+-- periodic server-side sync (never from the browser — service credentials are
+-- server-only). date_fetched records when the cache row was last refreshed.
+CREATE TABLE IF NOT EXISTS article_search_queries (
+  id SERIAL PRIMARY KEY,
+  article_id INTEGER NOT NULL,
+  query TEXT NOT NULL,
+  impressions INTEGER NOT NULL DEFAULT 0,
+  clicks INTEGER NOT NULL DEFAULT 0,
+  position NUMERIC(6, 2) NOT NULL DEFAULT 0,
+  date_fetched TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (article_id, query)
+);
+
+CREATE INDEX IF NOT EXISTS idx_article_search_queries_article ON article_search_queries(article_id);
+CREATE INDEX IF NOT EXISTS idx_article_search_queries_clicks ON article_search_queries(clicks DESC);
+
+-- Single-row Search Console connection state. Tracks whether the integration
+-- is connected and when data was last synced, so the admin UI can show a clean
+-- setup state instead of broken/empty widgets when it is not yet configured.
+CREATE TABLE IF NOT EXISTS search_console_config (
+  id INTEGER PRIMARY KEY DEFAULT 1,
+  connected BOOLEAN NOT NULL DEFAULT false,
+  site_url TEXT,
+  last_sync_at TIMESTAMP WITH TIME ZONE,
+  last_error TEXT,
+  CONSTRAINT search_console_config_singleton CHECK (id = 1)
+);
+
+INSERT INTO search_console_config (id, connected) VALUES (1, false)
+  ON CONFLICT (id) DO NOTHING;
