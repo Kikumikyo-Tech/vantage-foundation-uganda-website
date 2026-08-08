@@ -14,8 +14,11 @@ import {
   buildBreadcrumbJsonLd,
   buildArticleJsonLd,
 } from "@/components/shared/JsonLd";
-import { StoryCard } from "@/components/shared/StoryCard";
 import { Markdown } from "@/components/shared/Markdown";
+import { ArticleAnalytics } from "@/components/shared/ArticleAnalytics";
+import { ArticleShareButtons } from "@/components/shared/ArticleShareButtons";
+import { ArticleCtaBar } from "@/components/shared/ArticleCtaBar";
+import { RelatedStories } from "@/components/shared/RelatedStories";
 import { site } from "@/content/site";
 import { createPublicMetadata } from "@/lib/metadata";
 import { formatContentDate } from "@/lib/content-date";
@@ -64,6 +67,13 @@ export default async function StoryPage({
 
   return (
     <>
+      {story.dbId && (
+        <ArticleAnalytics
+          articleId={story.dbId}
+          articleSlug={story.slug}
+          articleTitle={story.title}
+        />
+      )}
       <JsonLd
         data={buildBreadcrumbJsonLd(
           [
@@ -139,16 +149,15 @@ export default async function StoryPage({
             <Markdown variant="article">{story.body}</Markdown>
           </article>
 
-          {relatedStories.length > 0 && (
-            <div className="mt-16">
-              <h2 className="text-2xl font-bold">More stories & insights</h2>
-              <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {relatedStories.map((s) => (
-                  <StoryCard key={s.slug} story={s} />
-                ))}
-              </div>
-            </div>
-          )}
+          <div className="mx-auto mt-8 max-w-3xl">
+            <ArticleShareButtons slug={story.slug} title={story.title} />
+          </div>
+
+          <div className="mx-auto mt-8 max-w-3xl">
+            <ArticleCtaBar slug={story.slug} />
+          </div>
+
+          <RelatedStories stories={relatedStories} />
         </Container>
       </section>
     </>

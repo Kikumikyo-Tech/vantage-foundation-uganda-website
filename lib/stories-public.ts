@@ -13,6 +13,7 @@ async function toStory(row: StoryRow): Promise<Story> {
     : undefined;
   return {
     id: `db-${row.id}`,
+    dbId: row.id,
     slug: row.slug,
     title: row.title,
     excerpt: row.excerpt,

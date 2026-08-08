@@ -238,6 +238,8 @@ export interface Story {
   date: string;
   location?: string;
   category: string;
+  /** Numeric database id for DB-backed stories (analytics tracking). Null for static stories. */
+  dbId?: number;
   heroImage?: string;
   /** Alt text for the hero image. Falls back to the story title when omitted. */
   heroImageAlt?: string;
